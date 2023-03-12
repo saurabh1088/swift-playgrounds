@@ -19,6 +19,9 @@
  Combine enables us to write funtional reactive code by using it's declarative API. So it provides the
  functional reative programming (FRP) paradigm capability to Swift.
  
+ Combine helps us, or ot can be said that it's all about defining the process of what needs to be done once
+ many values of some type are received over time.
+ 
  For e.g. in SwiftUI framework the `ObservableObject` and `@Published` are actually using Combine
  behind the scenes.
  
