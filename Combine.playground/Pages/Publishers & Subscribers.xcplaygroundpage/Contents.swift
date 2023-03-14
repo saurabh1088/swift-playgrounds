@@ -23,6 +23,9 @@
  
  A publisher provides data when available and upon request. This "upon request" is important.
  A publisher that has not had any subscription requests will not provide any data.
+ Publishers define how values and error are produced they themselves aren't necessarily the things that produces
+ values.
+ Publishers are value type.
  
  As mentioned above the Publisher is a protocol ```protocol Publisher<Output, Failure>```
  Here `Output` and `Failure` are associated types.
@@ -40,6 +43,11 @@
  It is the subscriber which initiates the request for data, and controls the amount of data it receives. This way the
  role of a subscriber is the one "driving the action" within Combine, as without a subscriber, the other components
  stay idle, which is the publisher won't emit.
+ 
+ All subscribers conform to `Cancellable` protocol, meaning they all have cancel() function. This cancel() can be
+ invoked to terminate the subscription and causing publisher to stop emiting values.
+ 
+ Subscribers are reference types.
  
  `Combine framework built-in subscribers`
  
