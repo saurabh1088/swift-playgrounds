@@ -22,7 +22,6 @@ import Combine
 
 /// `Future and Promise`
 
-/// Example 1
 /// Using `Future`
 /// `Future` conceptually can be understood as a context for some value which may not exist yet but may
 /// give a eventual result or failure based on completion of some asynchronous operation.
@@ -38,7 +37,7 @@ import Combine
 /// `Future` can be said to represent some asynchronous operation and `Promise` is used to deliver either
 /// a value or error.
 
-// Case 1 : Success
+// Example 1 : Future Success
 func generateSomeRandomNumber() -> Future<Int, Never> {
     return Future { promise in
         let randomNumber = Int.random(in: 1...100)
@@ -51,7 +50,7 @@ let futurePublisherSubscriber = futurePublisher.sink { receivedValue in
     print("Value published from future publisher : \(receivedValue)")
 }
 
-// Case 2 : Failure
+// Example 2 : Future Failure
 enum SomeError: Error {
     case futureRejected
 }
@@ -66,7 +65,7 @@ let futureRejectedPublisherSubscriber = futureRejectedPublisher.sink { error in
     print("Value published from future publisher : \(receivedValue)")
 }
 
-// Case 3 : Finishes immediately
+// Example 3 : Future Finishes immediately, it's one shot
 // Once a value is passed to a Future's Promise, the publisher will finish immediately.
 // This means for below example of simpleFuture the moment value "First" is published
 // publisher will finish. So here the value "Second" won't ever get published.
@@ -81,7 +80,56 @@ let simpleFutureSubscriber = simpleFuture.sink { receivedValue in
 
 // TODO: Create one more example for Future and Promise use case using employee database analogy
 
+// #############################################################################
+
 /// `Just`
-/// 
+/// `Just` is a simple publisher which publishes an output and then finishes. `Just` publisher will always
+/// publish a value, i.e. it can't fail with an error.
+///
+/// One work around for Just to fail is to use `setFailureType(to:)` on Just publisher. `setFailureType(to:)`
+/// returns a publisher which can send specified failure type.
+///
+/// As per definition `struct Just<Output>` the output can be any type.
+
+// Example 1 : Just Publisher
+
+let justAPublisher = Just("Batman")
+let justPublisherSubscriber = justAPublisher.sink { receivedValue in
+    print("Value published from justAPublisher publisher : \(receivedValue)")
+}
+
+// #############################################################################
+
+/// `Deferred`
+/// `Deferred` is a publisher which awaits subscription before creating the publisher. `Deferred` publishers
+/// are executed only when someone subscribes to them. It kind of makes the publisher lazy.
+/// For example, the `Future` publisher is too eager and will run as soon as its created.
+
+// Example 1 : Deferred Publisher
+
+let anEagerPublisher = Future<String, Error> { promise in
+    print("Creating a eager publisher")
+    promise(Result.success("Batman"))
+}
+
+// If playground is executed at this point i.e. without creating a subscriber the
+// closure for Future publisher still gets executed.
+
+let lazyDeferredPublisher = Deferred {
+    Future<String, Error> { promise in
+        print("Creating a lazy deferred publisher")
+        promise(Result.success("Batman"))
+    }
+}
+
+// Here for the publisher only sink(receiveCompletion:receiveValue:) was available
+// as the publisher is defined to fail as well.
+// However if publisher would have been Future<String, Never> i.e. which never fails
+// then sink(receiveValue:) could have been used.
+let subscriberToLazyDeferredPublisher = lazyDeferredPublisher.sink(receiveCompletion: { _ in
+    print("Finished publishing")
+}, receiveValue: { receivedValue in
+    print("Value published from lazyDeferredPublisher publisher : \(receivedValue)")
+})
 
 //: [Next](@next)
