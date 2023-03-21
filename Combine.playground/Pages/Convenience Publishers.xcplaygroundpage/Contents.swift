@@ -132,4 +132,88 @@ let subscriberToLazyDeferredPublisher = lazyDeferredPublisher.sink(receiveComple
     print("Value published from lazyDeferredPublisher publisher : \(receivedValue)")
 })
 
+// #############################################################################
+
+/// `Empty`
+/// `Empty` as the name suggests is a publisher which won't publish anything. It can be initialised using below
+/// initialiser. Here `completeImmediately` can be used to configure it to finish immediately.
+/// `init(completeImmediately: Bool)`
+/// `completeImmediately` if however `false` will cause publisher to never finish as showm below in
+/// example for publisher `emptyPublisherNotCompletingImmediately`
+///
+/// Empty publishers can be used for scenarios where requirement from a publisher is not to receive any value
+/// but just want to get notify that some task is done.
+
+// Example 1 : Empty publisher with completeImmediately as true
+// emptyPublisherCompleteImmediately will finish immediately so for .sink subscriber
+// receiveCompletion block will be called, but receiveValue closure will never get
+// called as the publisher never publishes any value.
+let emptyPublisherCompleteImmediately = Empty<Int, Never>(completeImmediately: true)
+
+let subscriberToEmptyPublisherCompleteImmediately = emptyPublisherCompleteImmediately.sink(receiveCompletion: { _ in
+    print("Publisher emptyPublisherCompleteImmediately finished")
+}, receiveValue: { receivedValue in
+    print("Value published from emptyPublisherCompleteImmediately publisher : \(receivedValue)")
+})
+
+
+// Example 2 : Empty publisher with completeImmediately as false
+// emptyPublisherNotCompletingImmediately will never publishe any value as being
+// an Empty publisher, but also it will never complete due to completeImmediately set
+// to false.
+// For .sink subscriber both receiveCompletion and receiveValue closures will
+// never get called.
+let emptyPublisherNotCompletingImmediately = Empty<Int, Never>(completeImmediately: false)
+
+let subscriberToEmptyPublisherNotCompletingImmediately = emptyPublisherNotCompletingImmediately.sink(receiveCompletion: { _ in
+    print("Publisher emptyPublisherNotCompletingImmediately finished")
+}, receiveValue: { receivedValue in
+    print("Value published from emptyPublisherNotCompletingImmediately publisher : \(receivedValue)")
+})
+
+// #############################################################################
+
+/// `Fail`
+/// `Fail` publisher will immediately fail with a specified error.
+
+// Example 1 : Fail publisher
+
+enum FailError: Error {
+    case failPublisherError
+}
+
+let failPublisher = Fail<String, FailError>(error: FailError.failPublisherError)
+
+let subscriberToFailPublisher = failPublisher.sink(receiveCompletion: { error in
+    print("Publisher failPublisher failed with error : \(error)")
+}, receiveValue: { receivedValue in
+    print("Value published from failPublisher publisher : \(receivedValue)")
+})
+
+// #############################################################################
+
+/// `Record`
+/// `Record` is a publisher which allows for recording a series of values and a completion. These can be later
+/// playbacked for subscribers.
+
+// Example 1 : Record publisher with output
+let recordPublisherWithOutput = Record<Int, Never>(output: [1, 2, 3], completion: .finished)
+
+let subscriberToRecordPublisherWithOutput = recordPublisherWithOutput.sink { receivedValue in
+    print("Value published from recordPublisherWithOutput publisher : \(receivedValue)")
+}
+
+let recordedPublisher = Record<String, Error> { recording in
+    recording.receive("Batman")
+    recording.receive("Wonder Woman")
+    recording.receive("Superman")
+    recording.receive(completion: .finished)
+}
+
+let subscriberToRecordedPublisher = recordedPublisher.sink(receiveCompletion: { _ in
+    print("Publisher recordedPublisher completed")
+}, receiveValue: { receivedValue in
+    print("Value published from recordedPublisher publisher : \(receivedValue)")
+})
+
 //: [Next](@next)
