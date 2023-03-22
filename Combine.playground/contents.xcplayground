@@ -3,5 +3,7 @@
     <pages>
         <page name='Introduction'/>
         <page name='Publishers &amp; Subscribers'/>
+        <page name='Convenience Publishers'/>
+        <page name='Connectable Publishers'/>
     </pages>
 </playground>
