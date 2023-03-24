@@ -2,6 +2,13 @@
 // Copyright © 2023 Saurabh Verma, (saurabh1088@gmail.com). All rights reserved.
 
 /**
+ `URL Loading System & it's players`
+ 
+ Below is discussion about Apple's URL loading system APIs and it's players.
+ In a nutshell one creates a `URLSession` instances which is then used to create one or more `URLSessionTask`
+ instances which can fetch and return some data, download or upload files. Session is configured using a `URLSessionConfiguration`
+ object controlling ths behaviour in general.
+ 
  `URLSession`
 
  Usually an app may create one or more `URLSession` instances, which help in coordinating group of related
@@ -11,6 +18,8 @@
  So basically a `URLSession` instance is created (or more than one if needed). The instance gives capabilities(APIs)
  to perform tasks. All the tasks which a `URLSession` instance performs or will perform will share same a common
  configuration object. This configuration object is `URLSessionConfiguration`
+ 
+ `URLSession` is the key object which one uses for sending requests and receiving responses.
 
  One can create different kinds of `URLSession` instances like :-
 
@@ -55,6 +64,7 @@
  - Caching policy
  - Timeouts
  - Supporting Multipath TCP - multipathServiceType
+ - Additional HTTP headers
 
 
  When `URLSession` instance is initialised, a `URLSessionConfiguration` object can be passed.
@@ -111,3 +121,33 @@ print("allowsCellularAccess value for our defaultConfigURLSession : \(defaultCon
 /// app is terminated or system is experiencing memory pressure.
 let ephemeralConfiguration = URLSessionConfiguration.ephemeral
 let ephemeralURLSession = URLSession(configuration: ephemeralConfiguration)
+
+
+// Example 1 :
+
+class MySimpleNetworkingClass {
+    static let shared = MySimpleNetworkingClass()
+    private let session = URLSession.shared
+    
+    private init() {}
+    
+    func makeAPICallFor(request: URLRequest) {
+        let task = session.dataTask(with: request) { data, response, error in
+            if let receivedData = data,
+               let dataToString = String(data: receivedData, encoding: .utf8) {
+                print("Received data successfully :: \(dataToString)")
+            } else if let error = error {
+                print("iTunes search request failed with error :: \(error)")
+            }
+        }
+        task.resume()
+    }
+}
+
+let apiURL = URL(string: "https://itunes.apple.com/search?term=jack+johnson&limit=1")!
+let request = URLRequest(url: apiURL)
+MySimpleNetworkingClass.shared.makeAPICallFor(request: request)
+
+//TODO: Analyzing HTTP Traffic with Instruments
+// https://developer.apple.com/documentation/foundation/url_loading_system/analyzing_http_traffic_with_instruments
+
