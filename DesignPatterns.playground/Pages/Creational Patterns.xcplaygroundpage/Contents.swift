@@ -23,6 +23,31 @@ import Foundation
 
 /// `Singletons`
 /// Example 1 : Singleton in Swift
+/// `Singleton` creational design patterns is a pattern which creates a one and only one instance out of it's definition.
+/// When one is using singleton then at any given time there should be only a single instace of the Singleton present
+/// and it should be accessible.
+///
+/// Basically a Singleton design patters ensures that one and only one instance of the entity is instantiated.
+///
+/// In Swift when a Signleton is defined, in order to fulfil the design pattern requirements following things are required.
+///
+/// 1. There should be a `shared` `static` property which holds the instance of the class. It's static so
+/// that it can be accessed on class itself as we won't be instantiating Singleton from outside.
+///
+/// 2. The initialiser should be marked `private` because not doing so will let anyone instantiate the class
+/// and will defeat the whole purpose of having singleton in first place.
+///
+/// So basically all we want is Global Access & Single Instance when we talk about singletons.
+///
+/// `Why static keyword for shared instance property?`
+///
+/// Well the shared instance property while defining a Singleton should be marked as `static`. If not done
+/// then in order to access the property one need to instantiate the Signleton first. so static keyword ensures
+/// the shared property is a type property and can be called on type.
+/// `static` also provides benefits like the property will be initialised lazily. (`static` properties are lazy by default
+/// and need not to be marked with `lazy` keyword)
+/// Also `static` ensures even when singleton is accessed across multiple threads simultaneously the property
+/// is initialised only once, so providing thread safety.
 
 class MySingletonClass {
     static let shared = MySingletonClass()
