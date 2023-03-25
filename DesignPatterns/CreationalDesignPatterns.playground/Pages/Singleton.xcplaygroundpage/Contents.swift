@@ -29,6 +29,8 @@ import Foundation
 ///
 /// Basically a Singleton design patters ensures that one and only one instance of the entity is instantiated.
 ///
+/// Singleton pattern offers a controlled access to a single and only instance.
+///
 /// In Swift when a Signleton is defined, in order to fulfil the design pattern requirements following things are required.
 ///
 /// 1. There should be a `shared` `static` property which holds the instance of the class. It's static so
