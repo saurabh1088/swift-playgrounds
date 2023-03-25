@@ -65,6 +65,15 @@ print("singletonClassInstanceOne name :: \(singletonClassInstanceOne.name)")
 print("singletonClassInstanceTwo name :: \(singletonClassInstanceTwo.name)")
 
 
+/// `Swift provides structs and classes both, which one should be used to define a Singleton?`
+///
+/// Singletons should be defines using classes. Reason for this is that classes are reference type so if one happens
+/// to pass a singleton reference along it will be passed as a reference only in case of class. One can define
+/// singleton using struct as well, however if the struct is passed along it will get copied technically having multiple
+/// instances which will defeat the purpose of having a Singleton.
+/// Notice in example below for Singleton `MySingletonStruct`
+/// Here `singletonStructInstanceOne` and `singletonStructInstanceTwo` turn out to be two
+/// different instances and hold different values for `name`
 struct MySingletonStruct {
     static let shared = MySingletonStruct()
     private init() {}
@@ -77,9 +86,28 @@ var singletonStructInstanceTwo = MySingletonStruct.shared
 singletonStructInstanceOne.name = "Batman"
 singletonStructInstanceTwo.name = "Superman"
 
+// Both singletonStructInstanceOne and singletonStructInstanceTwo end up having
+// different values so proving why defining Singleton using struct can be having
+// side effects and should not be used
 print("singletonStructInstanceOne name :: \(singletonStructInstanceOne.name)")
 print("singletonStructInstanceTwo name :: \(singletonStructInstanceTwo.name)")
 
+
+/// `Why Singleton design pattern is called an anti-pattern?`
+///
+/// There are several reasons for `Singleton` being called as anti-pattern and is not recommended to use
+/// very often.
+///
+/// - One of the major issue in using a `Singleton` in any application is the `Singleton` ending up becoming
+/// a kind of global dump. Left unchecked in a big project one can soon see everyone dumping stuff which is
+/// required globally into the `Singleton`. This can have serious consequences as for example a state in some
+/// application is saved in a `Singleton` and can be changes from anywhere, this could lead to some unwanted
+/// effects which get difficult to take into account while using.
+/// - Another issue is with the assumption itself that when something is declared as a `Singleton` then an
+/// assumption is made that it will always have a single instance. Then when if in future multiple instances are required
+/// it will need a lot many changes.
+/// - Using a `Singleton` makes code untestable. Singleton dependencies are not visible as these are used
+/// within other places directly accessing the shared instance and not injected. This makes code difficult to test.
 
 
 //: [Next](@next)
