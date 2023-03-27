@@ -20,6 +20,25 @@ import SwiftUI
 /// `AbstractSwiftUIButton` and `AbstractSwiftUIList` are abstract products. In Swift defined
 /// as protocols. `IPhoneButton` and `MACButton` are concrete implementations as per use cases. Here
 /// the use case is creating a UI component library then implementing it for various platforms (iOS, macOS, iPadOS etc)
+///
+/// In the example below we have two products `Button` and `List` which are declared via protocols
+/// `AbstractSwiftUIButton` and `AbstractSwiftUIList`. Concrete implementations are provided
+/// as per platform so we have following concrete implementations
+/// - `IPhoneButton`
+/// - `IPhoneList`
+/// - `MACButton`
+/// - `MACList`
+/// There can be many more products but here we have taken only two.
+///
+/// Now an abstract factory is defined `AbstractUIFactory`
+/// Concrete implementations of this abstract factory are :
+/// - `IPhoneUIFactory`
+/// - `MACUIFactory`
+/// Both these factories create products Button and List for respective platforms. Note a single factory here for e.g.
+/// IPhoneUIFactory is creating two products i.e. a Button and a List.
+///
+/// Finally the UniversalApp in example is initialised with a platform specific factory and from factory it gets all
+/// the products for creating it's user interface.
 
 // Abstract product Button
 typealias UserEventAction = () -> Void
@@ -56,7 +75,8 @@ protocol AbstractUIFactory {
     func makeList() -> any View
 }
 
-// Concrete factory responsible for iPhone platform
+// Concrete factory responsible for iPhone platform, creating products button and
+// list for iPhone platform
 struct IPhoneUIFactory: AbstractUIFactory {
     func makeButton() -> any View {
         print("Creating button for iOS")
@@ -69,7 +89,8 @@ struct IPhoneUIFactory: AbstractUIFactory {
     }
 }
 
-// Concrete factory responsible for Mac platform
+// Concrete factory responsible for Mac platform, creating products button and
+// list for mac platform
 struct MACUIFactory: AbstractUIFactory {
     func makeButton() -> any View {
         print("Creating button for macOS")
