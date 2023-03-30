@@ -76,3 +76,38 @@ extension Employee {
 
 let employee2 = Employee(id: 2, name: "Superman", dateOfJoining: Date())
 let employee3 = Employee(id: 3, name: "Wonder Woman")
+
+/// `Initialization for Reference types`
+/// For reference types the initialization should make sure not only to initialize stored properties the class type
+/// introduces, but also the stored properties it is inheriting from it's parent.
+/// To help aid this requirement Swift provides two kinds of initializers
+///
+/// 1. `Designated Initializers`
+/// 2. `Convenience Initializers`
+///
+/// `Designated Initializers`
+///
+/// These are the primary initializers and these fully initialize a class and also call superclass initializers.
+/// Calling superclass initializer is important so as to make sure to initialize stored properties of superclass as
+/// well and in this manner class object instantiated is fully initialized.
+/// Every class MUST have at least ONE designated initializer.
+///
+/// `Convenience Initializers`
+///
+/// Convenience initializers support initialization process for a class but are secondary and not mandatory so unless
+/// there is requirement there is no need to add them. Convenience initializers are marked with convenience.
+///
+/// `Rules for Initializer delegation for Class types`
+/// 1. A designated initializer MUST call a designated initializer from it's immediate superclass
+/// 2. A convenience initializer (if defined) MUST call another initializer from SAME class (this could be designated
+/// initializer or another convenience initializer)
+/// 3. A convenience initializer MUST eventually call a designated initializer.
+///
+/// `Class initialization in Swift`
+/// Class initialization in Swift is a two-phase process.
+/// In 1st Phase each stored property is assigned an initial value by the class which introduced the property.
+/// In 2nd Phase, class gets an opprtunity to customize it's stored properties before the instance is is fully realized
+/// ready for use.
+/// This two phase initialization helps preventing any stored value being accidently used without being properly
+/// initialized. Also this helps preventing stored property values being assigned to some other values by any another
+/// initializer.
