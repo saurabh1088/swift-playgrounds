@@ -42,7 +42,12 @@
  
  It is the subscriber which initiates the request for data, and controls the amount of data it receives. This way the
  role of a subscriber is the one "driving the action" within Combine, as without a subscriber, the other components
- stay idle, which is the publisher won't emit.
+ stay idle, which is the publisher won't emit. So to say subscriber applies back pressure to precisely control when
+ the publisher will emit values.
+ `Subscribers.Demand` will restrict the number of items, so that only the requsted number of items as per
+ demand are sent, it sets the limit on number of values subscriber can receive.
+ `sink(receiveValue:)`  and `assign(to:on:)` operators create subscribers which issue demand for
+ unlimited values. Once a publisher has unlimited demand, there can be no further negotiations.
  
  All subscribers conform to `Cancellable` protocol, meaning they all have cancel() function. This cancel() can be
  invoked to terminate the subscription and causing publisher to stop emiting values.
@@ -175,6 +180,44 @@ RunLoop.main.schedule(after: .init(Date(timeIntervalSinceNow: 6))) {
     print("Cancelling timerSubscription")
     timerSubscription.cancel()
 }
+
+
+/// Example 6
+/// Back pressure (control values) using custom subscriber
+/// To control the rate at which publisher will emit values one need to create a custom implementation of `Subscriber`
+/// protocol. Then this custom implementation will specify demand as per requirement. A subscriber once receives
+/// values can always request for more by returning a new demand value.
+
+let somePublisherPublishingManyValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].publisher
+
+class CustomDemandSubscriber: Subscriber {
+    typealias Input = Int
+    typealias Failure = Never
+    var subscription: Subscription?
+    
+    func receive(_ input: Int) -> Subscribers.Demand {
+        print("Received value from publisher somePublisherPublishingManyValues : \(input)")
+        return Subscribers.Demand.none
+    }
+    
+    func receive(completion: Subscribers.Completion<Never>) {
+        print("Received all values as per demand")
+    }
+    
+    func receive(subscription: Subscription) {
+        self.subscription = subscription
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            subscription.request(.max(3))
+            DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                subscription.request(.max(3))
+            }
+        }
+    }
+}
+
+let customDemandSubscriber = CustomDemandSubscriber()
+somePublisherPublishingManyValues.subscribe(customDemandSubscriber)
+
 
 // TODO: Publishers.Catch (https://developer.apple.com/documentation/combine/publishers/catch)
 

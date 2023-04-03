@@ -41,7 +41,7 @@ let cancellable = employeeOne.$certification.sink { receivedValue in
 employeeOne.certification = "Java"
 
 /// `ObservableObject`
-/// `ObservableObject` is a protocol which synthesizes 
+/// `ObservableObject` is a protocol which synthesizes an `objectWillChange` publisher.
 // Example 2 : ObservableObject
 class Company: ObservableObject {
     @Published var headCount: Int = 1
