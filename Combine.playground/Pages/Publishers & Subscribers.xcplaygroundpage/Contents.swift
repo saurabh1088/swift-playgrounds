@@ -200,10 +200,23 @@ class CustomDemandSubscriber: Subscriber {
         return Subscribers.Demand.none
     }
     
+    // This will get called once all values a publisher can publish are published
+    // like in this example the publisher somePublisherPublishingManyValues has total
+    // 10 values to publish. In receive(subscription: method below after delay of
+    // 5 sec 3 values are demanded, then again after delay of 10 sec 3 are asked,
+    // so the publisher still is left with 4 values which it can publish so it will
+    // no complete as it's only not publishing because of no demand and thus this
+    // completion method doesn't gets called. This method is actually called by the
+    // publisher, so here as the publisher still has some values so it won't call
+    // completion, it still remains available for further demand.
     func receive(completion: Subscribers.Completion<Never>) {
-        print("Received all values as per demand")
+        print("Received all values publisher had to publish")
     }
     
+    // Here there is a 5 sec delay before requesting for some demand, then again
+    // after 10 sec delay some more elements are requested. Now before the first
+    // demand for 3 elements is requested our publisher somePublisherPublishingManyValues
+    // exists but is not publishing anything due to no demand yet.
     func receive(subscription: Subscription) {
         self.subscription = subscription
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
