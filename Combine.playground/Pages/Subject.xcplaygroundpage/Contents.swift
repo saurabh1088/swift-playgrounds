@@ -25,6 +25,11 @@ let subscriptionToPassthroughSubject = passthroughSubject.sink { receivedValue i
 
 passthroughSubject.send("Batman")
 passthroughSubject.send("Superman")
+// We can mark completion with subject calling like below, this will send completion
+// signal to the subscribers. Any values if tried after sending completion will not
+// be sent.
+passthroughSubject.send(completion: .finished)
+passthroughSubject.send("This value doesn't get published")
 
 
 // Unlike PassthroughSubject, CurrentValueSubject needs to have an initial value.
@@ -41,6 +46,8 @@ print("Current value of our currentValueSubject : \(currentValueSubject.value)")
 // Now let's see what happens once we use send(_:) on CurrentValueSubject.
 currentValueSubject.send("Wonder Woman")
 print("currentValueSubject value after using send(_:) with new value : \(currentValueSubject.value)")
+
+// TODO: Create a custom subscriber and try using PassthroughSubject's `func send(subscription: Subscription)` method
 
 
 //: [Next](@next)
