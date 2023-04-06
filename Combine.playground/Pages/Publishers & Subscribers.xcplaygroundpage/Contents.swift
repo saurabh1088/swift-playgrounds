@@ -62,6 +62,20 @@
  1. ```sink(receiveCompletion:receiveValue:)```
  2. ```assign(to:on:)```
  
+ `Publisher - Subscriber pipeline`
+ One can chain a series of re-publishers using operators which finally ends in a subscriber.
+ 
+ publisher1
+    .publisher2
+    .publisher3
+    .publisher4
+    .subscriber
+
+ For example above we have series of publishers 1 to 4 and finally a subscriber. Here publisher2, publisher3 and
+ publisher4 are operators processing values published by upstream publishers. So for publisher2, publisher1 is an
+ upstream publisher, while for publisher1, publisher2 is a downstream publisher.
+ Operators creates and configures either an instance of Publisher or Subscriber and subscribes to the publisher
+ on which it was called upon.
  */
 
 import Foundation
