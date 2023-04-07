@@ -6,5 +6,8 @@
         <page name='Convenience Publishers'/>
         <page name='@Published'/>
         <page name='Connectable Publishers'/>
+        <page name='Scheduler'/>
+        <page name='Subject'/>
+        <page name='Key Value Observing using Combine'/>
     </pages>
 </playground>

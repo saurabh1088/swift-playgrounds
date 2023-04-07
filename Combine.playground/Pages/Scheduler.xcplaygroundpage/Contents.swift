@@ -13,15 +13,19 @@ import Combine
 
 let SEPARATOR = "\n################################################################################\n"
 
+// Store subscribers else those will get de-allocated
+var subscriptions = Set<AnyCancellable>()
+
 struct CustomPublisher: Publisher {
     typealias Output = String
     typealias Failure = Never
     
-    func receive<S>(subscriber: S) where S : Subscriber, Never == S.Failure, String == S.Input {
-        print("Received subscription from \(Thread.current.description)")
+    func receive<S>(subscriber: S) where S : Subscriber, CustomPublisher.Failure == S.Failure, CustomPublisher.Output == S.Input {
+        
+        debugPrint("Received subscription from \(Thread.current.description)")
         subscriber.receive(subscription: Subscriptions.empty)
         DispatchQueue.main.async {
-            _ = subscriber.receive("Batman")
+            _ = subscriber.receive("Dark Kinght")
         }
     }
 }
@@ -126,11 +130,58 @@ func publisherSubscriberWithReceivedOnDifferentScheduler() {
      */
 }
 
+/// Example 6 :
+func somePipeline() {
+    print(SEPARATOR)
+    print("Current thread : \(Thread.current.description)")
+    let someQueue = DispatchQueue.global(qos: .default)
+    let publisher = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].publisher
+        .map { receivedValue in
+            print("map operator closure : \(Thread.current.description)")
+            print("Received value : \(receivedValue)")
+        }
+        .subscribe(on: someQueue)
+        .receive(on: DispatchQueue.main)
+        .sink { receivedValue in
+            print("Received value on thread : \(Thread.current.description)")
+            print("Value published from publisher publisher : \(receivedValue)")
+        }
+        .store(in: &subscriptions)
+        
+}
+
+/// Example 7 :
+/// Here we are using a custom publisher to demonstrate functioning of :
+/// 1. ```.subscribe(on:```
+/// 2. ```.receive(on: someQueue)```
+///
+/// ```.subscribe(on:``` will determine on which scheduler/queue subscribe, cancel, and request operations
+/// are performed. So in our cusomt publisher(`CustomPublisher`) case the ```receive<S>(subscriber:```
+/// gets called on the queue/scheduler specified but this method.
+///
+/// ```.receive(on: someQueue)``` will determine on which queue values are received, so if we want
+/// values to receive on some different queue then it can be specified here.
+///
+/// Play around with below method changing queues for these methods and observe behaviour.
 func customPublisherSubscribedOnDifferentQueue() {
-    let serialQueue = DispatchQueue(label: "com.saurabh.serialQueue")
+    let someQueue = DispatchQueue.global(qos: .default)
+    let someOtherQueue = DispatchQueue.global(qos: .default)
     let customPublisher = CustomPublisher()
     let subscription = customPublisher
-        .subscribe(on: serialQueue)
+                        .subscribe(on: someQueue)
+                        .receive(on: someQueue)
+                        .sink { receivedValue in
+                            print("Received value on thread : \(Thread.current.description)")
+                            print("Value published from customPublisher publisher : \(receivedValue)")
+                        }
+                        .store(in: &subscriptions)
+}
+
+func immediateSchedulerExample() {
+    let immediateScheduler = ImmediateScheduler.shared
+    let sequencePublisher = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].publisher
+    let subscription = sequencePublisher
+        .receive(on: immediateScheduler)
         .sink { receivedValue in
             print("Received value on thread : \(Thread.current.description)")
             print("Value published from customPublisher publisher : \(receivedValue)")
@@ -143,6 +194,8 @@ func customPublisherSubscribedOnDifferentQueue() {
 //publisherSubscribedNotUsingSubscribeOnSchedulerOperator()
 //publisherSubscribedOnConcurrentQueue()
 //publisherSubscriberWithReceivedOnDifferentScheduler()
-customPublisherSubscribedOnDifferentQueue()
+//somePipeline()
+//customPublisherSubscribedOnDifferentQueue()
+//immediateSchedulerExample()
 
 //: [Next](@next)
