@@ -9,5 +9,6 @@
         <page name='Scheduler'/>
         <page name='Subject'/>
         <page name='Key Value Observing using Combine'/>
+        <page name='Asynchronous code using Combine'/>
     </pages>
 </playground>
