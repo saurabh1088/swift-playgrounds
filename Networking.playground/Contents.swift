@@ -93,6 +93,7 @@
 
 import UIKit
 import Foundation
+import Combine
 import PlaygroundSupport
 
 /// Creating a URLSession instance
@@ -141,8 +142,7 @@ let ephemeralConfiguration = URLSessionConfiguration.ephemeral
 let ephemeralURLSession = URLSession(configuration: ephemeralConfiguration)
 
 
-/// Example 1 :
-
+/// Example 1 : URLSession using completion handler
 class MySimpleNetworkingClass {
     static let shared = MySimpleNetworkingClass()
     private let session = URLSession.shared
@@ -162,16 +162,14 @@ class MySimpleNetworkingClass {
     }
 }
 
-let apiURL = URL(string: "https://itunes.apple.com/search?term=jack+johnson&limit=1")!
-//let apiURL = URL(string: "https://chat.openai.com/chat")!
-let request = URLRequest(url: apiURL)
-//MySimpleNetworkingClass.shared.makeAPICallFor(request: request)
 
 //TODO: Analyzing HTTP Traffic with Instruments
 // https://developer.apple.com/documentation/foundation/url_loading_system/analyzing_http_traffic_with_instruments
 
 /// Example 2 :
 /// Networking with URLSession and using a URLSessionDelegate
+/// NOTE : It's important to not to use `URLSession's` completion handler APIs here else delegate method
+/// won't get called.
 
 class NetworkingService: NSObject, URLSessionDelegate, URLSessionDataDelegate {
     var session: URLSession?
@@ -202,7 +200,41 @@ class NetworkingService: NSObject, URLSessionDelegate, URLSessionDataDelegate {
     }
 }
 
+
+
+/// Example 3 : Using Combine
+
+class NetworkingUsingCombine {
+    let session = URLSession.shared
+    var cancellables = Set<AnyCancellable>()
+    
+    func makeAPICall(with request: URLRequest) {
+        session.dataTaskPublisher(for: request)
+            .sink { completion in
+                print("Data task publisher completed : \(completion)")
+            } receiveValue: { data, response in
+                print("Received value from data task publisher :")
+                print(String(data: data, encoding: .utf8) as AnyObject)
+            }
+            .store(in: &cancellables)
+    }
+}
+
+
+// Setup
+//let apiURL = URL(string: "https://chat.openai.com/chat")!
+let apiURL = URL(string: "https://itunes.apple.com/search?term=jack+johnson&limit=1")!
+let request = URLRequest(url: apiURL)
 PlaygroundPage.current.needsIndefiniteExecution = true
-let service = NetworkingService()
-service.setupUrlSession()
-service.makeAPICall(with: request)
+
+// 1.
+//MySimpleNetworkingClass.shared.makeAPICallFor(request: request)
+
+// 2.
+//let service = NetworkingService()
+//service.setupUrlSession()
+//service.makeAPICall(with: request)
+
+// 3.
+let serviceUsingCombine = NetworkingUsingCombine()
+serviceUsingCombine.makeAPICall(with: request)
