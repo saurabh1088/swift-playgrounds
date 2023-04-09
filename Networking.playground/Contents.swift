@@ -26,7 +26,7 @@
  - `URLSession` provides a singleton shared instance (`URLSession.shared`). This shared instance doesn’t have any configuration object so is not customisable but will serve a good starting point for simple use cases.
  - `URLSession` instance initialised and configured with a default `URLSessionConfiguration` object
  - `URLSession` instance initialised and configured with a ephemeral `URLSessionConfiguration` object
- - `URLSession` instance initialised and configured with a `URLSessionConfiguration` object which allows background operations
+ - `URLSession` instance initialised and configured with a background `URLSessionConfiguration` object which allows background operations
 
 
  Using a `URLSession` instance ultimately allows us to create tasks. These tasks eventually perform one of the below operations
@@ -72,10 +72,28 @@
  This implies once a `URLSession` instance is configured for a `URLSessionConfiguration` then the
  only way to change configuration is to create a new `URLSession` instance. So the configuration object
  `URLSessionConfiguration` should be setup very carefully.
+ 
+ `Delegates`
+ `URLSession` has a `delegate` property to which any type conforming to `URLSessionDelegate` can
+ be assigned. There are several other delegates as well which play some part in URL loading system.
+ 
+ - `URLSessionDelegate`
+    - `URLSessionTaskDelegate`
+        - `URLSessionDataDelegate`
+        - `URLSessionDownloadDelegate`
+        - `URLSessionStreamDelegate`
+        - `URLSessionWebSocketDelegate`
+ 
+ 
+ `URLSessionTaskDelegate` inherits from `URLSessionDelegate`.
+ `URLSessionDataDelegate`, `URLSessionDownloadDelegate`, `URLSessionStreamDelegate`
+ & `URLSessionWebSocketDelegate` all inherit from `URLSessionTaskDelegate`
 
  */
 
 import UIKit
+import Foundation
+import PlaygroundSupport
 
 /// Creating a URLSession instance
 /// Use `URLSession.shared` to create a shared instance.
@@ -123,7 +141,7 @@ let ephemeralConfiguration = URLSessionConfiguration.ephemeral
 let ephemeralURLSession = URLSession(configuration: ephemeralConfiguration)
 
 
-// Example 1 :
+/// Example 1 :
 
 class MySimpleNetworkingClass {
     static let shared = MySimpleNetworkingClass()
@@ -145,9 +163,46 @@ class MySimpleNetworkingClass {
 }
 
 let apiURL = URL(string: "https://itunes.apple.com/search?term=jack+johnson&limit=1")!
+//let apiURL = URL(string: "https://chat.openai.com/chat")!
 let request = URLRequest(url: apiURL)
-MySimpleNetworkingClass.shared.makeAPICallFor(request: request)
+//MySimpleNetworkingClass.shared.makeAPICallFor(request: request)
 
 //TODO: Analyzing HTTP Traffic with Instruments
 // https://developer.apple.com/documentation/foundation/url_loading_system/analyzing_http_traffic_with_instruments
 
+/// Example 2 :
+/// Networking with URLSession and using a URLSessionDelegate
+
+class NetworkingService: NSObject, URLSessionDelegate, URLSessionDataDelegate {
+    var session: URLSession?
+    
+    func setupUrlSession() {
+        let configuration = URLSessionConfiguration.default
+        session = URLSession(configuration: configuration,
+                             delegate: self,
+                             delegateQueue: nil)
+    }
+    
+    func makeAPICall(with request: URLRequest) {
+        let dataTask = session?.dataTask(with: request)
+        dataTask?.delegate = self
+        dataTask?.resume()
+    }
+    
+    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        print("Received authentication challenge")
+    }
+    
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        print("URLSessionTaskDelegate : urlSession task didComplete")
+    }
+    
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        print("URLSessionDataDelegate : Received data :: \(String(data: data, encoding: .utf8))")
+    }
+}
+
+PlaygroundPage.current.needsIndefiniteExecution = true
+let service = NetworkingService()
+service.setupUrlSession()
+service.makeAPICall(with: request)
