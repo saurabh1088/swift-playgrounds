@@ -111,3 +111,46 @@ let employee3 = Employee(id: 3, name: "Wonder Woman")
 /// This two phase initialization helps preventing any stored value being accidently used without being properly
 /// initialized. Also this helps preventing stored property values being assigned to some other values by any another
 /// initializer.
+
+class SuperHero {
+    var name: String
+    var power: String
+    var aka: String?
+    
+    // Designated initializer
+    init(name: String, power: String) {
+        self.name = name
+        self.power = power
+    }
+}
+
+class Batman: SuperHero {
+    // New stored property introduced by subclass
+    var drives: String
+    
+    // Designated initializer
+    init(name: String, power: String, drives: String) {
+        // As drives is introduced by this class so drives needs to be initialzed
+        // first before calling super class designated initializer. Not doing so will
+        // give compile time error. (Property 'self.drives' not initialized at super.init call)
+        self.drives = drives
+        
+        // Once all stored properties introduced by class are initialized then
+        // call designated initializer of super class.
+        super.init(name: name, power: power)
+        self.aka = "Dark Knight"
+    }
+}
+
+// A subclass which doesn't introduces any designated initializer of it's own.
+// Notice it automatically gets initialiser from superclass
+class MetaHuman: SuperHero {
+    func intro() {
+        print("I am \(self.name)")
+    }
+}
+
+let metaHuman = MetaHuman(name: "meta", power: "strength")
+metaHuman.intro()
+
+/// `Failable Initializers`
