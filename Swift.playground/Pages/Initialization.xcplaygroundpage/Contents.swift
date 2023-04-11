@@ -33,6 +33,7 @@
  
  */
 import UIKit
+import XCTest
 
 /// Struct Employee below doesn't need any definition of initializer, for value types a default initializer is already
 /// generated. So for structs a memberwise initializer get generated automatically and can be used, any default value
@@ -154,3 +155,32 @@ let metaHuman = MetaHuman(name: "meta", power: "strength")
 metaHuman.intro()
 
 /// `Failable Initializers`
+/// Sometimes we may want to fail the initialisation process itself in case some condition isn't met. `Failable Initializers`
+/// help in this requirement. A `Failable Initializers` fails to initialise the instance and returns nil. So
+/// basically a failable initializer creates an optional value which can be unwrapped to take further action.
+/// For e.g. in class `LessThanTen` the initialization process will fail if attempted to initialize with a value
+/// greater than ten.
+
+class LessThanTen {
+    var number: Int
+    init?(number: Int) {
+        if number > 10 { return nil }
+        self.number = number
+    }
+}
+
+class LessThanTenUnitTests: XCTestCase {
+    
+    func test_initialiser_correctValue() {
+        let correctNumber = LessThanTen(number: 5)
+        XCTAssertEqual(5, correctNumber?.number)
+    }
+    
+    func test_initialiser_incorrectValue() {
+        let incorrectNumber = LessThanTen(number: 100)
+        XCTAssertNil(incorrectNumber)
+    }
+    
+}
+
+LessThanTenUnitTests.defaultTestSuite.run()
