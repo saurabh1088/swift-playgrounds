@@ -184,3 +184,28 @@ class LessThanTenUnitTests: XCTestCase {
 }
 
 LessThanTenUnitTests.defaultTestSuite.run()
+
+
+/// `Required Initializers`
+/// `Required Initializers` mandate subclasses to implement the initializer. Every subclass should
+/// write required while implementing so that every further subclass also had to implement.
+
+class SuperClassRequiredInit {
+    var superProperty: String
+    required init(superProperty: String) {
+        self.superProperty = superProperty
+    }
+}
+
+// Here if SubclassToRequiredInit doesn't adds any initializer then it will inherit
+// the required one from it's superclass and there won't be any issue. However if
+// any initializer is attempted to add to subclass then compiler will cry unless
+// required initializer from superclass is implemented.
+class SubclassToRequiredInit: SuperClassRequiredInit {
+//    var subclassProperty: String
+//    init(subclassProperty: String) {
+//        self.subclassProperty = subclassProperty
+//    }
+}
+
+let subclassObj = SubclassToRequiredInit(superProperty: "")
