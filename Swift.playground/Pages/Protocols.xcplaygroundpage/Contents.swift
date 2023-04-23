@@ -75,7 +75,7 @@ class OrderedCollection<T>: CollectionClass {
 /// also can be improved using Self (self with a capital S). Self acts as a placeholder for the type that is going to
 /// conform the protocol.
 
-/**
+/*
 protocol Collection {
     func biggerThan(other: Collection) -> Bool
 }
@@ -88,6 +88,9 @@ struct Ordered<T>: Collection {
 }
 */
 
+/// Implementation 2 :
+/// Here in our implementatio of method `biggerThan(other: Self) -> Bool` instead of using `Collection`
+/// in method signature, we have used Self
 protocol Collection {
     func biggerThan(other: Self) -> Bool
 }
@@ -100,5 +103,126 @@ struct Ordered<T>: Collection {
 }
 
 // TODO: Watch https://developer.apple.com/videos/play/wwdc2015/408/
+
+
+/// `Protocol vs Inheritance : Use case study`
+/// Swift encourages to start with Protocol always as a rule of thumb.
+/// Below example illustrates a project designed using inheritance. Project will have a developer and tester who
+/// are defined as team members via class inheritance.
+///
+class TeamMember {
+    var name: String
+    var project: String
+    
+    init(name: String, project: String) {
+        self.name = name
+        self.project = project
+    }
+}
+
+class SomeDeveloper: TeamMember {
+    func doDevelopment() {
+        print("Inheritance :: Developing")
+    }
+}
+
+class SomeTester: TeamMember {
+    func doTesting() {
+        print("Inheritance :: Testing")
+    }
+}
+
+class SomeProject {
+    var developer: SomeDeveloper
+    var tester: SomeTester
+    
+    init(developer: SomeDeveloper, tester: SomeTester) {
+        self.developer = developer
+        self.tester = tester
+    }
+    
+    func startProject() {
+        developer.doDevelopment()
+        tester.doTesting()
+    }
+}
+
+let someDeveloper = SomeDeveloper(name: "Batman", project: "Justice League")
+let someTester = SomeTester(name: "Superman", project: "Justice League")
+let someProject = SomeProject(developer: someDeveloper, tester: someTester)
+someProject.startProject()
+
+
+/// Protocol approach
+protocol Member {
+    var name: String { get set }
+    var project: String { get set }
+}
+
+protocol DevelopmentTasks {
+    func doDevelopment()
+}
+
+protocol TestingTasks {
+    func doTesting()
+}
+
+struct Developer: Member, DevelopmentTasks {
+    var name: String
+    var project: String
+    
+    func doDevelopment() {
+        print("Protocols :: Developing")
+    }
+}
+
+struct Tester: Member, TestingTasks {
+    var name: String
+    var project: String
+    
+    func doTesting() {
+        print("Protocols :: Testing")
+    }
+}
+
+struct Project {
+    var developer: DevelopmentTasks
+    var tester: TestingTasks
+    
+    func startProject() {
+        developer.doDevelopment()
+        tester.doTesting()
+    }
+}
+
+let developer = Developer(name: "Batman", project: "Justice League")
+let tester = Tester(name: "Superman", project: "Justice League")
+let project = Project(developer: developer, tester: tester)
+project.startProject()
+
+
+/// This all is fine, now suppose due to some criticality we need more hands and we want out developer also
+/// shoule be able to do some testing. How to handle such ask. How to make out developer also perform testing
+/// tasks. In inheritance example one might need to further add testing methods to developer class causing a
+/// code repetition. Also this is just a sample example a developer and a tester perform many tasks so a whole lot
+/// of logic might be required to move to our develer class just to make developer also compatible to handle testing
+/// tasks. One can add those methods to base class but that will unecessarily add those tasks to some other team members
+/// who inherit from `TeamMember` class.
+/// In case of protocol we only need to have our developer struct conform to testing taska protocol and in project
+/// pass along developer for testing tasks as well. While in case of inheritance we might need to modify project
+/// class itself to have developer perform testing tasks.
+/// Also for unit testing we have a great advantage. The way Project is defined it has developer and tester properties
+/// defined as of type conforming `DevelopmentTasks` or `TestingTasks` so for testing if actual types
+/// are not safe to use one can implement mock developer and tester by conforming to these protocols and passing
+/// on to the project.
+extension Developer: TestingTasks {
+    func doTesting() {
+        print("Developer")
+        print("Protocol :: Testing")
+    }
+}
+
+let anotherProject = Project(developer: developer, tester: developer)
+anotherProject.startProject()
 
 //: [Next](@next)
