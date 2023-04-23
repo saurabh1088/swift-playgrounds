@@ -225,4 +225,40 @@ extension Developer: TestingTasks {
 let anotherProject = Project(developer: developer, tester: developer)
 anotherProject.startProject()
 
+/// `Protocol : Property requirements`
+/// Protocol doesn't specifies if the property in requirement needs to be implemented as stored property or
+/// computed property.
+///
+/// `{ get set }`
+/// Property is gettable and settable both, so while comforming protocol it CAN'T be a constant stored property
+/// or a read-only computed property as both these types are not settable.
+///
+/// `{ get }`
+/// Property can be any kind and also be settable.
+protocol PropertyRequirements {
+    var thisPropertyMustBeSettable: String { get set }
+    var thisPropertyCanBeSettableOrReadOnly: String { get }
+}
+
+struct ImplementationOne: PropertyRequirements {
+    // Marking this property as let or a read-only computed property will give compile
+    // time issue : Type 'ImplementationOne' does not conform to protocol 'PropertyRequirements'
+    var thisPropertyMustBeSettable: String {
+        get {
+            return "Computed \(self.thisPropertyCanBeSettableOrReadOnly)"
+        }
+        set(newValue) {
+            thisPropertyCanBeSettableOrReadOnly = newValue
+        }
+    }
+    var thisPropertyCanBeSettableOrReadOnly: String
+}
+
+struct ImplementationTwo: PropertyRequirements {
+    var thisPropertyMustBeSettable: String
+    let thisPropertyCanBeSettableOrReadOnly: String
+}
+
+
+
 //: [Next](@next)
