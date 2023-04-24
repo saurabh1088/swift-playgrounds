@@ -293,6 +293,23 @@ extension Employee: AddSomeProperties {
     }
 }
 
+/// `Constraints on Protocols`
+///
+/// Example 1 : Constraint a protocol to be conformed only by class types
+
+protocol OnlyForClasses: AnyObject {
+    var classOnly: String? { get set }
+}
+
+class ConformProtocol: OnlyForClasses {
+    var classOnly: String?
+}
+
+/// This will make compiler cry with error
+/// Non-class type 'TryToConform' cannot conform to class protocol 'OnlyForClasses'
+//struct TryToConform: OnlyForClasses {}
+
+
 /// `QnA`
 /// `Can a protocol add a requirement to add stored properties?`
 /// NO.
