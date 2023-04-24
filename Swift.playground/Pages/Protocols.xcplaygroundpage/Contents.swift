@@ -260,5 +260,55 @@ struct ImplementationTwo: PropertyRequirements {
 }
 
 
+/// `Stored properties can't be added to class/struct extension, what about if a protocol is conformed in extension?`
+/// If a protocol is conformed in a type's extension then also the protocol definition doesn't allows extension to
+/// conform requirement of the property by adding it as stored property. Remember a protocol's property requirements
+/// can be satisfied by either a stored or computed property, but in extension stored property will not be allowed.
+
+protocol AddSomeProperties {
+    var property: String { get }
+}
+
+struct Employee {
+    var name: String?
+}
+
+extension Employee {
+    /// Try to add below and compiler will cry with error "Extensions must not contain stored properties"
+    //var id: Int
+    
+    var fullName: String {
+        return "Mr. \(name ?? String())"
+    }
+}
+
+/// As soon as this extension is declared and if one let Xcode provide protocol method stubs the default stubs
+/// added from Xcode itself are a computed property.
+extension Employee: AddSomeProperties {
+    /// Try to add below and compiler will cry with error "Extensions must not contain stored properties"
+    //var property: String
+    
+    var property: String {
+        return "Sample value"
+    }
+}
+
+/// `QnA`
+/// `Can a protocol add a requirement to add stored properties?`
+/// NO.
+/// Protocols can only define property name, type and if it's gettable or settable or both. The conforming type
+/// has freedom to choose if this can be implemented as stored property or computed property, unless restricted
+/// by other factors like an extension to an existing type can't add stored properties, in that case only computed
+/// property can be added.
+///
+/// `A protocol marks a method as mutating. If this protocol is conformed by a class, does class also need to use keyword mutating`
+/// NO
+/// `mutating` keyworkd is used only for structures and enumerations. As it's not applicable for class types
+/// thus while conforming this protocol via a class type this keyword can be skipped.
+///
+/// `A type completes all requirements of some protocol, but doesn't conforms to it in declaration, can we assume as all requirements are met, the protocol is conformed by type?`
+/// NO
+/// Even if all requirements are met, it's not conformance unless the conformance is explicitly declared in type's
+/// declataion or added in an extension to the type in question.
 
 //: [Next](@next)
