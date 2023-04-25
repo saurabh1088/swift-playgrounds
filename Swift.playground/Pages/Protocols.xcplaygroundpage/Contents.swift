@@ -37,6 +37,7 @@
         
  */
 import Foundation
+import UIKit
 
 /// Example : Lost Type Relationships with Classes
 /// We declared a superclass `Collection` with a method `biggerThan(other: Collection)` which
@@ -102,8 +103,7 @@ struct Ordered<T>: Collection {
     }
 }
 
-// TODO: Watch https://developer.apple.com/videos/play/wwdc2015/408/
-
+//##############################################################################
 
 /// `Protocol vs Inheritance : Use case study`
 /// Swift encourages to start with Protocol always as a rule of thumb.
@@ -225,6 +225,8 @@ extension Developer: TestingTasks {
 let anotherProject = Project(developer: developer, tester: developer)
 anotherProject.startProject()
 
+//##############################################################################
+
 /// `Protocol : Property requirements`
 /// Protocol doesn't specifies if the property in requirement needs to be implemented as stored property or
 /// computed property.
@@ -293,9 +295,14 @@ extension Employee: AddSomeProperties {
     }
 }
 
+//##############################################################################
+
 /// `Constraints on Protocols`
 ///
 /// Example 1 : Constraint a protocol to be conformed only by class types
+/// Attempt to below will make compiler cry with error :
+/// Non-class type 'AttemptToConform' cannot conform to class protocol 'OnlyForClasses'
+// struct AttemptToConform: OnlyForClasses {}
 
 protocol OnlyForClasses: AnyObject {
     var classOnly: String? { get set }
@@ -305,10 +312,20 @@ class ConformProtocol: OnlyForClasses {
     var classOnly: String?
 }
 
-/// This will make compiler cry with error
-/// Non-class type 'TryToConform' cannot conform to class protocol 'OnlyForClasses'
-//struct TryToConform: OnlyForClasses {}
+/// Example 2 : Constraint on a specific class type
+protocol OnlyForUIView: UIView {
+    var uiViewOnly: String? { get set }
+}
 
+/// This will make compiler cry with error :
+/// 'OnlyForUIView' requires that 'SomeViewController' inherit from 'UIView'
+// class SomeViewController: UIViewController, OnlyForUIView { var uiViewOnly: String? }
+/// Example below for a `CustomView` inheriting from `UIView` however is perfectly valid.
+class CustomView: UIView, OnlyForUIView {
+    var uiViewOnly: String?
+}
+
+//##############################################################################
 
 /// `QnA`
 /// `Can a protocol add a requirement to add stored properties?`
