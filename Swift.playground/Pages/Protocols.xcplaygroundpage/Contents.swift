@@ -374,6 +374,36 @@ ClassUsingProtocolTypeTests.defaultTestSuite.run()
 
 //##############################################################################
 
+/// `Protocol associated type`
+/// Associated type (`associatedtype`) are a powerful way to make protocol generic.
+/// To understand suppose we want to declare a protocl to store some data type. This protocol will have a single
+/// requirement of a method to save data(let's not worry about where). So how do we declare is and for which
+/// data type, String, Int, Float etc or any custom type. This problem can be solved by using an associatedtype.
+///
+/// So an associatedtype is a replacement of a specific type withing a protocol's definition so that this placeholder type
+/// can be provided by conforming type and thus can be utilised for multiple types, instead of ending up defining
+/// protocol for every possible types.
+
+protocol Storage {
+    associatedtype DataType
+    func storeThis(_ data: DataType)
+}
+
+struct Database {
+    static var shared = Database()
+    private init() {}
+    var storage = [Any]()
+}
+
+struct IntStorage: Storage {
+    typealias DataType = Int
+    func storeThis(_ data: Int) {
+        Database.shared.storage.append(data)
+    }
+}
+
+//##############################################################################
+
 /// `QnA`
 /// `Can a protocol add a requirement to add stored properties?`
 /// NO.
