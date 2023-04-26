@@ -38,6 +38,7 @@
  */
 import Foundation
 import UIKit
+import XCTest
 
 /// Example : Lost Type Relationships with Classes
 /// We declared a superclass `Collection` with a method `biggerThan(other: Collection)` which
@@ -324,6 +325,52 @@ protocol OnlyForUIView: UIView {
 class CustomView: UIView, OnlyForUIView {
     var uiViewOnly: String?
 }
+
+//##############################################################################
+
+/// `Optional requirements in Protocols`
+/// Optional requirements are the ones which are not mandatory to be implemented by conforming type.
+///
+/// Option 1 :
+/// Below example shows how to achieve that, however there is one caveat. This protocol with optional requirement
+/// `WithSomeOptionalRequirements` is restricted for class types only due to use of `@objc`
+///
+/// Option 2 :
+/// Another way is to add an extension to protocol and implement the requirement which is to be made optional.
+/// This way the protocol need not the @objc modifier and even value types can use it, however the conforming types
+/// even though are not required to implement the method still they will get the default implementation from
+/// extension so technically it's not an optional requirement as the requirement still get fulfilled.
+///
+/// Option 3 :
+/// Probably the best approach would be to keep the requirements which are optional as part of a separate
+/// protocol altogether so that one can compose required protocols and implement as per requirement.
+
+@objc protocol WithSomeOptionalRequirements {
+    @objc optional var optionalProperty: String { get set }
+    var mandatoryProperty: String { get set }
+}
+
+class ClassImplementingProtocol: WithSomeOptionalRequirements {
+    var mandatoryProperty: String = "Mandatory"
+}
+
+class ClassUsingProtocolType {
+    var someProtocolType: WithSomeOptionalRequirements
+    
+    init(someProtocolType: WithSomeOptionalRequirements) {
+        self.someProtocolType = someProtocolType
+    }
+}
+
+class ClassUsingProtocolTypeTests: XCTestCase {
+    func testClassUsingProtocolType() {
+        let objectConformedProtocol = ClassImplementingProtocol()
+        let object = ClassUsingProtocolType(someProtocolType: objectConformedProtocol)
+        XCTAssertNil(object.someProtocolType.optionalProperty)
+    }
+}
+
+ClassUsingProtocolTypeTests.defaultTestSuite.run()
 
 //##############################################################################
 
