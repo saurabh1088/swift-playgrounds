@@ -397,10 +397,21 @@ struct Database {
 
 struct IntStorage: Storage {
     typealias DataType = Int
-    func storeThis(_ data: Int) {
+    func storeThis(_ data: DataType) {
         Database.shared.storage.append(data)
     }
 }
+
+/// When protocol with associated type is implemented then Xcode can help provide adding stubs, but that also
+/// adds a typealias. This typealias however is not mandatory as Swift can infer type from protocols implementation.
+struct StringStorage: Storage {
+    func storeThis(_ data: String) {
+        Database.shared.storage.append(data)
+    }
+}
+
+// TODO: https://www.avanderlee.com/swift/associated-types-protocols/
+// TODO: https://khawerkhaliq.com/blog/swift-associated-types-self-requirements/
 
 //##############################################################################
 
