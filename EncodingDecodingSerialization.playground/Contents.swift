@@ -9,6 +9,12 @@ import UIKit
  `Serialization` is a  process of converting an object or data structure in memory to a format which then
  can be stored or transmitted, such as a file or network stream. Basically converting an object into a format so
  that it can be stored or transmittable all along should also be able to be able to put it back to it's old object form.
+ 
+ `Encoding`
+ Converting an object to a format(for e.g. JSON) which can be transmittable or can be stored on disk.
+ 
+ `Decoding`
+ Converting, for e.g. JSON back to an object represented by model.
  */
 
 /// `Serialization` & `Deserialisation` examples
@@ -132,3 +138,30 @@ let someJsonString = """
 let someJsonStringData = someJsonString.data(using: .utf8)!
 let decodedPersonObject = try JSONDecoder().decode(Person.self, from: someJsonStringData)
 print(decodedPersonObject.description)
+
+
+/// Example
+/// Here instead of using `CodingKey` we are using `keyDecodingStrategy` property of `JSONDecoder`
+/// which when set to `convertFromSnakeCase` will automatically try to decode using strategy and map to
+/// a snake case to it's equivalent camel case one.
+struct Vehicle: Codable, CustomStringConvertible {
+    var bodyType: String
+    var wheels: Int
+    var description: String {
+        return "I am a \(bodyType) and I have \(wheels) wheels."
+    }
+}
+
+let someJsonStringWithDifferentKeys = """
+{
+"body_type" : "suv",
+"wheels" : 4
+}
+"""
+
+let jsonDecoder = JSONDecoder()
+jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+
+let dataSomeJsonStringWithDifferentKeys = someJsonStringWithDifferentKeys.data(using: .utf8)!
+let decodedVehicleObject = try jsonDecoder.decode(Vehicle.self, from: dataSomeJsonStringWithDifferentKeys)
+print(decodedVehicleObject.description)
