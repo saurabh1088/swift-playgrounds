@@ -207,7 +207,7 @@ let isAPISuccess200 = try Networking.responseFromAPICall(200)
 // This will set isAPISuccess400 to nil
 let isAPISuccess400 = try? Networking.responseFromAPICall(400)
 // This will cause an exception which is not handled and result in runtime error "error: Execution was interrupted, reason: EXC_BAD_INSTRUCTION (code=EXC_I386_INVOP, subcode=0x0)."
-let isAPISuccess401 = try! Networking.responseFromAPICall(401)
+//let isAPISuccess401 = try! Networking.responseFromAPICall(401)
 
 var isAPISuccess500: Bool
 do {
@@ -219,3 +219,94 @@ do {
 } catch {
     print("Unexpected error")
 }
+
+/// `Question 7`
+/// `What are disadvantages of MVVM design pattern?`
+///
+/// Following blogpost from the creator of MVVM design pattern(John Gossman) himself talks about disadvantages.
+/// https://learn.microsoft.com/en-us/archive/blogs/johngossman/advantages-and-disadvantages-of-m-v-vm
+///
+/// The obvious and foremost purpose of MVVM design pattern is to abstraction of view. Abstraction of view here
+/// means that the view should be free from business logic so that it can be re-used. This also means that when
+/// business logic is segregated from view layer the resulting view model layer which gets created is great to be
+/// unit tested hence increating code coverage.
+///
+/// Here are some disadvantages which an MVVM might have
+///
+/// 1. For simple UI, MVVM may turn out to be overkill.
+///
+/// 2. For bigger complex projects view-models itself could be hard to design to achieve abstraction and generality.
+///
+/// 3. View-model use data-binding to communicate with views. Data-bindings is declarative and can be harder
+/// to debug.
+///
+/// 4. MVVM might lead to writing same pattern of code in multiple view-models.
+///
+/// 5. MVVM adaptation might lead to a tight coupling with UI framework which is being used for e.g. UIKit or SwiftUI.
+/// If same codebase is required to work with some other UI framework in future then its challenging.
+
+
+/// `Question 8`
+/// `Write an example showing retain cycle`
+
+class Bike {
+    var name: String
+    var onStart: (() -> Void)?
+    
+    init(name: String) {
+        self.name = name
+        print("Bike \(name) is initialized")
+    }
+    
+    func goVroom() {
+        print("Bike will go vrooooom!!!")
+    }
+    
+    deinit {
+        print("Bike \(name) is deinitialized")
+    }
+}
+
+func normalInitDeInit() {
+    let yamaha = Bike(name: "FZ-X")
+}
+normalInitDeInit()
+
+func creatingARetainCycle() {
+    let yamaha = Bike(name: "MT-01")
+    yamaha.onStart = {
+        yamaha.goVroom()
+    }
+}
+creatingARetainCycle()
+
+func avoidCreatingRetainCycle() {
+    let yamaha = Bike(name: "R15-V4")
+    yamaha.onStart = { [weak yamaha] in
+        yamaha?.goVroom()
+    }
+}
+avoidCreatingRetainCycle()
+
+/// `Question 8`
+/// `I missed calling super methods in the ViewController I implemented, can I expect any issues?`
+///
+/// Yes, there will be side effects. It's important to call parent class overridden methods for certain methods ONLY.
+/// For e.g. there is a view controller's lifecycle method `loadView()` this needs to be implemented when not
+/// using any storyboard or XIBs, but this implementation in a UIViewController's subclass should NOT call super.
+/// But for say `viewDidLoad` one should call `super.viewDidLoad`
+///
+/// Now talking about `viewDidLoad` from `UIViewController` itself, the immediate subclass can skip
+/// calling it without any issues as there isn't anything `UIViewController` implements but in a more deep
+/// hierarchy there could be a lot, so it's a good practice to call super wherever it's not explicitly mandated to NOT
+/// to call, which is in case of `loadView()` as the documentation for `loadView()` warns not to call super.
+///
+/// Not calling super in overridden implementation when expected can have following consequences :
+///
+/// 1. UIViewController is always aubclassed and not used directly. Further as being object oriented and class type
+/// one always have inheritance and some other view-controller's inheriting from a base viewcontroller. Whatever the
+/// setting being, if there is a hierarchy and the child misses calling it's super cycle methods wherever required
+/// will leave the viewcontroller's setup itself incomplete.
+///
+/// 2. The super version might be setting up something for e.g. some delegates or datasources at common place
+/// which might miss out and lead to unexpected behaviours.
