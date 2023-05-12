@@ -310,3 +310,52 @@ avoidCreatingRetainCycle()
 ///
 /// 2. The super version might be setting up something for e.g. some delegates or datasources at common place
 /// which might miss out and lead to unexpected behaviours.
+
+
+// TODO: This question calls for more discussion.
+/// `Question 9`
+/// `How does one decides to use GCD or Operation Queues? What's the difference between these?`
+///
+/// `GCD` and `OperationQueue` are two ways once can implement concurrency in iOS/macOS development.
+///
+/// `GCD vs OperationQueue`
+///
+/// 1. `GCD` is a low level C API enabling one to write code to use concurrency. `OperationQueue` is a high
+/// level abstraction built on top of `GCD`.
+///
+/// 2. `GCD` is FIFO but `OperationQueue` isn't.
+///
+/// 3. `GCD` being low level can be more efficient and performant.
+
+
+/// `Question 10`
+/// `Why camel casing is used for variable and function names?`
+///
+/// Came case(camelCase) is a convention followed by various programming languages. Reason for using this
+/// approach are :
+///
+/// 1. Camel case combine words in a single word by capitalizing first letter of every new word. This makes it
+/// very readable as it's very evident and visible where each words begin and end. So basically it helps in
+/// readability. Now readability can be very important while debugging and maintaing code.
+///
+/// 2. Following a convention helps to achieve consistency in naming across any codebase.
+
+
+/// `Question 11`
+/// `Can we declare a struct as open, like one can declare an open class?`
+///
+/// NO, `open` was introduced in Swift as an added access level for classes and class members to provide
+/// a distinction from `public` access modifier.
+/// As from Apple's documentation itself `Open access applies only to classes and class members, and it differs from public access by allowing code outside the module to subclass and override`
+/// So when a class or it's members are declared as `open` then it means and any module importing the module
+/// in which this open class is declared is free to subclass or override it. So one must be aware of consequences of
+/// someone using and subclassing/oerriding hence classes or class members declared as open must be declared
+/// only if necessary.
+///
+/// Using `open` for a struct makes compiler cry with below error :
+/// Only classes and overridable class members can be declared 'open'; use 'public'
+
+
+// TODO: Look into this
+/// `Question 12`
+/// `Any vs AnyObject`
