@@ -71,6 +71,7 @@ DispatchQueue.global(qos: .background).async {
     print("Is global dispatchqueue with background qos running on main thread :: \(Thread.isMainThread)")
 }
 
+/// `Question 5`
 /// `How to execute some code on main thread?`
 ///
 /// There are following ways to execute something on main thread.
@@ -96,7 +97,7 @@ class SomeClass: NSObject {
 let object = SomeClass()
 object.execute()
 
-/// `Question 5`
+/// `Question 6`
 /// `Take an array and give a resulting array with elements multiplied by a factor.`
 
 let array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -105,7 +106,7 @@ func byFactorOf(_ array: [Int], _ factor: Int) -> [Int] {
 }
 print(byFactorOf(array, 10))
 
-/// `Question 5`
+/// `Question 7`
 /// `What kind of keywords can be used with guard to exit the scope once conditions are not met?`
 ///
 /// With `guard` one can use following keywords to exit the scope.
@@ -176,7 +177,7 @@ do {
     print("Company does contain employees with invalid id")
 }
 
-/// `Question 6`
+/// `Question 8`
 /// `What is a throwing function in Swift?`
 ///
 /// A throwing funtion in Swift means a function which will flag something once some error occures while execution.
@@ -220,7 +221,7 @@ do {
     print("Unexpected error")
 }
 
-/// `Question 7`
+/// `Question 9`
 /// `What are disadvantages of MVVM design pattern?`
 ///
 /// Following blogpost from the creator of MVVM design pattern(John Gossman) himself talks about disadvantages.
@@ -246,7 +247,7 @@ do {
 /// If same codebase is required to work with some other UI framework in future then its challenging.
 
 
-/// `Question 8`
+/// `Question 10`
 /// `Write an example showing retain cycle`
 
 class Bike {
@@ -288,7 +289,7 @@ func avoidCreatingRetainCycle() {
 }
 avoidCreatingRetainCycle()
 
-/// `Question 8`
+/// `Question 11`
 /// `I missed calling super methods in the ViewController I implemented, can I expect any issues?`
 ///
 /// Yes, there will be side effects. It's important to call parent class overridden methods for certain methods ONLY.
@@ -313,7 +314,7 @@ avoidCreatingRetainCycle()
 
 
 // TODO: This question calls for more discussion.
-/// `Question 9`
+/// `Question 12`
 /// `How does one decides to use GCD or Operation Queues? What's the difference between these?`
 ///
 /// `GCD` and `OperationQueue` are two ways once can implement concurrency in iOS/macOS development.
@@ -328,7 +329,7 @@ avoidCreatingRetainCycle()
 /// 3. `GCD` being low level can be more efficient and performant.
 
 
-/// `Question 10`
+/// `Question 13`
 /// `Why camel casing is used for variable and function names?`
 ///
 /// Came case(camelCase) is a convention followed by various programming languages. Reason for using this
@@ -341,7 +342,7 @@ avoidCreatingRetainCycle()
 /// 2. Following a convention helps to achieve consistency in naming across any codebase.
 
 
-/// `Question 11`
+/// `Question 14`
 /// `Can we declare a struct as open, like one can declare an open class?`
 ///
 /// NO, `open` was introduced in Swift as an added access level for classes and class members to provide
@@ -356,6 +357,65 @@ avoidCreatingRetainCycle()
 /// Only classes and overridable class members can be declared 'open'; use 'public'
 
 
+/// `Question 15`
+/// `We have to establish communication between two objects, what are options?`
+///
+/// There are following ways of communication between objects.
+///
+/// `One to One : Involves two objects only`
+///
+/// 1. Delegation pattern
+/// 2. Closures
+/// 3. Method calls
+/// 4. Properties
+///
+/// `Many to Many`
+///
+/// 1. Notifications
+/// 2. KVO
+
+
+/// `Question 16`
+/// `In a design pattern MVVM what could be the responsibilities of controller?`
+///
+/// - Even with an iOS App using MVVM design pattern, in UIKit there will be viewcontrollers to manage the
+/// views. Managing view hierarchy and displaying views on screen and playing part in responder chain still
+/// remains with viewcontrollers.
+///
+/// - Viewcontroller will create appropriate bindings between view model and view. This binding is what communicates
+/// changes from view-model to view.
+///
+/// - Viewcontroller will offcource continue to handle user input, it anyways is a part of responder chain. Also it
+/// will take user input and pass it to view-model
+///
+/// - Viewcontroller will control the navigation, push/pop of subsequent viewcontrollers and segues in case of
+/// storyboards.
+
+
+/// `Question 17`
+/// `In a MVVM design pattern how does view-model receives information?`
+///
+/// MVVM design pattern consists of Model - View - ViewModel. There exists a binding between view and
+/// view-model. There exists a communication channel between view and view-model via bindings. So a view-model
+/// is able to communicate changes to view layer when to update.
+/// This communication can be done via help of a controller which can create bindings and pass on information
+/// related to user events to view-model. Or in case of using a reactive framework like Combine this could be
+/// done using a publisher subscriber model wherein the view subscribes to view-model published properties.
+/// In reactive case for example if using SwiftUI+Combine the view can directly provide information of user events
+/// like selecting an option on some ui component, entering some text etc. Once user event happens view-model
+/// appropriate handler can be called to let view-model get that information.
+///
+/// View-model also contains business logic and it is also responsible for communicating changes happened to
+/// model layer back to the view layer. So it must receive information about model changes which it receives from
+/// APIs it calls to get updated models.
+///
+/// Dependency injection can be used to provide view-model information coming from source external to it when
+/// it's getting initialised.
+
+/// `Question`
+/// ``
+
+
 // TODO: Look into this
-/// `Question 12`
+/// `Question`
 /// `Any vs AnyObject`
