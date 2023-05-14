@@ -412,9 +412,88 @@ avoidCreatingRetainCycle()
 /// Dependency injection can be used to provide view-model information coming from source external to it when
 /// it's getting initialised.
 
-/// `Question`
-/// ``
+/// `Question 18`
+/// `Is optional in Swift value type or reference type?`
+///
+/// `Optional` in swift represents a type which may or may not have a value. Behind the scenes optional is
+/// actually implemented as a enumeration with two cases.  Something like this
+/// ```
+/// enum OptionalValue<T> {
+///     case None
+///     case Some(T)
+/// }
+/// ```
+/// So basically its an enumeration with two cases None and Some, with some implecating an associated value
+/// of the type matching for which optional is defined.
 
+/// `Question 19`
+/// `Does functions in Swift have retain count?`
+///
+/// NO
+/// No, functions in Swift do not have a retain count. This is because functions are not objects. They are simply
+/// blocks of code that are executed when they are called. Functions are first-class citizens in Swift, which means
+/// that they can be treated like variables and passed around as values.
+/// When a function is called, the compiler creates a new stack frame for the function. This stack frame contains
+/// all of the local variables and parameters for the function. When the function returns, the stack frame is
+/// destroyed and the memory used by the local variables and parameters is freed.
+/// Since functions are not objects, they do not need to be managed by the reference counting system. The
+/// reference counting system is only used to manage objects.
+
+/// `Question 20`
+/// `Does closures in Swift have retain count?`
+///
+/// YES
+/// Closures are reference types so they have retain count. Reference types are objects that can be referenced
+/// by other objects. When a closure is referenced by another object, the closure's retain count is incremented.
+/// This means that the closure will not be deallocated until its retain count reaches zero.
+/// This is the reason when self is captured in a closure then it can lead to memory leaks. Wheras self inside a
+/// function doesn't causes any issues.
+
+/// `Question 21`
+/// `Does Implicitly Unwrapped Optionals in Swift have retain count?`
+
+/// `Question 22`
+/// `What are implicitly unwrapped optionals?`
+///
+/// https://cocoacasts.com/when-should-you-use-implicitly-unwrapped-optionals
+/// Implicitly unwrapped optional behaves as optional, which means it is allowed to have no value. Implicitly
+/// unwrapped optional promises that it will have some value when accessed. Even though one can access
+/// an implicitly unwrapped optional directly, still one can access via optional binding or optional chaining or nil
+/// check
+///
+/// In below example `ImplicitUnwrappedOptional` defines a property `iuo` which is implicitly unwrapped
+/// optional. An instance is created with this property passed as nil and then in the print statement this property
+/// is accessed without any optional specific handling.
+///
+/// `@IBOutlet weak var tableView: UITableView!`
+/// IBOutlets are example of implicitly unwrapped optionals. These are marked so as these only have value once
+/// the view hierarchy has been loaded during viewcontroller's lifecycle.
+/// It is important to note that IBOutlets are not loaded until the view controller's view is loaded. This means that
+/// one cannot access IBOutlets before the view controller's viewDidLoad() method is called.
+/// Accessing an IBOutlet before the view controller's viewDidLoad() method is called, your app will crash.
+///
+/// One more use-case for implicitly unwrapped optionals is that Objective-C doesn't guarantees if an object is
+/// non-nil. So when Swift imports Objective-C APIs it will import those as implicitly unwrapped optionals by default
+/// unless one uses the nullability annotations in Objective-C APIs being imported.
+///
+
+struct ImplicitUnwrappedOptional {
+    // Implicitly unwrapped optional
+    var iuo: String!
+}
+
+// Instance with implicitly unwrapped optional set to nil
+let iuoExample = ImplicitUnwrappedOptional(iuo: nil)
+// Here we are accessing the implicitly unwrapped optional directly
+print("Value of iuoExample.iuo :: \(String(describing: iuoExample.iuo))")
+
+// One can use ways to unwrap an implicitly unwrapped optionals as well, but that
+// defeats the purpose of declaring them as implicitly unwrapped itself as when
+// we declare something to be implicitly unwrapped we are promising that it's value
+// will be there.
+if let iuoValue = iuoExample.iuo {
+    print("Value of iuoExample.iuo :: \(iuoValue)")
+}
 
 // TODO: Look into this
 /// `Question`
