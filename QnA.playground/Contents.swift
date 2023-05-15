@@ -495,6 +495,38 @@ if let iuoValue = iuoExample.iuo {
     print("Value of iuoExample.iuo :: \(iuoValue)")
 }
 
-// TODO: Look into this
-/// `Question`
+/// `Question 23`
 /// `Any vs AnyObject`
+///
+/// Both `Any` and `AnyObject` in Swift are special types used for type erasure.
+/// Difference being `Any` can be used for any type be it value type ot reference type even for functions.
+/// Whereas `AnyObject` is specifially for class types.
+///
+/// So
+/// `Any` can represent an instance of any type at all, including function types and optional types.
+/// `AnyObject` can represent an instance of any class type.
+///
+/// `AnyObject` is actually a protocol to which all classes implicitly conform to. Only classes conform to `AnyObject`
+/// so using `AnyObject` one can restrict a protocol to be used only for class types.
+///
+/// `Swift 2` used to map `id` type from Objective C to `AnyObject`. `AnyObject` as mentioned above
+/// is only for classes, but `Swift 2` also provided implicit conversions to AnyObject for some bridged value
+/// types such as String, Array, Dictionary, which can be easily used with NSString, NSArray and NSDictionary etc.
+/// But this lead to confusion as to what can be converted using NSObject and what cannot. String in Swift is value
+/// type but still can be casted to `AnyObject` and used as `NSString` in Objective C while not all value
+/// types from Swift can be (the ones not having any bridged types).
+/// So to end this confusion from `Swift 3` change was made to map `id` type to `Any` so that it can be
+/// used for any value type, or reference type etc. So now with this change any Swift value type can be passed
+/// to Objective C APIs and can be extracted as Swift types.
+/// https://cocoacasts.com/what-is-anyobject-in-swift
+
+struct TestAny { }
+class TestAnyObject { }
+
+let packOfAny: [Any] = [1, "two", { print("Three") }, TestAny(), TestAnyObject()]
+
+/// Both `packOfAnyObjectsError` and `packOfAnyObjectsErrorStill` will give error Type of
+/// expression is ambiguous without more context.
+//let packOfAnyObjectsError: [AnyObject] = [1, "two", TestAny()]
+//let packOfAnyObjectsErrorStill: [AnyObject] = [TestAnyObject(), { print("Closures are referece types but not AnyObject") }]
+let packOfLegalAnyObjects: [AnyObject] = [TestAnyObject(), TestAnyObject()]
