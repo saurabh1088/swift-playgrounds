@@ -530,3 +530,8 @@ let packOfAny: [Any] = [1, "two", { print("Three") }, TestAny(), TestAnyObject()
 //let packOfAnyObjectsError: [AnyObject] = [1, "two", TestAny()]
 //let packOfAnyObjectsErrorStill: [AnyObject] = [TestAnyObject(), { print("Closures are referece types but not AnyObject") }]
 let packOfLegalAnyObjects: [AnyObject] = [TestAnyObject(), TestAnyObject()]
+
+/// `Question 24`
+/// `How many times does application(_:didFinishLaunchingWithOptions:) gets called?`
+///
+/// `application(_:didFinishLaunchingWithOptions:)` is called only once.
