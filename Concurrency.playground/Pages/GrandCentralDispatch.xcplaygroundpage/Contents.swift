@@ -117,4 +117,65 @@ serialDispatchQueue.async(execute: serialDispatchQueueTaskOne)
 serialDispatchQueue.async(execute: serialDispatchQueueTaskTwo)
 //: [Next](@next)
 
-/// Example 5 :
+/// Example 5 : Async vs Sync
+/// In example below we have a queue `concurrentQueueExample5` onto which a task is submitted. Now
+/// within that task another task is dispatched to a different queue `innerConcurrentQueueExample5`.
+/// Task submitted to `innerConcurrentQueueExample5` is using `sync`.
+/// Here `sync` will be in context of the executing context so what we are saying is that from queue `concurrentQueueExample5`
+/// we are synchronously dispatching a task on some other queue. Now the destination queue could be serial or
+/// concurrent (it's concurrent here) but because the task is dispatched as `sync` so the queue dispatching
+/// synchronously will wait till the queue onto which task is dispatched is finished with the task.
+/// So because of this in below example `concurrentQueueExample5` WAITS till `innerConcurrentQueueExample5`
+/// is finished with it's task.
+///
+/// If instead of `sync`, the task to `innerConcurrentQueueExample5` is dispatched as `async` then
+/// result would be different.
+let concurrentQueueExample5 = DispatchQueue.global(qos: .default)
+let innerConcurrentQueueExample5 = DispatchQueue.global(qos: .default)
+concurrentQueueExample5.async {
+    print("Started some work from concurrentQueueExample5")
+    innerConcurrentQueueExample5.sync {
+        for index in 1...20 {
+            print("\(index). Now printing from innerConcurrentQueueExample5 🛺")
+        }
+    }
+    print("Completed work from concurrentQueueExample5")
+}
+
+/// Example 6 :
+// TODO: Complete the example
+public class Messaging {
+    public var recentMessage: String {
+        return messages.last ?? "NULL"
+    }
+    private var messages: [String] = []
+    
+    public func send(message: String) {
+        messages.append(message)
+    }
+}
+
+let someMessanger = Messaging()
+someMessanger.send(message: "Hello")
+print("\n** \(String(describing: someMessanger.recentMessage)) **\n")
+
+let messageEnvironmentQueue = DispatchQueue.global(qos: .userInitiated)
+let messageDispatcherQueue = DispatchQueue.global(qos: .userInitiated)
+let messageDispatchQueue = DispatchQueue.global(qos: .userInitiated)
+let messageOne = DispatchWorkItem { someMessanger.send(message: "message one") }
+let messageTwo = DispatchWorkItem { someMessanger.send(message: "message two") }
+let messageThree = DispatchWorkItem { someMessanger.send(message: "message three") }
+let messageFour = DispatchWorkItem { someMessanger.send(message: "message four") }
+messageEnvironmentQueue.async {
+    print("Starting sending messages")
+    messageDispatcherQueue.sync {
+        messageDispatchQueue.async(execute: messageOne)
+        messageDispatchQueue.async(execute: messageTwo)
+        messageDispatchQueue.async(execute: messageThree)
+        messageDispatchQueue.async(execute: messageFour)
+    }
+    print("Messages sent, let's read the last one")
+    print("\n** \(String(describing: someMessanger.recentMessage)) **\n")
+}
+
+
