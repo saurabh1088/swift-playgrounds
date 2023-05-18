@@ -39,6 +39,10 @@
 import Foundation
 
 /// Example 1 : Main Dispatch Queue
+/// One can access main queue with `DispatchQueue.main`. Main queue is the queue associated with the
+/// main thread of application. Any task submitted on main queue gets executed on main thread.
+/// `DispatchQueue.main.async` is usually used to submit a block of code to be used to update UI as all
+/// UI changes need to happen on main thread.
 
 let mainQueue = DispatchQueue.main
 mainQueue.async {
@@ -72,6 +76,8 @@ globalQueueQOSBackground.async {
 }
 
 /// Example 3 : Global queue with `DispatchWorkItem`
+/// Queue `dispatchQueueWorkItem` is a global concurrent queue with QoS as default. To this dispatch
+/// queue there are two `DispatchWorkItem's` are submitted.
 
 let dispatchQueueWorkItem = DispatchQueue.global(qos: .default)
 
@@ -90,4 +96,25 @@ let dispatchQueueWorkItemTwo = DispatchWorkItem {
 dispatchQueueWorkItem.async(execute: dispatchQueueWorkItemOne)
 dispatchQueueWorkItem.async(execute: dispatchQueueWorkItemTwo)
 
+/// Example 4 : Serial queue
+/// Below example show how to create a custom serial queue. the queue created needs a label. Usual naming
+/// conventions followed is to use reverse domain name similar to app id. This helps in identifying the queue in
+/// event of any issues.
+let serialDispatchQueue = DispatchQueue(label: "my.serial.queue")
+
+let serialDispatchQueueTaskOne = DispatchWorkItem {
+    for index in 1...5 {
+        print("\(index). serialDispatchQueueTaskOne 🏏")
+    }
+}
+let serialDispatchQueueTaskTwo = DispatchWorkItem {
+    for index in 1...5 {
+        print("\(index). serialDispatchQueueTaskTwo 🏀")
+    }
+}
+
+serialDispatchQueue.async(execute: serialDispatchQueueTaskOne)
+serialDispatchQueue.async(execute: serialDispatchQueueTaskTwo)
 //: [Next](@next)
+
+/// Example 5 :
