@@ -143,7 +143,15 @@ concurrentQueueExample5.async {
 }
 
 /// Example 6 :
-// TODO: Complete the example
+/// Below example creates a messaging service. The service keeps a record of messages sent to it and can
+/// read out the recent message sent to it.
+/// Messages to this messaging service as dispatched over a concurrent queue. If at the same time attempt
+/// is made to read the recent message the result could be unexpected as while reading can turn up different
+/// message than actually being set now.
+/// This issue can be resolved by two ways.
+/// 1. One way is to add a new message to message array by dispatching it over a serial queue.
+/// 2. Another way is to dispatch it over a concurrent queue using a dispatch barrier as used in `RobustMessaging`
+// https://www.avanderlee.com/swift/concurrent-serial-dispatchqueue/
 public class Messaging {
     public var recentMessage: String {
         return messages.last ?? "NULL"
@@ -151,7 +159,8 @@ public class Messaging {
     private var messages: [String] = []
     
     public func send(message: String) {
-        messages.append(message)
+        self.messages.append(message)
+        print("Expected :: \(message) | Actual :: \(self.recentMessage)")
     }
 }
 
@@ -162,10 +171,16 @@ print("\n** \(String(describing: someMessanger.recentMessage)) **\n")
 let messageEnvironmentQueue = DispatchQueue.global(qos: .userInitiated)
 let messageDispatcherQueue = DispatchQueue.global(qos: .userInitiated)
 let messageDispatchQueue = DispatchQueue.global(qos: .userInitiated)
-let messageOne = DispatchWorkItem { someMessanger.send(message: "message one") }
-let messageTwo = DispatchWorkItem { someMessanger.send(message: "message two") }
-let messageThree = DispatchWorkItem { someMessanger.send(message: "message three") }
-let messageFour = DispatchWorkItem { someMessanger.send(message: "message four") }
+let messageOne = DispatchWorkItem { someMessanger.send(message: "message 1") }
+let messageTwo = DispatchWorkItem { someMessanger.send(message: "message 2") }
+let messageThree = DispatchWorkItem { someMessanger.send(message: "message 3") }
+let messageFour = DispatchWorkItem { someMessanger.send(message: "message 4") }
+let messageFive = DispatchWorkItem { someMessanger.send(message: "message 5") }
+let messageSix = DispatchWorkItem { someMessanger.send(message: "message 6") }
+let messageSeven = DispatchWorkItem { someMessanger.send(message: "message 7") }
+let messageEight = DispatchWorkItem { someMessanger.send(message: "message 8") }
+let messageNine = DispatchWorkItem { someMessanger.send(message: "message 9") }
+let messageTen = DispatchWorkItem { someMessanger.send(message: "message 10") }
 messageEnvironmentQueue.async {
     print("Starting sending messages")
     messageDispatcherQueue.sync {
@@ -173,9 +188,68 @@ messageEnvironmentQueue.async {
         messageDispatchQueue.async(execute: messageTwo)
         messageDispatchQueue.async(execute: messageThree)
         messageDispatchQueue.async(execute: messageFour)
+        messageDispatchQueue.async(execute: messageFive)
+        messageDispatchQueue.async(execute: messageSix)
+        messageDispatchQueue.async(execute: messageSeven)
+        messageDispatchQueue.async(execute: messageEight)
+        messageDispatchQueue.async(execute: messageNine)
+        messageDispatchQueue.async(execute: messageTen)
     }
     print("Messages sent, let's read the last one")
     print("\n** \(String(describing: someMessanger.recentMessage)) **\n")
 }
 
+/// `RobustMessaging` uses a concurrent queue to append any new message it will receive. On the concurrent
+/// queue a barrier is also set.
+///
+/// `Dispatch barrier`
+/// A dispatch barrier helps creating a synchronization point for tasks executing in a concurrent dispatch queue.
+/// So the queue will act like a normal concurrent queue. When a task is submitted to it using a barrier then when this
+/// task block with barrier flag is executing then the queue will behave like a serial queue. So the queue while
+/// executing the task marked with barrier will make sure that it is executing this barrier task only. Any tasks submitted
+/// prior to executing barrier task will be completed before.
+/// Once all previous tasks are done and barrier task is reaches then queue will not exeucte any other task while
+/// executing this barrier task. Once barrier task is finished, queue will continue with other tasks concurrently.
+public class RobustMessaging {
+    private let queue = DispatchQueue(label: "some.concurrent.queue", attributes: .concurrent)
+    public var recentMessage: String {
+        return messages.last ?? "NULL"
+    }
+    private var messages: [String] = []
+    
+    public func send(message: String) {
+        queue.async(flags: .barrier) {
+            self.messages.append(message)
+            print("Expected :: \(message) | Actual :: \(self.recentMessage)")
+        }
+    }
+}
 
+let robustMessaging = RobustMessaging()
+let robustMessageOne = DispatchWorkItem { robustMessaging.send(message: "robust message 1") }
+let robustMessageTwo = DispatchWorkItem { robustMessaging.send(message: "robust message 2") }
+let robustMessageThree = DispatchWorkItem { robustMessaging.send(message: "robust message 3") }
+let robustMessageFour = DispatchWorkItem { robustMessaging.send(message: "robust message 4") }
+let robustMessageFive = DispatchWorkItem { robustMessaging.send(message: "robust message 5") }
+let robustMessageSix = DispatchWorkItem { robustMessaging.send(message: "robust message 6") }
+let robustMessageSeven = DispatchWorkItem { robustMessaging.send(message: "robust message 7") }
+let robustMessageEight = DispatchWorkItem { robustMessaging.send(message: "robust message 8") }
+let robustMessageNine = DispatchWorkItem { robustMessaging.send(message: "robust message 9") }
+let robustMessageTen = DispatchWorkItem { robustMessaging.send(message: "robust message 10") }
+messageEnvironmentQueue.async {
+    print("Starting sending messages")
+    messageDispatcherQueue.sync {
+        messageDispatchQueue.async(execute: robustMessageOne)
+        messageDispatchQueue.async(execute: robustMessageTwo)
+        messageDispatchQueue.async(execute: robustMessageThree)
+        messageDispatchQueue.async(execute: robustMessageFour)
+        messageDispatchQueue.async(execute: robustMessageFive)
+        messageDispatchQueue.async(execute: robustMessageSix)
+        messageDispatchQueue.async(execute: robustMessageSeven)
+        messageDispatchQueue.async(execute: robustMessageEight)
+        messageDispatchQueue.async(execute: robustMessageNine)
+        messageDispatchQueue.async(execute: robustMessageTen)
+    }
+    print("Messages sent, let's read the last one")
+    print("\n** \(String(describing: someMessanger.recentMessage)) **\n")
+}
