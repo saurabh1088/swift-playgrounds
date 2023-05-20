@@ -253,3 +253,17 @@ messageEnvironmentQueue.async {
     print("Messages sent, let's read the last one")
     print("\n** \(String(describing: someMessanger.recentMessage)) **\n")
 }
+
+
+/// Example 7 : Initially inactive queue
+/// Usually as soon as tasks are submitted to a queue, the queue will schedule execution of those tasks
+/// immediately.
+
+
+let initiallyInactiveQueue = DispatchQueue(label: "some.initiallyInactive.queue", attributes: .initiallyInactive)
+initiallyInactiveQueue.async {
+    print("Executing from initiallyInactive queue")
+}
+print("Tasks submitted to initiallyInactive queue")
+print("About to activate initiallyInactiveQueue")
+initiallyInactiveQueue.activate()
