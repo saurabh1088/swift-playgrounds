@@ -44,9 +44,11 @@ import Foundation
 /// `DispatchQueue.main.async` is usually used to submit a block of code to be used to update UI as all
 /// UI changes need to happen on main thread.
 
-let mainQueue = DispatchQueue.main
-mainQueue.async {
-    print("mainQueue :: am i printed from main thread :: \(Thread.isMainThread)")
+func dispatchQueueExample1() {
+    let mainQueue = DispatchQueue.main
+    mainQueue.async {
+        print("mainQueue :: am i printed from main thread :: \(Thread.isMainThread)")
+    }
 }
 
 /// Example 2 : Global queue
@@ -54,67 +56,78 @@ mainQueue.async {
 /// onto this queue two tasks are submitted which are printing some statements. When executed the print statements
 /// on console appear jumbled up between the two tasks, which should happen as because of queue being concurrent
 /// both tasks are performed concurrently.
-let globalQueueQOSBackground = DispatchQueue.global(qos: .background)
+func dispatchQueueExample2() {
+    let globalQueueQOSBackground = DispatchQueue.global(qos: .background)
 
-let globalQueueQOSBackgroundTask1 = {
-    for index in 1...5 {
-        print("\(index). globalQueueQOSBackground 😀")
+    let globalQueueQOSBackgroundTask1 = {
+        for index in 1...5 {
+            print("\(index). globalQueueQOSBackground 😀")
+        }
+    }
+    let globalQueueQOSBackgroundTask2 = {
+        for index in 1...5 {
+            print("\(index). globalQueueQOSBackground 😍")
+        }
+    }
+
+    globalQueueQOSBackground.async {
+        globalQueueQOSBackgroundTask1()
+    }
+
+    globalQueueQOSBackground.async {
+        globalQueueQOSBackgroundTask2()
     }
 }
-let globalQueueQOSBackgroundTask2 = {
-    for index in 1...5 {
-        print("\(index). globalQueueQOSBackground 😍")
-    }
-}
 
-globalQueueQOSBackground.async {
-    globalQueueQOSBackgroundTask1()
-}
 
-globalQueueQOSBackground.async {
-    globalQueueQOSBackgroundTask2()
-}
+
 
 /// Example 3 : Global queue with `DispatchWorkItem`
 /// Queue `dispatchQueueWorkItem` is a global concurrent queue with QoS as default. To this dispatch
 /// queue there are two `DispatchWorkItem's` are submitted.
+func dispatchQueueExample3() {
+    let dispatchQueueWorkItem = DispatchQueue.global(qos: .default)
 
-let dispatchQueueWorkItem = DispatchQueue.global(qos: .default)
-
-let dispatchQueueWorkItemOne = DispatchWorkItem {
-    for index in 1...5 {
-        print("\(index). dispatchQueueWorkItem 🐶")
+    let dispatchQueueWorkItemOne = DispatchWorkItem {
+        for index in 1...5 {
+            print("\(index). dispatchQueueWorkItem 🐶")
+        }
     }
+
+    let dispatchQueueWorkItemTwo = DispatchWorkItem {
+        for index in 1...5 {
+            print("\(index). dispatchQueueWorkItem 🐱")
+        }
+    }
+
+    dispatchQueueWorkItem.async(execute: dispatchQueueWorkItemOne)
+    dispatchQueueWorkItem.async(execute: dispatchQueueWorkItemTwo)
 }
 
-let dispatchQueueWorkItemTwo = DispatchWorkItem {
-    for index in 1...5 {
-        print("\(index). dispatchQueueWorkItem 🐱")
-    }
-}
 
-dispatchQueueWorkItem.async(execute: dispatchQueueWorkItemOne)
-dispatchQueueWorkItem.async(execute: dispatchQueueWorkItemTwo)
 
 /// Example 4 : Serial queue
 /// Below example show how to create a custom serial queue. the queue created needs a label. Usual naming
 /// conventions followed is to use reverse domain name similar to app id. This helps in identifying the queue in
 /// event of any issues.
-let serialDispatchQueue = DispatchQueue(label: "my.serial.queue")
+func dispatchQueueExample4() {
+    let serialDispatchQueue = DispatchQueue(label: "my.serial.queue")
 
-let serialDispatchQueueTaskOne = DispatchWorkItem {
-    for index in 1...5 {
-        print("\(index). serialDispatchQueueTaskOne 🏏")
+    let serialDispatchQueueTaskOne = DispatchWorkItem {
+        for index in 1...5 {
+            print("\(index). serialDispatchQueueTaskOne 🏏")
+        }
     }
-}
-let serialDispatchQueueTaskTwo = DispatchWorkItem {
-    for index in 1...5 {
-        print("\(index). serialDispatchQueueTaskTwo 🏀")
+    let serialDispatchQueueTaskTwo = DispatchWorkItem {
+        for index in 1...5 {
+            print("\(index). serialDispatchQueueTaskTwo 🏀")
+        }
     }
+
+    serialDispatchQueue.async(execute: serialDispatchQueueTaskOne)
+    serialDispatchQueue.async(execute: serialDispatchQueueTaskTwo)
 }
 
-serialDispatchQueue.async(execute: serialDispatchQueueTaskOne)
-serialDispatchQueue.async(execute: serialDispatchQueueTaskTwo)
 //: [Next](@next)
 
 /// Example 5 : Async vs Sync
@@ -130,16 +143,18 @@ serialDispatchQueue.async(execute: serialDispatchQueueTaskTwo)
 ///
 /// If instead of `sync`, the task to `innerConcurrentQueueExample5` is dispatched as `async` then
 /// result would be different.
-let concurrentQueueExample5 = DispatchQueue.global(qos: .default)
-let innerConcurrentQueueExample5 = DispatchQueue.global(qos: .default)
-concurrentQueueExample5.async {
-    print("Started some work from concurrentQueueExample5")
-    innerConcurrentQueueExample5.sync {
-        for index in 1...20 {
-            print("\(index). Now printing from innerConcurrentQueueExample5 🛺")
+func dispatchQueueExample5() {
+    let concurrentQueueExample5 = DispatchQueue.global(qos: .default)
+    let innerConcurrentQueueExample5 = DispatchQueue.global(qos: .default)
+    concurrentQueueExample5.async {
+        print("Started some work from concurrentQueueExample5")
+        innerConcurrentQueueExample5.sync {
+            for index in 1...20 {
+                print("\(index). Now printing from innerConcurrentQueueExample5 🛺")
+            }
         }
+        print("Completed work from concurrentQueueExample5")
     }
-    print("Completed work from concurrentQueueExample5")
 }
 
 /// Example 6 :
@@ -151,7 +166,6 @@ concurrentQueueExample5.async {
 /// This issue can be resolved by two ways.
 /// 1. One way is to add a new message to message array by dispatching it over a serial queue.
 /// 2. Another way is to dispatch it over a concurrent queue using a dispatch barrier as used in `RobustMessaging`
-// https://www.avanderlee.com/swift/concurrent-serial-dispatchqueue/
 public class Messaging {
     public var recentMessage: String {
         return messages.last ?? "NULL"
@@ -164,41 +178,45 @@ public class Messaging {
     }
 }
 
-let someMessanger = Messaging()
-someMessanger.send(message: "Hello")
-print("\n** \(String(describing: someMessanger.recentMessage)) **\n")
-
-let messageEnvironmentQueue = DispatchQueue.global(qos: .userInitiated)
-let messageDispatcherQueue = DispatchQueue.global(qos: .userInitiated)
-let messageDispatchQueue = DispatchQueue.global(qos: .userInitiated)
-let messageOne = DispatchWorkItem { someMessanger.send(message: "message 1") }
-let messageTwo = DispatchWorkItem { someMessanger.send(message: "message 2") }
-let messageThree = DispatchWorkItem { someMessanger.send(message: "message 3") }
-let messageFour = DispatchWorkItem { someMessanger.send(message: "message 4") }
-let messageFive = DispatchWorkItem { someMessanger.send(message: "message 5") }
-let messageSix = DispatchWorkItem { someMessanger.send(message: "message 6") }
-let messageSeven = DispatchWorkItem { someMessanger.send(message: "message 7") }
-let messageEight = DispatchWorkItem { someMessanger.send(message: "message 8") }
-let messageNine = DispatchWorkItem { someMessanger.send(message: "message 9") }
-let messageTen = DispatchWorkItem { someMessanger.send(message: "message 10") }
-messageEnvironmentQueue.async {
-    print("Starting sending messages")
-    messageDispatcherQueue.sync {
-        messageDispatchQueue.async(execute: messageOne)
-        messageDispatchQueue.async(execute: messageTwo)
-        messageDispatchQueue.async(execute: messageThree)
-        messageDispatchQueue.async(execute: messageFour)
-        messageDispatchQueue.async(execute: messageFive)
-        messageDispatchQueue.async(execute: messageSix)
-        messageDispatchQueue.async(execute: messageSeven)
-        messageDispatchQueue.async(execute: messageEight)
-        messageDispatchQueue.async(execute: messageNine)
-        messageDispatchQueue.async(execute: messageTen)
-    }
-    print("Messages sent, let's read the last one")
+func dispatchQueueExample6() {
+    let someMessanger = Messaging()
+    someMessanger.send(message: "Hello")
     print("\n** \(String(describing: someMessanger.recentMessage)) **\n")
+
+    let messageEnvironmentQueue = DispatchQueue.global(qos: .userInitiated)
+    let messageDispatcherQueue = DispatchQueue.global(qos: .userInitiated)
+    let messageDispatchQueue = DispatchQueue.global(qos: .userInitiated)
+    let messageOne = DispatchWorkItem { someMessanger.send(message: "message 1") }
+    let messageTwo = DispatchWorkItem { someMessanger.send(message: "message 2") }
+    let messageThree = DispatchWorkItem { someMessanger.send(message: "message 3") }
+    let messageFour = DispatchWorkItem { someMessanger.send(message: "message 4") }
+    let messageFive = DispatchWorkItem { someMessanger.send(message: "message 5") }
+    let messageSix = DispatchWorkItem { someMessanger.send(message: "message 6") }
+    let messageSeven = DispatchWorkItem { someMessanger.send(message: "message 7") }
+    let messageEight = DispatchWorkItem { someMessanger.send(message: "message 8") }
+    let messageNine = DispatchWorkItem { someMessanger.send(message: "message 9") }
+    let messageTen = DispatchWorkItem { someMessanger.send(message: "message 10") }
+    messageEnvironmentQueue.async {
+        print("Starting sending messages")
+        messageDispatcherQueue.sync {
+            messageDispatchQueue.async(execute: messageOne)
+            messageDispatchQueue.async(execute: messageTwo)
+            messageDispatchQueue.async(execute: messageThree)
+            messageDispatchQueue.async(execute: messageFour)
+            messageDispatchQueue.async(execute: messageFive)
+            messageDispatchQueue.async(execute: messageSix)
+            messageDispatchQueue.async(execute: messageSeven)
+            messageDispatchQueue.async(execute: messageEight)
+            messageDispatchQueue.async(execute: messageNine)
+            messageDispatchQueue.async(execute: messageTen)
+        }
+        print("Messages sent, let's read the last one")
+        print("\n** \(String(describing: someMessanger.recentMessage)) **\n")
+    }
 }
 
+
+/// Example 7 :
 /// `RobustMessaging` uses a concurrent queue to append any new message it will receive. On the concurrent
 /// queue a barrier is also set.
 ///
@@ -225,45 +243,63 @@ public class RobustMessaging {
     }
 }
 
-let robustMessaging = RobustMessaging()
-let robustMessageOne = DispatchWorkItem { robustMessaging.send(message: "robust message 1") }
-let robustMessageTwo = DispatchWorkItem { robustMessaging.send(message: "robust message 2") }
-let robustMessageThree = DispatchWorkItem { robustMessaging.send(message: "robust message 3") }
-let robustMessageFour = DispatchWorkItem { robustMessaging.send(message: "robust message 4") }
-let robustMessageFive = DispatchWorkItem { robustMessaging.send(message: "robust message 5") }
-let robustMessageSix = DispatchWorkItem { robustMessaging.send(message: "robust message 6") }
-let robustMessageSeven = DispatchWorkItem { robustMessaging.send(message: "robust message 7") }
-let robustMessageEight = DispatchWorkItem { robustMessaging.send(message: "robust message 8") }
-let robustMessageNine = DispatchWorkItem { robustMessaging.send(message: "robust message 9") }
-let robustMessageTen = DispatchWorkItem { robustMessaging.send(message: "robust message 10") }
-messageEnvironmentQueue.async {
-    print("Starting sending messages")
-    messageDispatcherQueue.sync {
-        messageDispatchQueue.async(execute: robustMessageOne)
-        messageDispatchQueue.async(execute: robustMessageTwo)
-        messageDispatchQueue.async(execute: robustMessageThree)
-        messageDispatchQueue.async(execute: robustMessageFour)
-        messageDispatchQueue.async(execute: robustMessageFive)
-        messageDispatchQueue.async(execute: robustMessageSix)
-        messageDispatchQueue.async(execute: robustMessageSeven)
-        messageDispatchQueue.async(execute: robustMessageEight)
-        messageDispatchQueue.async(execute: robustMessageNine)
-        messageDispatchQueue.async(execute: robustMessageTen)
+func dispatchQueueExample7() {
+    let messageEnvironmentQueue = DispatchQueue.global(qos: .userInitiated)
+    let messageDispatcherQueue = DispatchQueue.global(qos: .userInitiated)
+    let messageDispatchQueue = DispatchQueue.global(qos: .userInitiated)
+
+    let robustMessaging = RobustMessaging()
+    let robustMessageOne = DispatchWorkItem { robustMessaging.send(message: "robust message 1") }
+    let robustMessageTwo = DispatchWorkItem { robustMessaging.send(message: "robust message 2") }
+    let robustMessageThree = DispatchWorkItem { robustMessaging.send(message: "robust message 3") }
+    let robustMessageFour = DispatchWorkItem { robustMessaging.send(message: "robust message 4") }
+    let robustMessageFive = DispatchWorkItem { robustMessaging.send(message: "robust message 5") }
+    let robustMessageSix = DispatchWorkItem { robustMessaging.send(message: "robust message 6") }
+    let robustMessageSeven = DispatchWorkItem { robustMessaging.send(message: "robust message 7") }
+    let robustMessageEight = DispatchWorkItem { robustMessaging.send(message: "robust message 8") }
+    let robustMessageNine = DispatchWorkItem { robustMessaging.send(message: "robust message 9") }
+    let robustMessageTen = DispatchWorkItem { robustMessaging.send(message: "robust message 10") }
+    messageEnvironmentQueue.async {
+        print("Starting sending messages")
+        messageDispatcherQueue.sync {
+            messageDispatchQueue.async(execute: robustMessageOne)
+            messageDispatchQueue.async(execute: robustMessageTwo)
+            messageDispatchQueue.async(execute: robustMessageThree)
+            messageDispatchQueue.async(execute: robustMessageFour)
+            messageDispatchQueue.async(execute: robustMessageFive)
+            messageDispatchQueue.async(execute: robustMessageSix)
+            messageDispatchQueue.async(execute: robustMessageSeven)
+            messageDispatchQueue.async(execute: robustMessageEight)
+            messageDispatchQueue.async(execute: robustMessageNine)
+            messageDispatchQueue.async(execute: robustMessageTen)
+        }
+        print("Messages sent, let's read the last one")
+        print("\n** \(String(describing: robustMessaging.recentMessage)) **\n")
     }
-    print("Messages sent, let's read the last one")
-    print("\n** \(String(describing: someMessanger.recentMessage)) **\n")
 }
 
 
-/// Example 7 : Initially inactive queue
+
+/// Example 8 : Initially inactive queue
 /// Usually as soon as tasks are submitted to a queue, the queue will schedule execution of those tasks
 /// immediately.
-
-
-let initiallyInactiveQueue = DispatchQueue(label: "some.initiallyInactive.queue", attributes: .initiallyInactive)
-initiallyInactiveQueue.async {
-    print("Executing from initiallyInactive queue")
+func dispatchQueueExample8() {
+    let initiallyInactiveQueue = DispatchQueue(label: "some.initiallyInactive.queue", attributes: .initiallyInactive)
+    initiallyInactiveQueue.async {
+        print("Executing from initiallyInactive queue")
+    }
+    print("Tasks submitted to initiallyInactive queue")
+    print("About to activate initiallyInactiveQueue")
+    initiallyInactiveQueue.activate()
 }
-print("Tasks submitted to initiallyInactive queue")
-print("About to activate initiallyInactiveQueue")
-initiallyInactiveQueue.activate()
+
+
+/// `Examples`
+//dispatchQueueExample1()
+//dispatchQueueExample2()
+//dispatchQueueExample3()
+//dispatchQueueExample4()
+//dispatchQueueExample5()
+//dispatchQueueExample6()
+//dispatchQueueExample7()
+//dispatchQueueExample8()
