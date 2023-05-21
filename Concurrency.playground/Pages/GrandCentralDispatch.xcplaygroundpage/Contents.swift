@@ -371,19 +371,3 @@ func dispatchQueueExample12() {
 //dispatchQueueExample10()
 //dispatchQueueExample11()
 //dispatchQueueExample12()
-
-/// `QnA`
-/// `How can one avoid excessive thread creation?`
-///
-/// While developing code for some concurrent operations, if some task scheduled blocks a thread, then system
-/// will create additional thread for the concurrent queue to address other tasks on the queue.
-/// If many tasks dispatched to concurrent queue blocks then it can lead to many thread getting created which
-/// can eventually lead to system running out of threads.
-/// This can also happen if an application is creating too many private concurrent queues.
-///
-/// So ideally to avoid exessive thread creation one can follow two approaches :
-///
-/// 1. Instead of creating private concurrent queues, one should use any one of global concurrent queues provided
-/// by GCD.
-/// 2. For serial queue as well that target of the queue can be set to one of the global concurrent queue, this still
-/// maintains the serialised behaviour but prevents creating separate queues further creating more threads.
