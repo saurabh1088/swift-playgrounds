@@ -293,6 +293,70 @@ func dispatchQueueExample8() {
     initiallyInactiveQueue.activate()
 }
 
+/// Example 9 : autoreleaseFrequency
+// TODO: Need to figure out exact relevance of autoreleaseFrequency and update example acordingly.
+class TestClassForAutoRelease {
+    init() { print("TestClassForAutoRelease initialised") }
+    func doSomeWork() { print("This is TestClassForAutoRelease instance") }
+    deinit { print("TestClassForAutoRelease de-initialised") }
+}
+func dispatchQueueExample9() {
+    let autoreleaseDispatchQueue = DispatchQueue(label: "some.autorelease.queue", autoreleaseFrequency: .workItem)
+    print("Dispatch will begin")
+    autoreleaseDispatchQueue.async {
+        autoreleasepool {
+            let objectForAutoreleaseClass = TestClassForAutoRelease()
+            objectForAutoreleaseClass.doSomeWork()
+        }
+        print("Sleeping for some time")
+        sleep(20)
+        print("Awake now")
+    }
+}
+
+/// Example 10 :
+/// DispatchQueue also provides a way to return some value from task scheduled synchronously over a queue.
+func dispatchQueueExample10() {
+    let someSerialQueue = DispatchQueue(label: "some.serial.queue")
+    let result = someSerialQueue.sync {
+        return 2 * 2
+    }
+    print("Result from queue :: \(result)")
+}
+
+/// Example 11 :
+/// Here the `DispatchWorkItem` get executed on current thread when `perform()` is called on it.
+func dispatchQueueExample11() {
+    let dispatchWorkItem = DispatchWorkItem {
+        print("This is dispatch work item")
+    }
+    dispatchWorkItem.perform()
+}
+
+/// Example 12 :
+/// `DispatchGroup`
+/// `DispatchGroup` helps to monitor a group of tasks as single unit.
+func dispatchQueueExample12() {
+    let dispatchGroup = DispatchGroup()
+    let dispatchQueueConcurrent = DispatchQueue.global(qos: .default)
+    let workItemOne = DispatchWorkItem {
+        for index in 1...5 {
+            print("\(index). Performing workItemOne 🍷")
+        }
+    }
+    let workItemTwo = DispatchWorkItem {
+        for index in 1...5 {
+            print("\(index). Performing workItemTwo 🍸")
+        }
+    }
+    
+    dispatchQueueConcurrent.async(group: dispatchGroup, execute: workItemOne)
+    dispatchQueueConcurrent.async(group: dispatchGroup, execute: workItemTwo)
+    
+    dispatchGroup.notify(queue: DispatchQueue.main, work: DispatchWorkItem(block: {
+        print("Performed all tasks dispatched to dispatchQueueConcurrent")
+    }))
+}
 
 /// `Examples`
 //dispatchQueueExample1()
@@ -303,3 +367,23 @@ func dispatchQueueExample8() {
 //dispatchQueueExample6()
 //dispatchQueueExample7()
 //dispatchQueueExample8()
+//dispatchQueueExample9()
+//dispatchQueueExample10()
+//dispatchQueueExample11()
+//dispatchQueueExample12()
+
+/// `QnA`
+/// `How can one avoid excessive thread creation?`
+///
+/// While developing code for some concurrent operations, if some task scheduled blocks a thread, then system
+/// will create additional thread for the concurrent queue to address other tasks on the queue.
+/// If many tasks dispatched to concurrent queue blocks then it can lead to many thread getting created which
+/// can eventually lead to system running out of threads.
+/// This can also happen if an application is creating too many private concurrent queues.
+///
+/// So ideally to avoid exessive thread creation one can follow two approaches :
+///
+/// 1. Instead of creating private concurrent queues, one should use any one of global concurrent queues provided
+/// by GCD.
+/// 2. For serial queue as well that target of the queue can be set to one of the global concurrent queue, this still
+/// maintains the serialised behaviour but prevents creating separate queues further creating more threads.
