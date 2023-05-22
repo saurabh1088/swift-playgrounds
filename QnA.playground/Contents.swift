@@ -552,3 +552,42 @@ let packOfLegalAnyObjects: [AnyObject] = [TestAnyObject(), TestAnyObject()]
 /// by GCD.
 /// 2. For serial queue as well that target of the queue can be set to one of the global concurrent queue, this still
 /// maintains the serialised behaviour but prevents creating separate queues further creating more threads.
+
+/// `Question 25`
+/// `What is App App thinning, Bitcode, Slicing?`
+///
+/// `App Thinning`
+/// There are various iOS devices available with varying degree of screen sizes, resolution and architecture.
+/// An app usually need to add multiple assets catering to different device types. This means when users
+/// downloads an app on their device, then chances are the app might be containing resources which might
+/// never be used. Also let's say for a gaming app some resources might be only required once user crosses
+/// a certain level in the game. It would be nice if user gets only what they need when they install the app.
+/// App thinning is enabled by default for all apps that are submitted to the App Store.
+/// `App Thinning` is the process of delivering a tailored binary to the devices.
+/// There are three main aspects of App thinning
+/// 1. App Slicing
+/// 2. Bitcode
+/// 3. On demand resources
+///
+/// `App Slicing`
+/// As per Apple :
+/// `Slicing is the process of creating and delivering variants of the app bundle for different target devices`
+/// `App Slicing` helps delivering only relevant assets to each device downloading App. App slicing is done
+/// by App store when an app is submitted to it. So this means that the app uploaded to App store continues to
+/// be the full version with all assets required for all possible devices. The app store will slice the app based on
+/// devices app supports.
+///
+/// `Bitcode`
+/// With bitcode enabled(this can be enabled from Xcode for a target/project), when an application is archived, then, the
+/// compiler will produce binaries containing bitcode rather than machine code. App store will compile bitcode
+/// down to machine code. With bitcode App store gets flexibility to compile bitcode again in future if say some
+/// advancements in compiler itself are made, this without asking for any actions from app developer part.
+/// `Bitcode` is a pre-requisite of `Slicing`
+/// NOTE: When bitcode is enabled, the dSYMs generated are for bitcode binary, so those can't be used to
+/// de-symbolicate the crash reports for the crashes observed by the app in production (i.e. on customers devices).
+/// So dSYMs have to be downloaded from app store and saved for using further.
+///
+/// `On demand resources`
+/// These resources are hosted on Apple servers and can be made available for the App as per request. These
+/// are the files which can be downloaded after app's first installation.
+///
