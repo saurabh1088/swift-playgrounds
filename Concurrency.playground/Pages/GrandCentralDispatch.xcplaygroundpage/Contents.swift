@@ -358,6 +358,40 @@ func dispatchQueueExample12() {
     }))
 }
 
+/// Example 13 :
+/// This example uses `DispatchGroup` to schedule few tasks as a group and also lets define a condition
+/// for one task to only executed once others are finished. Tasks workItemA, workItemB and workItemC are
+/// dispatched to a global concurrent queue so these will get executed concurrently, but workItemB here will
+/// only get executed once workItemA and workItemC are both finished.
+func dispatchQueueExample13() {
+    let dispatchGroup = DispatchGroup()
+    let someConcurrentDispatchQueue = DispatchQueue.global(qos: .default)
+    let workItemA = DispatchWorkItem {
+        for index in 1...5 {
+            print("\(index). Executing workItemA 🫥")
+        }
+    }
+    let workItemB = DispatchWorkItem {
+        for index in 1...5 {
+            print("\(index). Executing workItemB 🤡")
+        }
+    }
+    let workItemC = DispatchWorkItem {
+        for index in 1...5 {
+            print("\(index). Executing workItemC 👾")
+        }
+    }
+    
+    someConcurrentDispatchQueue.async(group: dispatchGroup, execute: workItemA)
+    someConcurrentDispatchQueue.async(group: dispatchGroup, execute: workItemC)
+    dispatchGroup.wait()
+    someConcurrentDispatchQueue.async(group: dispatchGroup, execute: workItemB)
+    
+    dispatchGroup.notify(queue: DispatchQueue.main, work: DispatchWorkItem(block: {
+        print("Performed all tasks dispatched to someConcurrentDispatchQueue")
+    }))
+}
+
 /// `Examples`
 //dispatchQueueExample1()
 //dispatchQueueExample2()
@@ -371,3 +405,4 @@ func dispatchQueueExample12() {
 //dispatchQueueExample10()
 //dispatchQueueExample11()
 //dispatchQueueExample12()
+//dispatchQueueExample13()
