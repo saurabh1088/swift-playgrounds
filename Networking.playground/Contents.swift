@@ -220,6 +220,19 @@ class NetworkingUsingCombine {
     }
 }
 
+/// Example 4 : Using async/await
+
+class NetworkingUsingAsyncAwait {
+    let session = URLSession.shared
+    
+    // If makeAPICall is not marked with async then compiler will cry with error :
+    // 'async' call in a function that does not support concurrency
+    func makeAPICall(with request: URLRequest) async throws {
+        let (data, response) = try await session.data(for: request)
+        print("Received response :: \(response)")
+        print(String(data: data, encoding: .utf8) as AnyObject)
+    }
+}
 
 // Setup
 //let apiURL = URL(string: "https://chat.openai.com/chat")!
@@ -236,5 +249,12 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 //service.makeAPICall(with: request)
 
 // 3.
-let serviceUsingCombine = NetworkingUsingCombine()
-serviceUsingCombine.makeAPICall(with: request)
+//let serviceUsingCombine = NetworkingUsingCombine()
+//serviceUsingCombine.makeAPICall(with: request)
+
+// 4.
+let serviceUsingAsyncAwait = NetworkingUsingAsyncAwait()
+Task {
+    try await serviceUsingAsyncAwait.makeAPICall(with: request)
+}
+
