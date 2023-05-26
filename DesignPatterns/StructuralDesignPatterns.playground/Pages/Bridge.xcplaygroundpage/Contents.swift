@@ -38,3 +38,19 @@ class RedCircle: Circle {
 /// corresponds to each color.
 /// This problem could be solved using bridge pattern.
 
+protocol ColoredShape {
+    var shape: Shape { get set }
+    func draw()
+}
+
+class RedColoredShape: ColoredShape {
+    var shape: Shape
+    init(shape: Shape) {
+        self.shape = shape
+    }
+    func draw() {
+        print(shape.draw())
+    }
+}
+
+let redCircle = RedColoredShape(shape: Circle())
