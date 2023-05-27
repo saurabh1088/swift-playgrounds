@@ -591,3 +591,30 @@ let packOfLegalAnyObjects: [AnyObject] = [TestAnyObject(), TestAnyObject()]
 /// These resources are hosted on Apple servers and can be made available for the App as per request. These
 /// are the files which can be downloaded after app's first installation.
 ///
+
+
+/// `Question 26`
+/// `How would one design a scalable and reusable architecture for an iOS app?`
+///
+/// One can consider various apspects in order to design a scalable and reusable architecture for an iOS App.
+///
+/// 1. `Architectures` : One should choose an architectural pattern to follow and decide based on what suits
+/// the application the most. MVC could be a good starting point for simple applications. Alternatives which can
+/// be considered are MVVM, Clean architecture or VIPER.
+///
+/// 2. One must follow principle of `Separation of Concerns` while developing the application modules
+/// types and components. This help to isolate responsibilities. isolating responsibilities helps to reduce bulk
+/// handling by a single type therby reducing stron coupling and less chances of intrducing bugs. Also bug found
+/// in one isolated component could mean the fix could be easily found and fixed without affecting whole lot of
+/// other codebase.
+///
+/// 3. Ensure using `Dependency Injection` this again will prevent loose coupling and also contribute
+/// towards making the code more flexible and testable via unit testing.
+///
+/// 4. Leverage modern programming paradigms like reactive programming using frameworks like `Combine`
+/// For an iOS app using `Combine` framework to handle event driven behaviour can greatly simplify the code
+/// and make code lot cleaner.
+///
+/// 5. Target `Unit Testing` for the app and aim for a good code coverage. Unit testing and aim to achieve
+/// a good code coverage forces to write the code itself in a testable manner reducing some issues like tight
+/// coupling and single responsibility principle violations.
