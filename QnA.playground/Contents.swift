@@ -618,3 +618,29 @@ let packOfLegalAnyObjects: [AnyObject] = [TestAnyObject(), TestAnyObject()]
 /// 5. Target `Unit Testing` for the app and aim for a good code coverage. Unit testing and aim to achieve
 /// a good code coverage forces to write the code itself in a testable manner reducing some issues like tight
 /// coupling and single responsibility principle violations.
+
+
+/// `Question 27`
+/// `What is the role of protocols in iOS development? How do they promote code reusability and maintainability?`
+///
+/// `Code Reusability`
+/// One can declare protocol which multiple type can conform to. One can also club multiple protocols and create
+/// a protocol composition. One can add some implementation via protocol extensions thereby all conforming type
+/// getting that implementation automatically.
+/// These feature enable multiple objects even though unrelated, can obtain a common functionality by conforming
+/// to a protocol.
+///
+/// `Interoperability`
+/// One get Interoperability by protocol as unrelated objects can communicate to each other via protocol.
+///
+/// `Loose Coupling`
+/// When objects communicate via protocols, then there is loose coupling between objects instead on the case
+/// when the objects directly refer to each other anc communicate.
+///
+/// `Dependency Injection`
+/// Procols are used to procide dependencies to objects, instead of direclty instantiating the object itself. This also
+/// leaves option to provide mock data by adhering to the protocol and creating a mock object. Thus way it also
+/// helps achieving unit testing.
+///
+/// `Multiple Inheritance`
+/// A type can conform to multiple protocols thus getting behaviours from multiple sources.
