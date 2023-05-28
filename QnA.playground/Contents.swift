@@ -644,3 +644,52 @@ let packOfLegalAnyObjects: [AnyObject] = [TestAnyObject(), TestAnyObject()]
 ///
 /// `Multiple Inheritance`
 /// A type can conform to multiple protocols thus getting behaviours from multiple sources.
+
+
+/// `Question 28`
+/// `How would you ensure efficient networking and data loading in an iOS app? What techniques or frameworks would you use?`
+///
+/// `Asynchronous`
+/// Network requests should be made asynchronously so as to avoid blocking main thread, which is where all
+/// UI related events and tasks takes place, Any network request if happens on main thread will block the main
+/// thread and make UI unresponsive leading to extremely bad user experience.
+///
+/// `Caching`
+/// Design networking with appropriate caching in mind as it will allow to possibly cache some request responses
+/// which could not be changing too frequently so avoid making unecessary network traffic. This improves performance
+/// of the app.
+/// If one has to load many images then it's always best to use image caching so as to provide a smooth UI
+/// experience.
+///
+/// `Pagination`
+/// While designing UI for a very large data set, techniques like pagination can be employed so as to display
+/// as well as load small data sets at a time. This reduces the payload of network request and makes a smooth
+/// user experience.
+///
+/// `Background Fetch & Push Notifications`
+/// Background Fetch and Push Notifications can be employed to efficiently give updaetes ensuring the app
+/// has latest information available without blindly making too many network calls while app is being used. This
+/// helps users perceiving less loading time altogether.
+///
+/// `Optimized Data Formats`
+/// Use some Optimized data formats for transfer payloads and design APIs in away to only receive what's needed
+/// and not let the payload with a lot of clutter which isn't going to be used at all.
+///
+/// `Request Prioritization and Throttling`
+/// Implement mechanisms to prioritize network requests based on their importance or urgency. Throttling
+/// techniques, such as debouncing or rate limiting, can prevent excessive or unnecessary network requests,
+/// improving performance and conserving resources.
+///
+/// `Reachability`
+/// Frameworks like `Reachability` could be used to monitor network reachability and thereby handling to
+/// take appropriate actions and provide feedback to user.
+///
+/// `Performance Monitoring and Analytics`
+/// Incorporate performance monitoring and analytics tools, such as Firebase Performance Monitoring or New
+/// Relic, to track and analyze network-related metrics. This helps identify bottlenecks, optimize performance,
+/// and make informed decisions for further improvements.
+///
+/// `Background Transfer Service`
+/// Use the Background Transfer Service provided by iOS to handle large file downloads or uploads in the
+/// background, even when the app is not actively running. This allows the app to continue transferring data
+/// efficiently, even if the user switches to a different app or the device enters a low-power state.
