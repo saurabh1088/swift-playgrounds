@@ -693,3 +693,55 @@ let packOfLegalAnyObjects: [AnyObject] = [TestAnyObject(), TestAnyObject()]
 /// Use the Background Transfer Service provided by iOS to handle large file downloads or uploads in the
 /// background, even when the app is not actively running. This allows the app to continue transferring data
 /// efficiently, even if the user switches to a different app or the device enters a low-power state.
+
+
+/// `Question 29`
+/// `What is App Analytics (from App Store Connect)?`
+///
+/// `App Analytics` provides with insightful data about downloads, re-downloads, proceeds and more. It provides
+/// helpful data while respecting user's privacy. It provides several metrics for example :
+///
+/// `Impression`
+/// Any time a user sees the app icon is counted as an impression. App Analytics provides impressions over
+/// time period, this data can be viewed over time.
+///
+/// `Project page view`
+/// Any time a user sees app's project page is counted as project page view. Project page also contains the app
+/// icon, so a project page view also increases impression by one.
+///
+/// There are also variations of these metrics namely `Unique impressions` and `Unique product page view`
+/// For example, if someone searches for an app and sees the app in search results, then this is counted as an
+/// impression as search result if returns the app will show app icon. Now when from search results when user
+/// taps search result of an app then user is taken to that app's home page view. In this case there are two
+/// impressions and one product page view AND just one unique impression as both impressions are from same
+/// user.
+///
+/// `Conversion rate`
+/// Conversion rate is the percentage of people who downloads the app after seeing it on app store. This is calculated
+/// by taking total downloads and total unique impressions.
+///
+/// `Total downloads`
+/// Total downloads include both first-time downloads(GET or BUY button) and re-downloads(Cloud icon with
+/// arrow, autodownloads are not included when re-downloads are counted)
+///
+/// These metrics help to understand how effectively one is acquiring the users.
+///
+/// App analytics also helps to discover how users are discovering apps by territory, source type and page type.
+/// One can for example view metrics by territory, like one can see conversion rate as per territory and get to
+/// understand which territory has low conversion rate and then work on it.
+///
+/// Source type
+/// 1. App store browse
+/// 2. App store search (someone finds and downloads)
+/// 3. App referrer (someone discover app inside another app on app store, could be in-app advertisement)
+/// 4. Web referrer (through weblink via web advertisement, if app is discovered through browser other than
+/// safari then it will show up as an app refer for that browser, instead of web refer)
+///
+/// Page type
+/// 1. Product page (the app store product page)
+/// 2. Store sheet (looks similar to product page, but exists outside the app store, pops from bottom of screen,
+/// this is SKStoreProductViewController)
+/// 3. No page (when  user downloads app without visiting product page, by directly tapping link on app store page)
+///
+/// Peer group benchmark
+/// This puts performance of app into context by comparing the performance to that of similar apps.
