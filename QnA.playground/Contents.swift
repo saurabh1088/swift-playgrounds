@@ -327,6 +327,16 @@ avoidCreatingRetainCycle()
 /// 2. `GCD` is FIFO but `OperationQueue` isn't.
 ///
 /// 3. `GCD` being low level can be more efficient and performant.
+///
+/// 4. `GCD` provides a simple and very easy to use APIs than `OperationQueue`, for basic concurrency
+/// needs `GCD` is a great choice.
+///
+/// 5. `OperationQueue` can be used when one needs to have a finer control over tasks executions. So
+/// if tasks which needs to be executed using concurrency are having complex dependencies then `OperationQueue`
+/// should be used.
+///
+/// 6. `OperationQueue` should also be used if the tasks need to be cancelled or suspended during the course
+/// of execution.
 
 
 /// `Question 13`
