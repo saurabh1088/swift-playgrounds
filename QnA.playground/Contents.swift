@@ -755,3 +755,41 @@ let packOfLegalAnyObjects: [AnyObject] = [TestAnyObject(), TestAnyObject()]
 ///
 /// Peer group benchmark
 /// This puts performance of app into context by comparing the performance to that of similar apps.
+
+
+/// `Question 30`
+/// `How would you design an iOS app that needs to be able to handle a large number of users?`
+///
+/// There are many aspects to look into when designing an iOS app to handle large number of users.
+///
+/// 1. Backend Architecture.
+/// iOS App will be one to one or to say the device having App is used by one user at a time, so multiple users
+/// are actually going to have impact on the backend services which are going to take the load. So basically the
+/// backend should be scalable.
+///     - Backend itself should be scalable to address increase in load
+///     - Load balancer should be used to help manage incoming traffic
+///     - Caching layer could be implemented at backend to provide faster turnaround time for frequently accessed data
+///     - Serverless architecture could be leveraged to run services without having to manage the underlying infrastructure.
+///
+/// 2. Database Management
+/// Database should be scalable as per the load expected, and NoSQL databases should be opted if large amount
+/// of data which can grow is expected. Database indexing, sharding or partitioning should be implemented to
+/// optimise queries and distribute load across multiple servers.
+///
+/// 3. Asynchronous Operations
+/// Asynchronous techniques must be used to prevent app freezing UI giving an extremely bad user experience.
+/// Using asynchronous operations smartly gives user impression of fast and responsive app and helps reducing
+/// perceived stress on backend services.
+///
+/// 4. Caching
+/// One can plan to cache data which doesn't change frequently on the fron end itself so as to reduce traffic on
+/// backend thereby reducing the stress on it.
+///
+/// 5. Content Delivery Network
+/// CDNs can help providing content like assets, images, videos etc. These CDN can provide from geographically
+/// distributed servers to minimize latency and improve download speeds.
+///
+/// 6. Analytics
+/// Implement analytics to capture data. This captured data can help paint a picture of how users are using the
+/// app and can help understand the areas that might need improvements.
+///
