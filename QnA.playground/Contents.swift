@@ -793,3 +793,28 @@ let packOfLegalAnyObjects: [AnyObject] = [TestAnyObject(), TestAnyObject()]
 /// Implement analytics to capture data. This captured data can help paint a picture of how users are using the
 /// app and can help understand the areas that might need improvements.
 ///
+
+/// `Question 31`
+/// `How to reverse loop through an array and print all values?`
+///
+/// Straight and obvious answer would be to use .reversed()
+
+let someArray = Array(1...100)
+for number in someArray.reversed() {
+    print("Using reversed() :: \(number)")
+}
+
+for (index, number) in someArray.enumerated() {
+    let num = someArray[someArray.count - index - 1]
+    print("Using index :: \(num)")
+}
+
+for number in stride(from: 100, through: 1, by: -1) {
+    print("Using stride from through :: \(number)")
+}
+
+for number in stride(from: 100, to: 2, by: -2) {
+    print("Using stride from to :: \(number)")
+}
+
+
