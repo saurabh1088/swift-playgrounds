@@ -826,4 +826,21 @@ for number in stride(from: 100, to: 2, by: -2) {
     print("Using stride from to :: \(number)")
 }
 
+// Custom function to reverse array
+func flip(_ array: inout [Int]) {
+    var begin = 0
+    var end = array.count - 1
+    
+    while begin < end {
+        let temp = array[begin]
+        array[begin] = array[end]
+        array[end] = temp
+        begin += 1
+        end -= 1
+    }
+}
+
+var someNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+flip(&someNumbers)
+
 
