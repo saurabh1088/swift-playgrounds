@@ -798,6 +798,15 @@ let packOfLegalAnyObjects: [AnyObject] = [TestAnyObject(), TestAnyObject()]
 /// `How to reverse loop through an array and print all values?`
 ///
 /// Straight and obvious answer would be to use .reversed()
+/// .reversed() works, but it will do some computation to reverse the array which needs to be traversed in reverse
+/// order.
+/// Same thing can be achieved via using index and then figuring out reverse number from array.
+///
+/// There is one more option however, which is using stride. Benefits of using stride are
+/// 1. One can move forward or backward very easily
+/// 2. Clean and simple code
+/// 3. Not integer values are also possible
+/// 4. Very easy to iterate with a particular jump.
 
 let someArray = Array(1...100)
 for number in someArray.reversed() {
