@@ -18,11 +18,14 @@ import UIKit
 /// Swift uses Double by default when it sees a decimal number without any explicit type defined for it.
 /// Swift defaults to Double as Double is more accurate data type in comparison to Float.
 
-let someNumber = 3.14
-print("Default type of someNumber is :: \(type(of: someNumber))")
+func codeExampleQuestion1() {
+    let someNumber = 3.14
+    print("Default type of someNumber is :: \(type(of: someNumber))")
 
-let explicitFloat: Float = 3.14
-print("Type of explicitFloat is :: \(type(of: explicitFloat))")
+    let explicitFloat: Float = 3.14
+    print("Type of explicitFloat is :: \(type(of: explicitFloat))")
+}
+
 
 /// `Question 3`
 /// `What causes a deadlock? Code example showing a deadlock scenario?`
@@ -66,10 +69,13 @@ let serialQueue = DispatchQueue(label: "my.serial.queue")
 ///
 /// Yes this can be checked using API `Thread.isMainThread` as shown in example below.
 
-print("Is this running on main thread :: \(Thread.isMainThread)")
-DispatchQueue.global(qos: .background).async {
-    print("Is global dispatchqueue with background qos running on main thread :: \(Thread.isMainThread)")
+func codeExampleQuestion2() {
+    print("Is this running on main thread :: \(Thread.isMainThread)")
+    DispatchQueue.global(qos: .background).async {
+        print("Is global dispatchqueue with background qos running on main thread :: \(Thread.isMainThread)")
+    }
 }
+
 
 /// `Question 5`
 /// `How to execute some code on main thread?`

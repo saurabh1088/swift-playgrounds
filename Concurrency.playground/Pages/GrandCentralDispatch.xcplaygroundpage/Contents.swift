@@ -128,7 +128,6 @@ func dispatchQueueExample4() {
     serialDispatchQueue.async(execute: serialDispatchQueueTaskTwo)
 }
 
-//: [Next](@next)
 
 /// Example 5 : Async vs Sync
 /// In example below we have a queue `concurrentQueueExample5` onto which a task is submitted. Now
@@ -406,3 +405,5 @@ func dispatchQueueExample13() {
 //dispatchQueueExample11()
 //dispatchQueueExample12()
 //dispatchQueueExample13()
+
+//: [Next](@next)
