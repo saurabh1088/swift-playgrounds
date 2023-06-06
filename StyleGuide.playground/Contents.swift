@@ -2,6 +2,8 @@
 // Copyright © 2023 Saurabh Verma, (saurabh1088@gmail.com). All rights reserved.
 
 /**
+ https://github.com/linkedin/swift-style-guide
+ https://google.github.io/swift/#source-file-structure
  1. Swift file containing a single extension to a type Type, adding conformance to a protocol Protocol is named
  Type+Protocol.swift.
  
@@ -24,6 +26,15 @@
  - When last line isn't newline, then whenever any newline is added to the file it affects two lines instead of one.
  This causes confusion in versioning systems diff.
  - There can be utilities which work on text files which can cause unwanted behaviour if newline is not present.
+ 
+ 6. While declaring a type for a property, constant, variable or a function argument, there shouldn't be a space
+ added before the colon.
+ ```let someConstant: String```
+ 
+ 7. Extensions can be used to organize functionality of a type across multiple units. For example let's say to keep
+ viewcontroller code more organised, one can add datasource and delegate implementation methods in extension
+ to viewcontroller.
+ 
  
  */
 import UIKit
