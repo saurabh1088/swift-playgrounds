@@ -21,7 +21,40 @@
  Capturing of constants or variables by closure, from the context in which closure is defined is known as
  `closing over` those constants and variables.
  
+ - Global functions are actually a special case of closures which have name but they don't capture values.
+ - Nested functiona are also closures which have name, but unlike to gloabl functions these do capture values from
+ context these are defined.
+ 
+Syntax
+ 
+ ```
+ let aClosure = { (parameters) -> returntype in
+     statements
+ }
+ ```
  */
 import Foundation
+
+/// Example 1 : Some closures to start with
+let aClosure = {
+    print("This is a closure")
+}
+aClosure()
+
+let closureTakingArguments: (String, String) -> String
+closureTakingArguments = { (firstName: String, lastName: String) -> String in
+    return "\(firstName) \(lastName)"
+}
+print(closureTakingArguments("Saurabh", "Verma"))
+
+
+/// Example 2 : Trailing Closures
+func methodWillPerform(count: Int, task: () -> Void) {
+    print(count)
+    task()
+}
+methodWillPerform(count: 1) {
+    print("methodWillPerform")
+}
 
 //: [Next](@next)
