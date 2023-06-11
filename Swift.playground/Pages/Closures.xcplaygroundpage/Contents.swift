@@ -57,4 +57,140 @@ methodWillPerform(count: 1) {
     print("methodWillPerform")
 }
 
+/// `Capturing Values`
+/// Closures can capture constants and variables from surrounding context in which they are defined. Once
+/// captures, closures can refer to and modify these constants and variables from within closure body even though
+/// the original scope defining those no longer exists.
+
+/// Example 3 : Capturing values
+/// In below example we have defined a method :
+/// ```func collect(_ object: String) -> () -> [String]```
+/// This method returns a closure which captures a collection(array of String in this example).
+/// Now when this method is called and it returns a closure, the returned closure is capturing the collection so
+/// subsequent calling the returned closure appends items to captured collection, so we get items added to the
+/// collection.
+/// Also calling method again creates another closure which has it's own reference to a new and separate collection.
+/// So in example below we have create two collections using returned closures one collecting cookies and another
+/// collecting marbles.
+
+func collect(_ object: String) -> () -> [String] {
+    var objects = [String]()
+    var collection = {
+        objects.append(object)
+        return objects
+    }
+    return collection
+}
+
+let collectCookies = collect("Cookies")
+print(collectCookies())
+print(collectCookies())
+
+let collectMarbles = collect("Marbles")
+collectMarbles()
+collectMarbles()
+collectMarbles()
+print(collectMarbles())
+
+/// `Closures Are Reference Types`
+/// Example 4 : Closures Are Reference Types
+/// collectSomething in example below is also having reference to save closure returned when `collect(`
+/// method was called. So as closures are reference types both collectStickers and collectSomething are actually
+/// refering to same closure and thus will append to same collection captured underneath.
+
+let collectStickers = collect("Sticker")
+collectStickers()
+collectStickers()
+let collectSomething = collectStickers
+collectSomething()
+
+/// `Escaping vs Non-escaping closures`
+///
+/// `Escaping Closures`
+/// A closure when passed to a function, is said to escape, if it gets executed after the function returns.
+
+/// Example 5 : Escaping closure
+/// Function functionTakingEscapingClosure takes an escaping closure and it needs to mark with keyword @escaping
+/// else the compiler with cry with below error :
+/// `Escaping closure captures non-escaping parameter 'completion'`
+func functionTakingEscapingClosure(completion: @escaping () -> ()) {
+    print("functionTakingEscapingClosure :: started executing function")
+    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+        completion()
+    }
+    print("functionTakingEscapingClosure :: finished executing function")
+}
+
+functionTakingEscapingClosure {
+    print("functionTakingEscapingClosure :: executing passed closure")
+}
+
+
+/// `Autoclosures`
+/// `Autoclosure` is a Swift language feature allowing to automatically convert an expression passed to
+/// a function into closure.
+/// Autoclosures helps to delay evaluation of expression unless it is actually required. This is a syntactic convenience
+/// and it lets to omit the braces which otherwise would have been needed if instead od autoclosure an explicit
+/// closure was passed to function.
+
+struct Employee: CustomStringConvertible {
+    var firstName: String
+    var lastName: String
+    var description: String {
+        print("Employee :: Describing employee...")
+        return "\(firstName) \(lastName)"
+    }
+}
+
+struct EmployeeCatalog {
+    var isDebugMode: Bool = false
+    func validateEmployee(_ employeeDesc: String) {
+        // Some validation logic for employee
+        if isDebugMode {
+            print("DEBUG :: EmployeeCatalog :: Validating employee")
+            employeeDesc
+        }
+    }
+}
+
+let employee = Employee(firstName: "Saurabh", lastName: "Verma")
+var employeeCatalog = EmployeeCatalog()
+//employeeCatalog.validateEmployee(employee.description)
+
+/// In above case even if isDebugMode is false for EmployeeCatalog, when employee.description is passed to
+/// function validateEmployee, then description for employee gets evaluated and we see `Employee :: Describing employee...`
+/// getting printed. This even though this won't be needed as in the funtion validateEmployee description won't
+/// get used.
+/// This problem could be solved via passing a closure instead of string in following manner.
+
+extension EmployeeCatalog {
+    func validateEmployee(with debugDescription: () -> String) {
+        // Some validation logic for employee
+        if isDebugMode {
+            print("DEBUG :: EmployeeCatalog :: using closure :: Validating employee")
+            debugDescription()
+        }
+    }
+}
+
+//employeeCatalog.validateEmployee(with: { employee.description })
+
+/// Above way works well and now when employee.description is passed wrapped in a closure then the closure
+/// is evaluated only if it's required, hence if isDebugMode is false for EmployeeCatalog then evaluating this closure
+/// is never required and hence unecessary calculating description of employee is saved.
+/// However this makes syntax cumbersome to look at. So here comes solution using autoclosure.
+
+extension EmployeeCatalog {
+    func validateEmployee(usingAutoclosure closure: @autoclosure () -> String) {
+        // Some validation logic for employee
+        if isDebugMode {
+            print("DEBUG :: EmployeeCatalog :: using autoclosure :: Validating employee")
+            closure()
+        }
+    }
+}
+
+employeeCatalog.validateEmployee(usingAutoclosure: employee.description)
+
 //: [Next](@next)
+
