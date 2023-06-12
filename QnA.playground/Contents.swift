@@ -3,7 +3,8 @@
 
 import UIKit
 
-/// `Question 1`
+// MARK: Question 1
+// MARK: -----------------------------------------------------------------------
 /// `What is the difference between the Float, Double, and CGFloat data types in Swift?`
 ///
 /// CGFloat depends upon the CPU architecture. Which means if build is for 64 bit CPU then CGFloat is equivalent
@@ -850,3 +851,26 @@ var someNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 flip(&someNumbers)
 
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 32
+/// `What's the difference in weak and unowned and how to decide which one to use?`
+///
+/// Both weak and unowned are used to resolve memory retain cycle between two types holding strong reference
+/// to each other. In such case one makes one of the reference as weak or unowned so as to break the retain
+/// cycle.
+/// Now there is difference, obviously between these and these should be used as per case by case.
+/// As for difference the major difference is
+///
+/// `weak` can be nil so it always declared as optional, whereas `unowned` will always have a value so can't
+/// be nil.
+///
+/// From Apple's documentation itself :
+///
+/// _Define a capture in a closure as an unowned reference when the closure and the instance it captures will
+/// always refer to each other, and will always be deallocated at the same time._
+///
+/// _Conversely, define a capture as a weak reference when the captured reference may become nil at some
+/// point in the future. Weak references are always of an optional type, and automatically become nil when the
+/// instance they reference is deallocated. This enables you to check for their existence within the closure’s
+/// body._
+// TODO: Add example
