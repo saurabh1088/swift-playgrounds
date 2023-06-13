@@ -873,4 +873,14 @@ flip(&someNumbers)
 /// point in the future. Weak references are always of an optional type, and automatically become nil when the
 /// instance they reference is deallocated. This enables you to check for their existence within the closure’s
 /// body._
-// TODO: Add example
+///
+/// `Memory Leak`
+/// Below example shows memory leakage.
+
+class ClassA {
+    
+}
+
+class ClassB {
+    
+}
