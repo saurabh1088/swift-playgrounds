@@ -878,9 +878,28 @@ flip(&someNumbers)
 /// Below example shows memory leakage.
 
 class ClassA {
-    
+    var beOne: ClassB?
+    deinit {
+        print("De-initializing ClassA")
+    }
 }
 
 class ClassB {
-    
+    var aOne: ClassA
+    init(aOne: ClassA) {
+        self.aOne = aOne
+    }
+    deinit {
+        print("De-initializing ClassB")
+    }
 }
+
+func exampleForMemoryLeakage() {
+    var objectA: ClassA? = ClassA()
+    // TODO: Update to remove force unwrap
+    var objectB: ClassB? = ClassB(aOne: objectA!)
+    objectA = nil
+    objectB = nil
+}
+
+exampleForMemoryLeakage()
