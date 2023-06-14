@@ -13,13 +13,14 @@ import UIKit
 /// CGFloat even has a property `var native: CGFloat.NativeType` which tell its type (Double or Float)
 
 
-/// `Question 2`
+// MARK: Question 2
+// MARK: -----------------------------------------------------------------------
 /// `What is the default data type Swift uses when you define a decimal number?`
 ///
 /// Swift uses Double by default when it sees a decimal number without any explicit type defined for it.
 /// Swift defaults to Double as Double is more accurate data type in comparison to Float.
 
-func codeExampleQuestion1() {
+func codeExampleQuestion2() {
     let someNumber = 3.14
     print("Default type of someNumber is :: \(type(of: someNumber))")
 
@@ -28,7 +29,8 @@ func codeExampleQuestion1() {
 }
 
 
-/// `Question 3`
+// MARK: Question 3
+// MARK: -----------------------------------------------------------------------
 /// `What causes a deadlock? Code example showing a deadlock scenario?`
 ///
 /// A deadlock occurs if for example say there are two tasks which are waiting for each other to finish. Let's say
@@ -65,12 +67,14 @@ let serialQueue = DispatchQueue(label: "my.serial.queue")
 //    }
 //}
 
-/// `Question 4`
+
+// MARK: Question 4
+// MARK: -----------------------------------------------------------------------
 /// `Can we check if code is running on main thread?`
 ///
 /// Yes this can be checked using API `Thread.isMainThread` as shown in example below.
 
-func codeExampleQuestion2() {
+func codeExampleQuestion4() {
     print("Is this running on main thread :: \(Thread.isMainThread)")
     DispatchQueue.global(qos: .background).async {
         print("Is global dispatchqueue with background qos running on main thread :: \(Thread.isMainThread)")
@@ -78,15 +82,18 @@ func codeExampleQuestion2() {
 }
 
 
-/// `Question 5`
+// MARK: Question 5
+// MARK: -----------------------------------------------------------------------
 /// `How to execute some code on main thread?`
 ///
 /// There are following ways to execute something on main thread.
 /// 1. Using `DispatchQueue.main`, this is associated with main thread and any task dispatched to it will
 /// get executed on main thread.
 
-DispatchQueue.main.async {
-    print("Does DispatchQueue.main executes this on main thread :: \(Thread.isMainThread)")
+func codeExampleQuestion5A() {
+    DispatchQueue.main.async {
+        print("Does DispatchQueue.main executes this on main thread :: \(Thread.isMainThread)")
+    }
 }
 
 /// 2. Usine `performSelector(onMainThread:with:waitUntilDone:)`
@@ -101,19 +108,28 @@ class SomeClass: NSObject {
     }
 }
 
-let object = SomeClass()
-object.execute()
+func codeExampleQuestion5B() {
+    let object = SomeClass()
+    object.execute()
+}
 
-/// `Question 6`
+
+// MARK: Question 6
+// MARK: -----------------------------------------------------------------------
 /// `Take an array and give a resulting array with elements multiplied by a factor.`
 
-let array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 func byFactorOf(_ array: [Int], _ factor: Int) -> [Int] {
     return array.map { $0 * factor }
 }
-print(byFactorOf(array, 10))
 
-/// `Question 7`
+func codeExampleQuestion6() {
+    let array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    print(byFactorOf(array, 10))
+}
+
+
+// MARK: Question 7
+// MARK: -----------------------------------------------------------------------
 /// `What kind of keywords can be used with guard to exit the scope once conditions are not met?`
 ///
 /// With `guard` one can use following keywords to exit the scope.
@@ -898,8 +914,78 @@ func exampleForMemoryLeakage() {
     var objectA: ClassA? = ClassA()
     // TODO: Update to remove force unwrap
     var objectB: ClassB? = ClassB(aOne: objectA!)
+    objectA?.beOne = objectB
     objectA = nil
     objectB = nil
 }
 
 exampleForMemoryLeakage()
+
+/// `Using weak to break memory leak`
+class Person {
+    var name: String
+    var apartment: Apartment?
+    
+    init(name: String) {
+        self.name = name
+    }
+    
+    deinit {
+        print("De-initializing Person")
+    }
+}
+
+class Apartment {
+    var name: String
+    weak var tenant: Person?
+    
+    init(name: String) {
+        self.name = name
+    }
+    
+    deinit {
+        print("De-initializing Apartment")
+    }
+}
+
+func exampleResolvingMemoryLeakWithWeak() {
+    var person = Person(name: "Batman")
+    var apartment = Apartment(name: "Batcave")
+    person.apartment = apartment
+    apartment.tenant = person
+}
+
+exampleResolvingMemoryLeakWithWeak()
+
+class User {
+    var name: String
+    var creditCard: CreditCard?
+    
+    init(name: String) {
+        self.name = name
+    }
+    
+    deinit {
+        print("De-initializing User")
+    }
+}
+
+class CreditCard {
+    var type: String
+    unowned var holder: User
+    
+    init(type: String, holder: User) {
+        self.type = type
+        self.holder = holder
+    }
+    
+    deinit {
+        print("De-initializing CreditCard")
+    }
+}
+
+func exampleResolvingMemoryLeakWithUnowned() {
+    var user = User(name: "Superman")
+    var card = CreditCard(type: "Visa", holder: user)
+    user.creditCard = card
+}
