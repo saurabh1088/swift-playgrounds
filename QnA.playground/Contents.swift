@@ -3,8 +3,9 @@
 
 import UIKit
 
-// MARK: Question 1
+
 // MARK: -----------------------------------------------------------------------
+// MARK: Question 1
 /// `What is the difference between the Float, Double, and CGFloat data types in Swift?`
 ///
 /// CGFloat depends upon the CPU architecture. Which means if build is for 64 bit CPU then CGFloat is equivalent
@@ -13,8 +14,8 @@ import UIKit
 /// CGFloat even has a property `var native: CGFloat.NativeType` which tell its type (Double or Float)
 
 
-// MARK: Question 2
 // MARK: -----------------------------------------------------------------------
+// MARK: Question 2
 /// `What is the default data type Swift uses when you define a decimal number?`
 ///
 /// Swift uses Double by default when it sees a decimal number without any explicit type defined for it.
@@ -29,8 +30,8 @@ func codeExampleQuestion2() {
 }
 
 
-// MARK: Question 3
 // MARK: -----------------------------------------------------------------------
+// MARK: Question 3
 /// `What causes a deadlock? Code example showing a deadlock scenario?`
 ///
 /// A deadlock occurs if for example say there are two tasks which are waiting for each other to finish. Let's say
@@ -68,8 +69,8 @@ let serialQueue = DispatchQueue(label: "my.serial.queue")
 //}
 
 
-// MARK: Question 4
 // MARK: -----------------------------------------------------------------------
+// MARK: Question 4
 /// `Can we check if code is running on main thread?`
 ///
 /// Yes this can be checked using API `Thread.isMainThread` as shown in example below.
@@ -82,8 +83,8 @@ func codeExampleQuestion4() {
 }
 
 
-// MARK: Question 5
 // MARK: -----------------------------------------------------------------------
+// MARK: Question 5
 /// `How to execute some code on main thread?`
 ///
 /// There are following ways to execute something on main thread.
@@ -114,8 +115,8 @@ func codeExampleQuestion5B() {
 }
 
 
-// MARK: Question 6
 // MARK: -----------------------------------------------------------------------
+// MARK: Question 6
 /// `Take an array and give a resulting array with elements multiplied by a factor.`
 
 func byFactorOf(_ array: [Int], _ factor: Int) -> [Int] {
@@ -128,8 +129,8 @@ func codeExampleQuestion6() {
 }
 
 
-// MARK: Question 7
 // MARK: -----------------------------------------------------------------------
+// MARK: Question 7
 /// `What kind of keywords can be used with guard to exit the scope once conditions are not met?`
 ///
 /// With `guard` one can use following keywords to exit the scope.
@@ -200,7 +201,9 @@ do {
     print("Company does contain employees with invalid id")
 }
 
-/// `Question 8`
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 8
 /// `What is a throwing function in Swift?`
 ///
 /// A throwing funtion in Swift means a function which will flag something once some error occures while execution.
@@ -244,7 +247,9 @@ do {
     print("Unexpected error")
 }
 
-/// `Question 9`
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 9
 /// `What are disadvantages of MVVM design pattern?`
 ///
 /// Following blogpost from the creator of MVVM design pattern(John Gossman) himself talks about disadvantages.
@@ -270,7 +275,8 @@ do {
 /// If same codebase is required to work with some other UI framework in future then its challenging.
 
 
-/// `Question 10`
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 10
 /// `Write an example showing retain cycle`
 
 class Bike {
@@ -312,7 +318,9 @@ func avoidCreatingRetainCycle() {
 }
 avoidCreatingRetainCycle()
 
-/// `Question 11`
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 11
 /// `I missed calling super methods in the ViewController I implemented, can I expect any issues?`
 ///
 /// Yes, there will be side effects. It's important to call parent class overridden methods for certain methods ONLY.
@@ -337,7 +345,8 @@ avoidCreatingRetainCycle()
 
 
 // TODO: This question calls for more discussion.
-/// `Question 12`
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 12
 /// `How does one decides to use GCD or Operation Queues? What's the difference between these?`
 ///
 /// `GCD` and `OperationQueue` are two ways once can implement concurrency in iOS/macOS development.
@@ -362,7 +371,8 @@ avoidCreatingRetainCycle()
 /// of execution.
 
 
-/// `Question 13`
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 13
 /// `Why camel casing is used for variable and function names?`
 ///
 /// Came case(camelCase) is a convention followed by various programming languages. Reason for using this
@@ -375,7 +385,8 @@ avoidCreatingRetainCycle()
 /// 2. Following a convention helps to achieve consistency in naming across any codebase.
 
 
-/// `Question 14`
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 14
 /// `Can we declare a struct as open, like one can declare an open class?`
 ///
 /// NO, `open` was introduced in Swift as an added access level for classes and class members to provide
@@ -390,7 +401,8 @@ avoidCreatingRetainCycle()
 /// Only classes and overridable class members can be declared 'open'; use 'public'
 
 
-/// `Question 15`
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 15
 /// `We have to establish communication between two objects, what are options?`
 ///
 /// There are following ways of communication between objects.
@@ -408,7 +420,8 @@ avoidCreatingRetainCycle()
 /// 2. KVO
 
 
-/// `Question 16`
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 16
 /// `In a design pattern MVVM what could be the responsibilities of controller?`
 ///
 /// - Even with an iOS App using MVVM design pattern, in UIKit there will be viewcontrollers to manage the
@@ -425,7 +438,8 @@ avoidCreatingRetainCycle()
 /// storyboards.
 
 
-/// `Question 17`
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 17
 /// `In a MVVM design pattern how does view-model receives information?`
 ///
 /// MVVM design pattern consists of Model - View - ViewModel. There exists a binding between view and
@@ -445,7 +459,9 @@ avoidCreatingRetainCycle()
 /// Dependency injection can be used to provide view-model information coming from source external to it when
 /// it's getting initialised.
 
-/// `Question 18`
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 18
 /// `Is optional in Swift value type or reference type?`
 ///
 /// `Optional` in swift represents a type which may or may not have a value. Behind the scenes optional is
@@ -459,7 +475,9 @@ avoidCreatingRetainCycle()
 /// So basically its an enumeration with two cases None and Some, with some implecating an associated value
 /// of the type matching for which optional is defined.
 
-/// `Question 19`
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 19
 /// `Does functions in Swift have retain count?`
 ///
 /// NO
@@ -472,7 +490,9 @@ avoidCreatingRetainCycle()
 /// Since functions are not objects, they do not need to be managed by the reference counting system. The
 /// reference counting system is only used to manage objects.
 
-/// `Question 20`
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 20
 /// `Does closures in Swift have retain count?`
 ///
 /// YES
@@ -482,10 +502,14 @@ avoidCreatingRetainCycle()
 /// This is the reason when self is captured in a closure then it can lead to memory leaks. Wheras self inside a
 /// function doesn't causes any issues.
 
-/// `Question 21`
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 21
 /// `Does Implicitly Unwrapped Optionals in Swift have retain count?`
 
-/// `Question 22`
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 22
 /// `What are implicitly unwrapped optionals?`
 ///
 /// https://cocoacasts.com/when-should-you-use-implicitly-unwrapped-optionals
@@ -528,7 +552,9 @@ if let iuoValue = iuoExample.iuo {
     print("Value of iuoExample.iuo :: \(iuoValue)")
 }
 
-/// `Question 23`
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 23
 /// `Any vs AnyObject`
 ///
 /// Both `Any` and `AnyObject` in Swift are special types used for type erasure.
@@ -564,13 +590,16 @@ let packOfAny: [Any] = [1, "two", { print("Three") }, TestAny(), TestAnyObject()
 //let packOfAnyObjectsErrorStill: [AnyObject] = [TestAnyObject(), { print("Closures are referece types but not AnyObject") }]
 let packOfLegalAnyObjects: [AnyObject] = [TestAnyObject(), TestAnyObject()]
 
-/// `Question 24`
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 24
 /// `How many times does application(_:didFinishLaunchingWithOptions:) gets called?`
 ///
 /// `application(_:didFinishLaunchingWithOptions:)` is called only once.
 
 
-/// `Question 24`
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 25
 /// `How can one avoid excessive thread creation?`
 ///
 /// While developing code for some concurrent operations, if some task scheduled blocks a thread, then system
@@ -586,7 +615,9 @@ let packOfLegalAnyObjects: [AnyObject] = [TestAnyObject(), TestAnyObject()]
 /// 2. For serial queue as well that target of the queue can be set to one of the global concurrent queue, this still
 /// maintains the serialised behaviour but prevents creating separate queues further creating more threads.
 
-/// `Question 25`
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 26
 /// `What is App App thinning, Bitcode, Slicing?`
 ///
 /// `App Thinning`
@@ -626,7 +657,8 @@ let packOfLegalAnyObjects: [AnyObject] = [TestAnyObject(), TestAnyObject()]
 ///
 
 
-/// `Question 26`
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 27
 /// `How would one design a scalable and reusable architecture for an iOS app?`
 ///
 /// One can consider various apspects in order to design a scalable and reusable architecture for an iOS App.
@@ -653,7 +685,8 @@ let packOfLegalAnyObjects: [AnyObject] = [TestAnyObject(), TestAnyObject()]
 /// coupling and single responsibility principle violations.
 
 
-/// `Question 27`
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 28
 /// `What is the role of protocols in iOS development? How do they promote code reusability and maintainability?`
 ///
 /// `Code Reusability`
@@ -679,7 +712,8 @@ let packOfLegalAnyObjects: [AnyObject] = [TestAnyObject(), TestAnyObject()]
 /// A type can conform to multiple protocols thus getting behaviours from multiple sources.
 
 
-/// `Question 28`
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 29
 /// `How would you ensure efficient networking and data loading in an iOS app? What techniques or frameworks would you use?`
 ///
 /// `Asynchronous`
@@ -728,7 +762,8 @@ let packOfLegalAnyObjects: [AnyObject] = [TestAnyObject(), TestAnyObject()]
 /// efficiently, even if the user switches to a different app or the device enters a low-power state.
 
 
-/// `Question 29`
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 30
 /// `What is App Analytics (from App Store Connect)?`
 ///
 /// `App Analytics` provides with insightful data about downloads, re-downloads, proceeds and more. It provides
@@ -780,7 +815,8 @@ let packOfLegalAnyObjects: [AnyObject] = [TestAnyObject(), TestAnyObject()]
 /// This puts performance of app into context by comparing the performance to that of similar apps.
 
 
-/// `Question 30`
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 31
 /// `How would you design an iOS app that needs to be able to handle a large number of users?`
 ///
 /// There are many aspects to look into when designing an iOS app to handle large number of users.
@@ -817,7 +853,9 @@ let packOfLegalAnyObjects: [AnyObject] = [TestAnyObject(), TestAnyObject()]
 /// app and can help understand the areas that might need improvements.
 ///
 
-/// `Question 31`
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 32
 /// `How to reverse loop through an array and print all values?`
 ///
 /// Straight and obvious answer would be to use .reversed()
@@ -868,7 +906,7 @@ flip(&someNumbers)
 
 
 // MARK: -----------------------------------------------------------------------
-// MARK: Question 32
+// MARK: Question 33
 /// `What's the difference in weak and unowned and how to decide which one to use?`
 ///
 /// Both weak and unowned are used to resolve memory retain cycle between two types holding strong reference
