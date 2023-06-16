@@ -1027,3 +1027,84 @@ func exampleResolvingMemoryLeakWithUnowned() {
     var card = CreditCard(type: "Visa", holder: user)
     user.creditCard = card
 }
+
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 34
+/// `What is Hashable? What's the concept and how it works in Swift?`
+///
+/// `Hashable`
+/// An object in computer science is said to be hashable if it's `hash` value never changes during it's lifetime.
+///
+/// `Hash Value`
+/// Hash value can be defined as a finger print for an object or say a file based on it's content. The contents are
+/// processed through some cryptographic algorithm, producing a unique numerical value. This numerical value
+/// is the `hash value` and it identifies the content.
+/// Now if contents get changes in any way the hash value will also change.
+///
+/// There are two algorithms widely being used producing hash values :
+/// - MD5
+/// - SHA1
+///
+/// Hashes are output of these hashing algorithm mentioned above (MD5 & SHA1)
+///
+/// One cannot reverse a hash value to re-construct file/object. It can simply confirm if two files/objects are identical
+/// or not, without need to know about their content.
+///
+/// A hash function, which calculates hash value should
+/// - Be deterministic and produce same hash value for same content
+/// - Be fast
+/// - Uniform in distributing range of hash values to avoid collision (small range can lead to more collision)
+/// - Avalanche effect : should produce significantly different hash for a small change in content, this promotes
+/// randomness
+// TODO: What is hash table
+
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 35
+/// `Some devices are not able to receive push notifications, what could be issue?`
+
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 36
+/// `What's difference between self and Self?`
+
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 37
+/// `Is lazy thread safe?`
+
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 38
+/// `Can we cancel a task in GCD?`
+
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 39
+
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 40
+
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 41
+
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 42
+
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 43
+
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 44
+
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Question 45
+
+
