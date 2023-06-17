@@ -1057,6 +1057,33 @@ func exampleResolvingMemoryLeakWithUnowned() {
 /// - Uniform in distributing range of hash values to avoid collision (small range can lead to more collision)
 /// - Avalanche effect : should produce significantly different hash for a small change in content, this promotes
 /// randomness
+///
+///
+/// In Swift, Hashable is declared as ```protocol Hashable : Equatable```
+/// Here as per definition we can see that the Hashable protocol is inheriting from Equatable protocol so when
+/// conformance to Hashable is required then one needs to satisfy the requirements from Equatable protocol
+/// as well.
+struct Coordinates {
+    var x: Int
+    var y: Int
+}
+
+/// Below attempt will make compiler cry with error :
+/// `Generic struct 'Set' requires that 'Coordinates' conform to 'Hashable'`
+/// ```let setOfCoordinates: Set = [Coordinates(x: 1.0, y: 2.0)]```
+///
+/// To make our Coordinates work with Set we need to make it conform to Hashable protocol. We can add that
+/// in an extension. Now only conformance is needed, Coordinates not having any custom properties the required
+/// methods are easily synthesized.
+
+extension Coordinates: Hashable { }
+
+func codeExampleQuestion34() {
+    let coordinate1 = Coordinates(x: 1, y: 1)
+    let coordinate2 = Coordinates(x: 1, y: 1)
+    print(coordinate1 == coordinate2)
+    print(coordinate1.hashValue)
+}
 // TODO: What is hash table
 
 
