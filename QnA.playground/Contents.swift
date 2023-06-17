@@ -1117,6 +1117,19 @@ func codeExampleQuestion34() {
 // MARK: -----------------------------------------------------------------------
 // MARK: Question 36
 /// `What's difference between self and Self?`
+///
+/// `self` refers to instance of a type, whereas `Self` refers to the type itself. This is notable when writing
+/// protocols and protocol extensions.
+/// `Self` in case of protocols refers to the actual type which conforms to the protocol. Wheras `self` refers
+/// to the instance of the type which is conforming to the protocol.
+///
+/// For example in below extension for Int, the computed property square returns `Self` which means that the
+/// square property will return an Int which is the type. In the comoutation block for the property `self` is used
+/// which refers to the instance on which this computed property gets called.
+
+extension Int {
+    var square: Self { return self * self }
+}
 
 
 // MARK: -----------------------------------------------------------------------
