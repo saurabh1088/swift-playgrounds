@@ -1090,6 +1090,28 @@ func codeExampleQuestion34() {
 // MARK: -----------------------------------------------------------------------
 // MARK: Question 35
 /// `Some devices are not able to receive push notifications, what could be issue?`
+///
+/// Few of the reasons this issue might be happening
+///
+/// 1. Notifications turned off in device settings. Notifications can be managed for each app individually, it should
+/// be turned on for app to receive it.
+///
+/// 2. Unstable network can lead to device not receiving notifications.
+///
+/// 3. Server contacting APNs should ensure the push notifications are delivered correclty to APNs to send further
+/// to devices.
+///
+/// 4. Provisioning file used to sign target while build should have a unique app id in order to use push notification.
+/// If instead wildcard app id is used, this might not work and app might fail to receive push notifications.
+///
+/// 5. Check the Focus mode, if focus mode is turned on and is configured not to receive notifications then device
+/// won't receive it.
+///
+/// 6. APNs connection issues, if connection to APNs can't be established.
+///
+/// 7. Ports/Hosts firewall settings might affect if notifications are sent to APNs or not.
+///
+/// 8. Date/Time/TimeZone should be set correctly on devices.
 
 
 // MARK: -----------------------------------------------------------------------
