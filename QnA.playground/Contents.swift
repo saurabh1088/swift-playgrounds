@@ -3,6 +3,8 @@
 
 import UIKit
 
+let INDICATOR =
+"------------------Executing code example %@-----------------------------------"
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Question 1
@@ -1135,11 +1137,23 @@ extension Int {
 // MARK: -----------------------------------------------------------------------
 // MARK: Question 37
 /// `Is lazy thread safe?`
+///
+/// NO, as per Apple's documentation for lazy property itself, defining a property as lazy doesn't guarantees any
+/// thread safety. Quoting from Apple documentation :
+/// _ If a property marked with the lazy modifier is accessed by multiple threads simultaneously and the property
+/// hasn’t yet been initialized, there’s no guarantee that the property will be initialized only once._
 
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Question 38
 /// `Can we cancel a task in GCD?`
+///
+/// YES, DispatchWorkItem has an instance method cancel() which cancels the current work item asyncronously.
+/// The CATCH however is that cancellation causes future attempts to execute the work item return immediately.
+/// Cancellation has no effect on the current work item being executed.
+func codeExampleQuestion38() {
+    // TODO: Work on this example
+}
 
 
 // MARK: -----------------------------------------------------------------------
