@@ -1158,6 +1158,9 @@ func codeExampleQuestion38() {
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Question 39
+/// `What's the difference between class and static keywords?`
+///
+/// static members cannot be overriden in subclasses.
 
 
 // MARK: -----------------------------------------------------------------------
