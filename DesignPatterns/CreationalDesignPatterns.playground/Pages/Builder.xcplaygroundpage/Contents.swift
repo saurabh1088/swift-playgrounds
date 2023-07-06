@@ -119,8 +119,91 @@ func exampleOne() {
     print(apartment.description)
 }
 
+/// Example 2 : Using multiple builders for same object
+
+class Person: CustomStringConvertible {
+    var houseNumber = 0
+    var streetName = String()
+    var city = String()
+    
+    var company = String()
+    var designation = String()
+    
+    var description: String {
+        return """
+                I live at \(houseNumber), \(streetName), \(city)
+        I work in
+        \(company) as a \(designation)
+        """
+    }
+}
+
+class PersonBuilder {
+    var person = Person()
+    var lives: PersonAddressBuilder {
+        return PersonAddressBuilder(person: person)
+    }
+    var works: PersonJobBuilder {
+        return PersonJobBuilder(person: person)
+    }
+    func build() -> Person {
+        return person
+    }
+}
+
+class PersonAddressBuilder: PersonBuilder {
+    convenience init(person: Person) {
+        self.init()
+        self.person = person
+    }
+    
+    func inHouseNumber(_ houseNumber: Int) -> PersonAddressBuilder {
+        person.houseNumber = houseNumber
+        return self
+    }
+    
+    func onStreet(_ street: String) -> PersonAddressBuilder {
+        person.streetName = street
+        return self
+    }
+    
+    func inCity(_ city: String) -> PersonAddressBuilder {
+        person.city = city
+        return self
+    }
+}
+
+class PersonJobBuilder: PersonBuilder {
+    convenience init(person: Person) {
+        self.init()
+        self.person = person
+    }
+    
+    func inCompany(_ company: String) -> PersonJobBuilder {
+        person.company = company
+        return self
+    }
+    
+    func withDesignation(_ designation: String) -> PersonJobBuilder {
+        person.designation = designation
+        return self
+    }
+}
+
+func exampleTwo() {
+    let personBuilder = PersonBuilder()
+    let person = personBuilder
+        .lives.inHouseNumber(750)
+        .onStreet("Road number 1")
+        .inCity("Hyderabad")
+        .works.inCompany("Magneta")
+        .withDesignation("Software Engineer")
+        .build()
+    print(person)
+}
 
 
 exampleOne()
+exampleTwo()
 
 //: [Next](@next)
