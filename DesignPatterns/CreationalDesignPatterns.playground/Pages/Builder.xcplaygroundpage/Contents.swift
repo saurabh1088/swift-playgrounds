@@ -6,7 +6,8 @@
 /**
  `Builder`
  `Builder` is a creational design pattern which helps constructing a complex object in a step by step manner.
- The core idea is to buid an object by a dedicated builder type, rather than by building it via various initialiser from within.
+ The core idea is to buid an object by a dedicated builder type, rather than by building it via various initialiser from
+ within.
  
  For example let's consider a struct House having several properties
  
@@ -33,8 +34,8 @@
  to cater to those demands as passing nil or default values to a huge initialiser always is again cumbersome.
  So one usually ends up in having multiple initialisers for instantiating entities like this.
  
- Builder creation design pattern tries to solve this problem in following manner. Here the properties are set and the
- object is configured by a series of chained methods ending in a build method to instantiate.
+ Builder creation design pattern tries to solve this problem in following manner. Here the properties are set and
+ the object is configured by a series of chained methods ending in a build method to instantiate.
  
  ```
  let house = HouseBuilder()
@@ -46,13 +47,18 @@
  
  Builder pattern may seems to be adding a more lot of code for creating objects but it does have its benefits.
  
- - Firstly it helps to remove lot of public APIs (initialisers) which need to be kept available to cater to every use case.
+ - Firstly it helps to remove lot of public APIs (initialisers) which need to be kept available to cater to every use
+ case.
  - Secondly it can also help to prevent sharing the mutable state.
  
+ 
+ NOTE: It's not always possible to have only one builder, if complex cases one might have to create different
+ builders to create the complex object.
  */
 
 import Foundation
 
+/// Example 1
 enum HouseType {
     case highRise
     case villa
@@ -104,11 +110,17 @@ class HighRiseApartmentBuilder: HouseBuilder {
     }
 }
 
-let apartment = HighRiseApartmentBuilder()
-    .setType()
-    .setCarpetArea()
-    .setBuildArea()
-    .build()
-print(apartment.description)
+func exampleOne() {
+    let apartment = HighRiseApartmentBuilder()
+        .setType()
+        .setCarpetArea()
+        .setBuildArea()
+        .build()
+    print(apartment.description)
+}
+
+
+
+exampleOne()
 
 //: [Next](@next)
