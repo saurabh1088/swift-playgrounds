@@ -6,8 +6,8 @@
 /**
  `Factory Method`
  
- `Factory Method` is a creational design pattern, as creational design patterns are all about removing the complexities
- while creating objects, so is the case with factory pattern.
+ `Factory Method` is a creational design pattern, as creational design patterns are all about removing the
+ complexities while creating objects, so is the case with factory pattern.
  `Factory Method` pattern tries to encapsulate implementation details for creating objecs which have a
  common ancestor i.e. base class.
  `Factory Method` pattern basically means defining a method which then will be used for creating objects
@@ -25,10 +25,16 @@
  Factory Method is usually creating a single product while a Abstract Factory will provide a set of products to
  client using APIs.
  
+ `Use case for using Factory Method?`
+ 
+ Factories are more flexible in naming and allows to express more from what is expected and asked.
+ 
  */
 
 import Foundation
 
+// TODO: This example is debatable, Explore more.
+/// Example 1 :
 protocol Currency {
     var currencySymbol: String { get }
     var currencyCode: String { get }
@@ -66,7 +72,11 @@ class InternationalTraveller {
     }
 }
 
-let traveller = InternationalTraveller()
-traveller.getCurrencyFrom(exchange: DollarExchange())
+func exampleOne() {
+    let traveller = InternationalTraveller()
+    traveller.getCurrencyFrom(exchange: DollarExchange())
+}
+
+exampleOne()
 
 //: [Next](@next)
