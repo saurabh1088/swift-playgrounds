@@ -83,7 +83,7 @@ class SingleInt: Sequence {
         self.value = value
     }
     
-    func makeIterator() -> some IteratorProtocol {
+    func makeIterator() -> IndexingIterator<Array<Int>> {
         return IndexingIterator(_elements: [value])
     }
 }
@@ -91,7 +91,7 @@ class SingleInt: Sequence {
 class MultipleInt: Sequence {
     var values = [Int]()
     
-    func makeIterator() -> some IteratorProtocol {
+    func makeIterator() -> IndexingIterator<Array<Int>> {
         return IndexingIterator(_elements: values)
     }
     
@@ -112,16 +112,17 @@ extension Sequence where Self.Iterator.Element == AnySequence<Int> {
     }
 }
 
-// TODO: Make this work
 func exampleCompositeTwo() {
     let singleValue = SingleInt(value: 2)
     let multipleValues = MultipleInt()
     multipleValues.add(value: 4)
     multipleValues.add(value: 6)
     
-    let someSequence = [AnySequence<Int>(singleValue), AnySequence<Int>(multipleValues)] as [AnySequence<Int>]
+    let someSequence = [AnySequence(singleValue),
+                        AnySequence(multipleValues)]
     print(someSequence.sum())
 }
 
+exampleCompositeTwo()
 
 //: [Next](@next)
