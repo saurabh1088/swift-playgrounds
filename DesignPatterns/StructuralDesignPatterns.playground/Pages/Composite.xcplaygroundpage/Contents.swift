@@ -74,4 +74,54 @@ func exampleComposite() {
     seniorManager.addToTeam(member: employee2)
     seniorManager.addToTeam(member: manager)
 }
+
+/// Example 2 :
+class SingleInt: Sequence {
+    var value = 0
+    
+    init(value: Int) {
+        self.value = value
+    }
+    
+    func makeIterator() -> some IteratorProtocol {
+        return IndexingIterator(_elements: [value])
+    }
+}
+
+class MultipleInt: Sequence {
+    var values = [Int]()
+    
+    func makeIterator() -> some IteratorProtocol {
+        return IndexingIterator(_elements: values)
+    }
+    
+    func add(value: Int) {
+        values.append(value)
+    }
+}
+
+extension Sequence where Self.Iterator.Element == AnySequence<Int> {
+    func sum() -> Int {
+        var sum = 0
+        for element in self {
+            for innerElement in element {
+                sum += innerElement
+            }
+        }
+        return sum
+    }
+}
+
+// TODO: Make this work
+func exampleCompositeTwo() {
+    let singleValue = SingleInt(value: 2)
+    let multipleValues = MultipleInt()
+    multipleValues.add(value: 4)
+    multipleValues.add(value: 6)
+    
+    let someSequence = [AnySequence<Int>(singleValue), AnySequence<Int>(multipleValues)] as [AnySequence<Int>]
+    print(someSequence.sum())
+}
+
+
 //: [Next](@next)
