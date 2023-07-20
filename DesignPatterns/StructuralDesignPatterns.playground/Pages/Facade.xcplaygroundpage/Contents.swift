@@ -1,7 +1,7 @@
-//: [Previous](@previous)
-
 // Created by Saurabh Verma on 16/07/23
 // Copyright © 2023 Saurabh Verma, (saurabh1088@gmail.com). All rights reserved.
+
+//: [<- Decorator Pattern](@previous)
 
 /**
  `Facade`
@@ -12,4 +12,4 @@ import Foundation
 
 var greeting = "Hello, playground"
 
-//: [Next](@next)
+//: [Flyweight Pattern ->](@next)

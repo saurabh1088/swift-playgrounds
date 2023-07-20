@@ -1,8 +1,7 @@
-//: [Previous](@previous)
-
 // Created by Saurabh Verma on 15/07/23
 // Copyright © 2023 Saurabh Verma, (saurabh1088@gmail.com). All rights reserved.
 
+//: [<- Composite Pattern](@previous)
 
 /**
  `Decorator`
@@ -87,4 +86,4 @@ func exampleDecorator() {
 
 exampleDecorator()
 
-//: [Next](@next)
+//: [Facade Pattern ->](@next)
