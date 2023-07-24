@@ -71,3 +71,81 @@ func exampleFacadePattern() {
 
 exampleFacadePattern()
 //: [Flyweight Pattern ->](@next)
+
+// TODO: Move it to behavioural design pattern.
+class ExpressionProcessor
+{
+  var variables: [Character:Int] = ["1": 1,
+                                    "2": 2,
+                                    "3": 3,
+                                    "4": 4,
+                                    "5": 5,
+                                    "6": 6,
+                                    "7": 7,
+                                    "8": 8,
+                                    "9": 9,
+                                    "0": 0]
+    
+    subscript(_ key: Character) -> Int {
+        get {
+            return variables[key] ?? 0
+        }
+        set(newValue) {
+            variables[key] = newValue
+        }
+    }
+
+  func calculate(_ expression: String) -> Int
+  {
+    // todo
+      
+      let validatePlus = expression.components(separatedBy: "+")
+      for item in validatePlus {
+          if item.count > 1, item.components(separatedBy: "-").count == 0 {
+              return 0
+          }
+      }
+      
+      let validateMinus = expression.components(separatedBy: "-")
+      for item in validateMinus {
+          if item.count > 1, item.components(separatedBy: "+").count == 0 {
+              return 0
+          }
+      }
+      
+      
+      var index = 0
+      var chars = Array(expression)
+      var chars1 = [Character]()
+      for char in expression {
+          chars1.append(char)
+      }
+      var output = (variables[chars[0]] ?? 0)
+      while index < chars.count {
+          switch chars[index] {
+          case "+":
+              if let value = variables[chars[index + 1]] {
+                  output = output + value
+              } else {
+                  return 0
+              }
+          case "-":
+              if let value = variables[chars[index + 1]] {
+                  output = output - value
+              } else {
+                  return 0
+              }
+          default:
+              print("")
+          }
+          index += 1
+      }
+      
+      return output
+  }
+}
+
+let expre = ExpressionProcessor()
+print(expre.calculate("1-xy"))
+
+
