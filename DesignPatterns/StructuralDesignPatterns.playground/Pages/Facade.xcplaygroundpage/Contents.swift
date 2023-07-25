@@ -149,3 +149,86 @@ let expre = ExpressionProcessor()
 print(expre.calculate("1-xy"))
 
 
+// TODO: Mediator example, move appropriately to relevant page
+class Participant
+{
+  private let mediator: Mediator
+  var value = 0
+
+  init(_ mediator: Mediator) {
+    self.mediator = mediator
+    self.mediator.participants.append(self)
+  }
+
+  func say(_ n: Int) {
+    mediator.broadcast(n, self)
+  }
+}
+
+class Mediator {
+  var participants = [Participant]()
+  func broadcast(_ value: Int, _ participant: Participant) {
+      for p in participants {
+          if p === participant {
+              
+          } else {
+              p.value = value
+          }
+      }
+  }
+}
+
+
+
+
+// TODO: Iterator example, move appropriately to relevant page
+class Node<T>
+{
+  let value: T
+  var left: Node<T>? = nil
+  var right: Node<T>? = nil
+  var parent: Node<T>? = nil
+
+  init(_ value: T)
+  {
+    self.value = value
+  }
+
+  init(_ value: T, _ left: Node<T>, _ right: Node<T>)
+  {
+    self.value = value
+    self.left = left
+    self.right = right
+
+    // todo: try to guess what's missing here
+    self.left!.parent = self
+    self.right!.parent = self
+  }
+
+  
+  public var preOrder: [T]
+  {
+    // todo
+    var output = [T]()
+    output.append(self.value)
+    
+    var leftPart = self.left
+    var rightPartValue = self.right!.value
+    while leftPart != nil {
+        output.append(leftPart!.value)
+        if let part = leftPart, let otherPart = part.right {
+            rightPartValue = otherPart.value
+        }
+        leftPart = leftPart?.left
+    }
+    output.append(rightPartValue)
+    
+    var rightPart = self.right
+    while rightPart != nil {
+        output.append(rightPart!.value)
+        rightPart = rightPart?.right
+    }
+
+    return output
+  }
+}
