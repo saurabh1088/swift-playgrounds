@@ -232,3 +232,120 @@ class Node<T>
     return output
   }
 }
+
+// TODO: Memento example, move appropriately to relevant page
+class Token {
+  var value = 0
+  init(_ value: Int) {
+    self.value = value
+  }
+  static func ==(_ lhs: Token, _ rhs: Token) -> Bool {
+    return lhs.value == rhs.value
+  }
+}
+
+class Memento {
+  var tokens = [Token]()
+}
+
+class TokenMachine {
+  var tokens = [Token]()
+
+  func addToken(_ value: Int) -> Memento {
+        let token = Token(value)
+        tokens.append(token)
+      let memento = Memento()
+      memento.tokens = tokens
+      return memento
+  }
+
+  func addToken(_ token: Token) -> Memento {
+    // todo
+      tokens.append(token)
+      let memento = Memento()
+      memento.tokens = tokens
+      return memento
+      
+  }
+
+  func revert(to m: Memento){
+    // todo
+      tokens = m.tokens
+  }
+}
+
+
+
+// TODO: Null Object example, move appropriately to relevant page
+protocol Log {
+  var recordLimit: Int { get }
+  var recordCount: Int { get set }
+  func logInfo(_ message: String)
+}
+
+enum LogError : Error {
+  case recordNotUpdated
+  case logSpaceExceeded
+}
+
+class Account {
+  private var log: Log
+  init(_ log: Log) {
+    self.log = log
+  }
+
+  func someOperation() throws {
+    let c = log.recordCount
+    log.logInfo("Performing an operation")
+    if (c+1) != log.recordCount
+    {
+      throw LogError.recordNotUpdated
+    }
+    if log.recordCount >= log.recordLimit
+    {
+      throw LogError.logSpaceExceeded
+    }
+  }
+}
+
+class NullLog : Log {
+    var recordLimit: Int = 100
+    var recordCount: Int = 0
+    func logInfo(_ message: String) {
+        recordCount += 1
+        recordLimit = recordLimit + recordCount
+    }
+}
+
+
+// TODO: Observer example, move appropriately to relevant page
+// TODO: Solve correctly
+class Game {
+  var rats = [Rat]()
+  func ratAdded(_ rat: Rat) {
+    rats.append(rat)
+    for rat in rats {
+        rat.attack = rats.count
+    }
+  }
+  func ratKilled() {
+    rats.removeLast()
+    for rat in rats {
+        rat.attack = rats.count
+    }
+  }
+}
+
+class Rat {
+  private let game: Game
+  var attack = 1
+
+  init(_ game: Game) {
+    self.game = game
+    game.ratAdded(self)
+  }
+
+  func kill() {
+    game.ratKilled()
+  }
+}
