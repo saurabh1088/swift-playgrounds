@@ -1165,6 +1165,32 @@ func codeExampleQuestion38() {
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Question 40
+/// `What's use of @inline attribute in Swift?`
+///
+/// `@inline` attribute helps Swift compiler in making optimization decisions. To better understand this
+/// attribute one needs to understand what is meant by `function inlining` in programming world.
+///
+/// `Function Inlining`
+/// Function inlining is a compiler optimization technique used in programming languages to improve the
+/// performance of a program by replacing a function call with the actual code of the function. In other words,
+/// instead of executing a separate function call instruction, the compiler includes the function's code directly
+/// at the location where it's called. This can eliminate the overhead associated with function calls, such as
+/// pushing and popping data onto the call stack and jumping to a different part of the program's code.
+/// Though this provides a great performance boost, this also increases the size of binaries as this can lead to
+/// code duplication in a way.
+///
+/// Now coming back to `Swift` and `@inline`. Swift compiler can automatically perform some inlining based
+/// of weather it's optimizing for speed or for binary size.
+///
+/// Now Swift compiler can take it's own decision, however using `@inline` attribute one can force Swift
+/// compiler to behave differently. There are two options available :-
+/// ```
+/// 1. @inline(__always): Signals the compiler to always inline the method, if possible.
+/// 2. @inline(never): Signals the compiler to never inline the method.
+/// ```
+///
+// TODO: Explore more on this attribute.
+
 
 
 // MARK: -----------------------------------------------------------------------
