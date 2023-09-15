@@ -1189,12 +1189,29 @@ func codeExampleQuestion38() {
 /// 2. @inline(never): Signals the compiler to never inline the method.
 /// ```
 ///
-// TODO: Explore more on this attribute.
-
+/// Should `@inline` be used?
+/// `@inline` is widely used in Swift source code and this attribute is publicly available. However as a
+/// general practice one shouldn't be using it.
+///
 
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Question 41
+/// `What's the use of @inlinable attribute in Swift?`
+///
+/// `@inlinable` helps in taking concept of `function inlining` across frameworks. Imagine a single
+/// module where compiler makes optimisation using `function inlining`. This works well as compiler
+/// in this scenario knows everything about the module. However if to this module we add a framework or a library
+/// then things become complicated.
+/// Swift 4.2 introduced `@inlinable` attribute enabling cross module inlining. When a api is marked with this
+/// attribute then implementation is exposed as part of modules public api and it helps compilor to optimize and
+/// inline when this api is used in other modules.
+/// If this `@inlinable` marked method call any other method internally then that also needs to be marked
+/// with `@inlinable` or `@usableFromInline` as per need.
+///
+/// Similar to `@inline`, `@inlinable` gives performance boost at the cost of binary size.
+///
+/// When `@inlinable` is used the function stays private.
 
 
 // MARK: -----------------------------------------------------------------------
