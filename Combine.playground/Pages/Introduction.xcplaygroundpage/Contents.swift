@@ -19,8 +19,8 @@
  Combine enables us to write funtional reactive code by using it's declarative API. So it provides the
  functional reative programming (FRP) paradigm capability to Swift.
  
- Combine helps us, or ot can be said that it's all about defining the process of what needs to be done once
- many values of some type are received over time.
+ Combine helps us, or it can be said that it's all about defining the process of what needs to be done once many
+ values of some type are received over time.
  
  For e.g. in SwiftUI framework the `ObservableObject` and `@Published` are actually using Combine
  behind the scenes.
@@ -34,11 +34,19 @@
  `Imperative programming`
  It's an approach in software development where program statements modify the state of the program. Solving a
  problem using this approach would mean to write code describing how one should solve the problem. The code
- then is executed sequentially to get the desired outcome. Imperative programming is about HOW to do it.
+ then is executed sequentially to get the desired outcome. Imperative programming is about `HOW` to do it.
+ 
+ - Focus is on describing HOW a program operates.
+ - Emphasizes changing program state through statements that modify variables and data structures.
+ - Uses statements like assignments, loops, and conditionals to control the flow of execution.
  
  `Functional programming`
- It's a declarative style of programming. Here the focus is on WHAT to do/solve. Here things are modeled as a
+ It's a declarative style of programming. Here the focus is on `WHAT` to do/solve. Here things are modeled as a
  result of some function which will avoid changing state and mutating data.
+ 
+ - Focus is on WHAT the program should accomplish.
+ - Emphasizes the use of functions and avoids changing state and mutable data.
+ - Uses expressions and declarations rather than statements, and functions are treated as first-class citizens.
  
  `Reactive programming`
  Reactive programming refers to practice of programming with asynchronous data streams or streams of events.
