@@ -14,7 +14,7 @@
  Publisher is a protocol which can declare a type which can deliver a sequence of values over time.
  ```protocol Publisher<Output, Failure>```
  So a publisher is someone who is going to emit/deliver/expose a series of values over time, then there is
- subscriber who subscribes to revieve all these values.
+ subscriber who subscribes to receive all these values.
  Publishers define how the values or error are produced. It only will emit values when explicitly requested by
  a subscriber.
  So it's actually the subscriber which has the control with itself to determine how fast it can receive values from a
@@ -29,6 +29,7 @@
  
  As mentioned above the Publisher is a protocol ```protocol Publisher<Output, Failure>```
  Here `Output` and `Failure` are associated types.
+ 
  
  `About Subscriber`
  
