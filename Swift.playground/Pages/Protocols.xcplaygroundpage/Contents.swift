@@ -12,7 +12,7 @@
  
  Classes Issues
  1. Implicit Sharing
-    So you have Class A and Class B. Class A shares some date with Class B. In world of classes as we deal
+    So you have Class A and Class B. Class A shares some data with Class B. In world of classes as we deal
     with references so now even though A has shared data with B, they both actually share a reference. Now if
     A happens to modify data it shared, the change B will also see even if B was not expecting that change.
     So what do we do.
@@ -26,7 +26,7 @@
  
  2. Class inheritance is too intrusive
     Class inheritance is monolithic. One gets one superclass. So what if one needs differnt behaviours. While
-    choosing superclass one has to be veru carefull.
+    choosing superclass one has to be very carefull.
     Single inheritance causes weight gain.
     Superclasses stored properties even if one doesn't needs comes as burden and one needs to initialize those.
     One can't retroactively model and change superclass later.
@@ -425,7 +425,7 @@ struct StringStorage: Storage {
 ///
 /// `A protocol marks a method as mutating. If this protocol is conformed by a class, does class also need to use keyword mutating`
 /// NO
-/// `mutating` keyworkd is used only for structures and enumerations. As it's not applicable for class types
+/// `mutating` keyword is used only for structures and enumerations. As it's not applicable for class types
 /// thus while conforming this protocol via a class type this keyword can be skipped.
 ///
 /// `A type completes all requirements of some protocol, but doesn't conforms to it in declaration, can we assume as all requirements are met, the protocol is conformed by type?`

@@ -22,7 +22,7 @@
  `closing over` those constants and variables.
  
  - Global functions are actually a special case of closures which have name but they don't capture values.
- - Nested functiona are also closures which have name, but unlike to gloabl functions these do capture values from
+ - Nested functiona are also closures which have name, but unlike to global functions these do capture values from
  context these are defined.
  
 Syntax
