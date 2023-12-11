@@ -1216,7 +1216,16 @@ func codeExampleQuestion38() {
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Question 42
-
+/// `What is meant by code obfuscation?`
+///
+/// `Obfuscate` means to make obscure, unclear, or unintelligible.
+///
+/// `Code Obfuscation` in software development world is a technique which makes code difficult to understand
+/// or reverse engineer or to de-compile. It's primary goal is to prevent any unauthorized access to the code. It's
+/// usually employed when code needs to be distributed like a commercial software or mobile apps etc.
+///
+/// Xcode as such doesn't provide any built-in way for code obfuscation, however third party options are available
+/// like https://www.guardsquare.com/ixguard
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Question 43
