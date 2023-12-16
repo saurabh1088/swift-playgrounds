@@ -1229,6 +1229,21 @@ func codeExampleQuestion38() {
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Question 43
+/// `What is SSL pinning and how to achieve this in an iOS App?`
+///
+/// `SSL Pinning`
+/// `SSL Pinning is the process of associating a host with its certificate or public key.`
+///
+/// It's a security mechanism to prevent `man in the middle (MITM)` attacks. SSL pinning works by validating
+/// server's SSL certificate.
+///
+/// `Types of SSL Pinning methods`
+///
+/// - Embedding the Certificate
+/// In this approach, remote server's certificate itself is embedded in client or app's bundle.
+///
+/// - Embedding the Public Key
+///  In this approach remote server's certificate's public key is defined in code or kept in client or app's bundle.
 
 
 // MARK: -----------------------------------------------------------------------
