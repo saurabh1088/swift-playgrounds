@@ -1244,6 +1244,13 @@ func codeExampleQuestion38() {
 ///
 /// - Embedding the Public Key
 ///  In this approach remote server's certificate's public key is defined in code or kept in client or app's bundle.
+///
+///  In iOS applications one can use `URLSession` APIs for implementing SSL pinning. To do so one needs
+///  to implement `URLSessionDelegate` protocol and specifically the method
+///
+///  ```
+///  urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping @Sendable (URLSession.AuthChallengeDisposition, URLCredential?) -> Void)
+///  ```
 
 
 // MARK: -----------------------------------------------------------------------
