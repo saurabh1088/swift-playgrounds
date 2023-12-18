@@ -1239,11 +1239,35 @@ func codeExampleQuestion38() {
 ///
 /// `Types of SSL Pinning methods`
 ///
-/// - Embedding the Certificate
+/// - Embedding the Certificate OR Certificate SSL pinning
 /// In this approach, remote server's certificate itself is embedded in client or app's bundle.
 ///
-/// - Embedding the Public Key
+/// - Embedding the Public Key OR Public Key pinning
 ///  In this approach remote server's certificate's public key is defined in code or kept in client or app's bundle.
+///  In this approach as long as the public key remains same, client will trust the remote even if certificate changes.
+///  In cases where server's certificates changes frequently then public key pinning is preferred.
+///  There is also a concept of `dynamic SSL pinning` where public key is not hardcoded in client code
+///  instead the public key is retrieved from server in initial handshake and then client can cache it for further
+///  usage,
+///
+///  `Digital Certificate`
+///
+///  A Digital Certificate is a file which encapsulates certain information about the server owning the certificate
+///  or the server to which the certificate stands for.
+///
+///  Digital Certificates uses `X.509` standards. `X.509` is defined by the `International Telecommunication Unions’s`
+///  standardisation sector. Usually a `Certificate Authority(CA)` issues a certificate. A Digital Certificate
+///  contains following information :
+///  - Subject
+///  - Serial Number
+///  - Issuer
+///  - Valid From
+///  - Valid To
+///  - Public Key
+///  - Algorithm Identifier
+///  - Digital Signature
+///  - Version
+///  - Time Stamp
 ///
 ///  In iOS applications one can use `URLSession` APIs for implementing SSL pinning. To do so one needs
 ///  to implement `URLSessionDelegate` protocol and specifically the method
