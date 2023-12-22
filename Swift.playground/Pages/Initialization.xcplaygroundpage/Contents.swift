@@ -4,7 +4,7 @@
 /**
  `Initialization`
  
- `Classes` and `Structs` must set all of theier stored properties to an appropriate initial value well in time
+ `Classes` and `Structs` must set all of their stored properties to an appropriate initial value well in time
  by when instance is created.
  
  `When initial value for a stored property is set either as default value or set in initializer, will property observers get called?`
@@ -23,7 +23,7 @@
  
  
  A constant stored property (let someProperty) can be assigned a value during initialization. In case of classes, this
- can only be done by class introducing the property, subclasses can't further modify this conntant property.
+ can only be done by class introducing the property, subclasses can't further modify this constant property.
  
  `Initializer Delegation`
  
@@ -45,9 +45,9 @@ struct Employee {
 }
 let employee1 = Employee(id: 1, name: "Batman", dateOfJoining: Date())
 
-/// However if we were to define a custom initializer for our struct, things will change. We dfined a new struct
+/// However if we were to define a custom initializer for our struct, things will change. We defined a new struct
 /// `StartUp` with two stored properties, also this struct defines a custom initializer which always sets the
-/// founnded stored property value to current date. Notice the memberwise initializer for this struct is now no
+/// founded stored property value to current date. Notice the memberwise initializer for this struct is now no
 /// longer available.
 
 struct StartUp {
@@ -209,3 +209,25 @@ class SubclassToRequiredInit: SuperClassRequiredInit {
 }
 
 let subclassObj = SubclassToRequiredInit(superProperty: "")
+
+/// `Default Initializers`
+///
+/// Structs in Swift get a default member wise initializer which is available to use. Also in case of classes, if all
+/// the members have a default value and class doesn't implements any initializer then a default initializer is
+/// available which will initialize all properties with their default values.
+///
+/// Difference in structs and classes is that a struct will receive a memberwise default initializer even if it doesn't
+/// provides default value for it's stored properties.
+
+class AClassWithAllPropertiesHavingDefaultValues {
+    let id = 1
+    let name = "Name"
+}
+
+let objClassWithAllPropertiesHavingDefaultValues = AClassWithAllPropertiesHavingDefaultValues()
+
+class AnotherClassWithDefaultPropertyValues: AClassWithAllPropertiesHavingDefaultValues {
+    let child = "Child"
+}
+
+let objAnotherClassWithDefaultPropertyValues = AnotherClassWithDefaultPropertyValues()
