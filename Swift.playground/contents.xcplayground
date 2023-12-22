@@ -3,6 +3,7 @@
     <pages>
         <page name='Initialization'/>
         <page name='Closures'/>
+        <page name='Properties'/>
         <page name='Protocols'/>
     </pages>
 </playground>
