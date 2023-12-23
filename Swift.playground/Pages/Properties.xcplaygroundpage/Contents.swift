@@ -21,12 +21,19 @@ import Foundation
  - Structures
  - Enumerations
  
+ Computed properties are always var as theit values are never fixed and may change.
+ 
  `Enumerations doesn't have stored properties`
  
  `Property Observers`
  
- Property observers can be added to stored properties defined as well as to those properties which are inherited
- from parent class.
+ Property observers can be added to :
+ - Defined Stored property
+ - Inherited Stored property
+ - Inherited Computed property
+ 
+ Computed property that one define doesn't need to add property observer as that can be done in property setter
+ itself.
  
  If an instance of structure is assigned to a let or constant, then one can't modify the property of that structure even
  of the property in structures definition is defined to be a var. The structure instance is assigned to a constant and
@@ -52,17 +59,22 @@ struct ExampleForLazyProperty {
     }()
 }
 
-var obj = ExampleForLazyProperty()
-print(obj.computedProperty)
-print(obj.computedProperty)
-print(obj.lazyProperty)
-print(obj.lazyProperty)
-print(obj.lazyProperty)
+func exampleForLazyProperty() {
+    var obj = ExampleForLazyProperty()
+    print(obj.computedProperty)
+    print(obj.computedProperty)
+    print(obj.lazyProperty)
+    print(obj.lazyProperty)
+    print(obj.lazyProperty)
+}
 
 /*
- Result of above print statements is like below, note "Setting value for lazyProperty..."
+ Result of execution of above function exampleForLazyProperty is like below,
+ note "Setting value for lazyProperty..."
  is printed only once when first time lazy property is accessed, next time it will
  only print the value.
+ Basically the closure associated with lazy property will be executed only once
+ when the first time lazy property is accessed.
  
  
  Calculating value for computedProperty...
@@ -75,5 +87,15 @@ print(obj.lazyProperty)
  This is a lazy property
  */
 
+/// `What will happen if a lazy stored property is accessed by multiple thread simultaneously?`
+///
+/// In this case if the lazy property when accessed by multiple thread simultaneously was still not initialized then
+/// there is no gurantee that it will get initialized only once.
+
+/// `Property Wrappers`
+///
+///
+
+exampleForLazyProperty()
 
 //: [Next](@next)
