@@ -45,6 +45,8 @@ import Foundation
  This is so because the value of a lazy property will be assigned once it's used hence it needs to be a var.
  Lazy properties are great to use for scenarios where the code is expensive and unlikely to be called too often.
  
+ `Note: Global constants and variables are always computed lazily, in a similar manner to Lazy Stored Properties, however these aren't required to be marked with lazy keyword.`
+ 
  */
 
 struct ExampleForLazyProperty {
@@ -102,7 +104,7 @@ func exampleForLazyProperty() {
 /// For example, let's say we need to define a property but also need to make sure it's never greater than 10.
 /// Below code example shows how to achieve that using a property wrapper.
 
-/// When @propertyWrapper is used then compiler expects type to provide a wrappedValue else it will complain
+/// When `@propertyWrapper` is used then compiler expects type to provide a `wrappedValue` else it will complain
 /// with error :
 /// Property wrapper type 'LessThanTen' does not contain a non-static property named 'wrappedValue'
 @propertyWrapper
@@ -173,6 +175,9 @@ func exampleRestrictValuePropertyWrapper() {
 /// Examples
 //exampleForLazyProperty()
 //exampleCustomPropertyWrapper()
-exampleRestrictValuePropertyWrapper()
+//exampleRestrictValuePropertyWrapper()
+
+// TODO: Check this : https://www.swiftbysundell.com/articles/property-wrappers-in-swift/
+// TODO: Explore projected values for property wrappers
 
 //: [Next](@next)
