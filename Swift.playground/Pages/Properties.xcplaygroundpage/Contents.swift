@@ -124,9 +124,55 @@ func exampleCustomPropertyWrapper() {
     print("Tried to set value to 12, here's the result : \(obj.someNumber)")
 }
 
+/// `Property Wrappers : With initializers`
+///
+/// One can also define a property wrapper with initializers so that some initial value can be set. For example
+/// on the example above of `LessThanTen` the property wrapper can only be used for values which need
+/// to be less than 10, so the usage is pretty restricted, it would be great if we can set a custom maximum value.
+
+@propertyWrapper
+struct RestrictValueToMaximum {
+    private var number: Int
+    private var maximum: Int
+    
+    var wrappedValue: Int {
+        get { return number }
+        set { number = min(newValue, maximum) }
+    }
+    
+    /// It makes sense to call the argument as wrappedValue even though in initializer is setting the property
+    /// number because technically wrappedValue is returning number itself, but as number is private and should
+    /// be so as someone using this property wrapper need not to know about it so calling it wrappedValue gives
+    /// correct impression that the wrapped value by the property wrapper will be initialzed to passed value.
+    init(wrappedValue: Int, maximum: Int) {
+        self.maximum = maximum
+        self.number = min(wrappedValue, maximum)
+    }
+}
+
+struct UsingRestrictValueToMaximumWrapper {
+    /// This declaration using property wrapper is using the initializer to set wrapped value and maximum value
+    /// This can also be defined as with same results:
+    /// ```
+    /// @RestrictValueToMaximum(maximum: 20) var value: Int = 1
+    /// ```
+    /// This is so because Swift treats assignment (= 1) like a wrappedValue argument and then will set the
+    /// assigned value to the wrappedValue so in above declaration wrappedValue will get treated as 1 and
+    /// maximum as 20.
+    @RestrictValueToMaximum(wrappedValue: 1, maximum: 20) var value: Int
+}
+
+func exampleRestrictValuePropertyWrapper() {
+    var obj = UsingRestrictValueToMaximumWrapper()
+    print("Default value is : \(obj.value)")
+    print("Setting value to greater than 20...")
+    obj.value = 100
+    print("Value now is : \(obj.value)")
+}
 
 /// Examples
-exampleForLazyProperty()
-exampleCustomPropertyWrapper()
+//exampleForLazyProperty()
+//exampleCustomPropertyWrapper()
+exampleRestrictValuePropertyWrapper()
 
 //: [Next](@next)
