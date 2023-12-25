@@ -39,13 +39,37 @@ import Foundation
  of the property in structures definition is defined to be a var. The structure instance is assigned to a constant and
  hence it can't change.
  
- `Lazy Properties`
+ `Lazy Properties : static var/let`
  
  A lazy stored property's initial value isn't calculated until it is used for the first time. A lazy property is always var.
  This is so because the value of a lazy property will be assigned once it's used hence it needs to be a var.
  Lazy properties are great to use for scenarios where the code is expensive and unlikely to be called too often.
  
  `Note: Global constants and variables are always computed lazily, in a similar manner to Lazy Stored Properties, however these aren't required to be marked with lazy keyword.`
+ 
+ `Type Properties`
+ 
+ These are properties which belong to a Type rather than belonging to the instance of the Type.
+ Type properties can be both
+ - Stored (var or let)
+ - Computed (var ONLY)
+ 
+ Stored type properties should always have a default value, because Type doesn't have any initializer which can
+ initialize it's type properties and assign some value.
+ 
+ Stored type properties when accessed for first time are lazily initialized. Swift gurantees that these will get initialized
+ only once even if accessed by multiple threads simultaneously. There is no need to add keyword lazy.
+ 
+ `What's the difference between static and class keyword?`
+ 
+ `static`  and `class` both are keywords used to declare a Type property. `class` keyword can be used for
+ computed properties for class Types so as to allow subclasses to override those.
+
+ `class` keyword can only be used within a class Type, using inside struct will give compilor error with message :
+ Class properties are only allowed within classes; use 'static' to declare a static property.
+ 
+ Even in class, using `class` keyword for stored property will make compiler cry :
+ Class stored properties not supported in classes; did you mean 'static'?.
  
  */
 
@@ -107,6 +131,16 @@ func exampleForLazyProperty() {
 /// When `@propertyWrapper` is used then compiler expects type to provide a `wrappedValue` else it will complain
 /// with error :
 /// Property wrapper type 'LessThanTen' does not contain a non-static property named 'wrappedValue'
+///
+/// `Can property wrapper be applied to Global variables?`
+/// NO
+///
+/// `Can property wrapper be applied to computed properties?`
+/// NO
+///
+/// `Can property wrapper be applied to a local variable?`
+/// YES, for example one can apply a property wrapper to a variable defined locally withing scope of a function.
+/// See example function below `exampleUsingPropertyWrapperInsideFunction()`
 @propertyWrapper
 struct LessThanTen {
     private var value = 0
@@ -172,10 +206,54 @@ func exampleRestrictValuePropertyWrapper() {
     print("Value now is : \(obj.value)")
 }
 
+func exampleUsingPropertyWrapperInsideFunction() {
+    @LessThanTen var localVariable: Int
+    localVariable = 20
+    print("Value of localVariable : \(localVariable)")
+}
+
+struct StructureWithTypeProperties {
+    /// Not giving initial value here will make compiler cry with error :
+    /// 'static var' declaration requires an initializer expression or an explicitly stated getter
+    static var typeStoredProperty = "Stored Type Property"
+    static var typeComputedProperty: String {
+        "Computed Type Property"
+    }
+}
+
+class ClassWithTypeProperties {
+    /// Using class keyword here will make compiler cry :
+    /// Class stored properties not supported in classes; did you mean 'static'?
+    static var typeStoredProperty = "Stored Type Property"
+    static var typeComputedProperty: String {
+        "Computed Type Property"
+    }
+    class var overrideableTypeComputedProperty: String {
+        "Overrideable Computed Type Property"
+    }
+}
+
+class SubclassClassWithTypeProperties: ClassWithTypeProperties {
+    override class var overrideableTypeComputedProperty: String {
+        "Overridden Computed Type Property from Parent"
+    }
+}
+
+func exampleTypeProperties() {
+    print(StructureWithTypeProperties.typeStoredProperty)
+    print(StructureWithTypeProperties.typeComputedProperty)
+    
+    print(SubclassClassWithTypeProperties.typeStoredProperty)
+    print(SubclassClassWithTypeProperties.typeComputedProperty)
+    print(SubclassClassWithTypeProperties.overrideableTypeComputedProperty)
+}
+
 /// Examples
 //exampleForLazyProperty()
 //exampleCustomPropertyWrapper()
 //exampleRestrictValuePropertyWrapper()
+//exampleUsingPropertyWrapperInsideFunction()
+//exampleTypeProperties()
 
 // TODO: Check this : https://www.swiftbysundell.com/articles/property-wrappers-in-swift/
 // TODO: Explore projected values for property wrappers
