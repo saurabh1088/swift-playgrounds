@@ -125,8 +125,12 @@ func exampleForLazyProperty() {
 /// custom logic, for example we want to define a property and make sure it is thread safe, then those thread
 /// safety check needs to go for all properties which needs such feature. Using property wrapper one can add
 /// such c feature in a wrapper and then use the property wrapper on any property where such use case is expected.
+///
+/// Property wrapper basically is a `type` which wraps a given value to add some additional logic to it.
+///
 /// For example, let's say we need to define a property but also need to make sure it's never greater than 10.
-/// Below code example shows how to achieve that using a property wrapper.
+/// Below code example `LessThanTen` & `exampleCustomPropertyWrapper()` shows how to achieve
+///  that using a property wrapper.
 
 /// When `@propertyWrapper` is used then compiler expects type to provide a `wrappedValue` else it will complain
 /// with error :
@@ -141,6 +145,11 @@ func exampleForLazyProperty() {
 /// `Can property wrapper be applied to a local variable?`
 /// YES, for example one can apply a property wrapper to a variable defined locally withing scope of a function.
 /// See example function below `exampleUsingPropertyWrapperInsideFunction()`
+///
+/// `Can one use @propertyWrapper on classes and structures both?`
+/// YES
+
+
 @propertyWrapper
 struct LessThanTen {
     private var value = 0
@@ -239,6 +248,46 @@ class SubclassClassWithTypeProperties: ClassWithTypeProperties {
     }
 }
 
+/// `Projected Value from property wrapper`
+
+@propertyWrapper
+struct EvenNumberChecker {
+    private var number: Int
+    private(set) var projectedValue: Bool
+    
+    var wrappedValue: Int {
+        get { number }
+        set { 
+            if newValue % 2 == 0 {
+                number = newValue
+                projectedValue = true
+            } else {
+                number = newValue
+                projectedValue = false
+            }
+        }
+    }
+    
+    init() {
+        self.number = 0
+        self.projectedValue = true
+    }
+}
+
+struct UsingEvenNumberChecker {
+    @EvenNumberChecker var value: Int
+}
+
+func examplePropertyWrapperEvenNumberChecker() {
+    var obj = UsingEvenNumberChecker()
+    obj.value = 3
+    print("Value set is \(obj.value), projected value : \(obj.$value)")
+    
+    obj.value = 20
+    print("Value set is \(obj.value), projected value : \(obj.$value)")
+    
+}
+
 func exampleTypeProperties() {
     print(StructureWithTypeProperties.typeStoredProperty)
     print(StructureWithTypeProperties.typeComputedProperty)
@@ -254,6 +303,7 @@ func exampleTypeProperties() {
 //exampleRestrictValuePropertyWrapper()
 //exampleUsingPropertyWrapperInsideFunction()
 //exampleTypeProperties()
+examplePropertyWrapperEvenNumberChecker()
 
 // TODO: Check this : https://www.swiftbysundell.com/articles/property-wrappers-in-swift/
 // TODO: Explore projected values for property wrappers
