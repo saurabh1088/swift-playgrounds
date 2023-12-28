@@ -274,8 +274,34 @@ struct EvenNumberChecker {
     }
 }
 
+@propertyWrapper
+struct WrapperWithProjectedValueAsSelf {
+    var projectedValue: WrapperWithProjectedValueAsSelf { self }
+    var twoTimes: Int
+    var threeTimes: Int
+    private var number: Int
+    var wrappedValue: Int {
+        get { number }
+        set {
+            number = newValue
+            twoTimes = number * 2
+            threeTimes = number * 3
+        }
+    }
+    
+    init() {
+        number = 0
+        twoTimes = 0
+        threeTimes = 0
+    }
+}
+
 struct UsingEvenNumberChecker {
     @EvenNumberChecker var value: Int
+}
+
+struct UsingWrapperWithProjectedValueAsSelf {
+    @WrapperWithProjectedValueAsSelf var value: Int
 }
 
 func examplePropertyWrapperEvenNumberChecker() {
@@ -286,6 +312,14 @@ func examplePropertyWrapperEvenNumberChecker() {
     obj.value = 20
     print("Value set is \(obj.value), projected value : \(obj.$value)")
     
+}
+
+func examplePropertyWrapperWithProjectedValueAsSelf() {
+    var obj = UsingWrapperWithProjectedValueAsSelf()
+    obj.value = 2
+    print("Value : \(obj.value)")
+    print("Value two times : \(obj.$value.twoTimes)")
+    print("Value three times : \(obj.$value.threeTimes)")
 }
 
 func exampleTypeProperties() {
@@ -303,7 +337,8 @@ func exampleTypeProperties() {
 //exampleRestrictValuePropertyWrapper()
 //exampleUsingPropertyWrapperInsideFunction()
 //exampleTypeProperties()
-examplePropertyWrapperEvenNumberChecker()
+//examplePropertyWrapperEvenNumberChecker()
+examplePropertyWrapperWithProjectedValueAsSelf()
 
 // TODO: Check this : https://www.swiftbysundell.com/articles/property-wrappers-in-swift/
 // TODO: Explore projected values for property wrappers
