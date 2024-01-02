@@ -55,9 +55,9 @@ func codeExampleQuestion2() {
 /// Here again the current context is Main. From main a task is dispatched to a serial queue synchronously. Main
 /// queue will wait till the task is finished. No deadloack is caused if the second print statement is not dispatched.
 /// However once the second print statement is dispatched from within the task block deadlock occurs.
-/// Reason for deadlock is that for second print statement task the current context is the serialQueue which is
-/// a serial queue so will execute tasks one by one. It's executing a task and synchronously another task is given
-/// to it. The second print statement forms a part of original task itself so unless that is performed second print
+/// Reason for deadlock is that for second print statement task, the current context is the serialQueue which being
+/// a serial queue will execute tasks one by one. It's executing a task and synchronously another task is given
+/// to it. The second print statement forms a part of original task itself so unless that is performed, second print
 /// statement can't be executed. But unless second print is executed original task can't be completed. Hence
 /// deadlock.
 let serialQueue = DispatchQueue(label: "my.serial.queue")
@@ -876,7 +876,7 @@ for number in someArray.reversed() {
     print("Using reversed() :: \(number)")
 }
 
-for (index, number) in someArray.enumerated() {
+for (index, _) in someArray.enumerated() {
     let num = someArray[someArray.count - index - 1]
     print("Using index :: \(num)")
 }
@@ -1285,3 +1285,67 @@ func codeExampleQuestion38() {
 // MARK: Question 45
 
 
+// TODO: Go through list and document
+
+/*
+ Swift Language:
+
+ Explain the differences between value types and reference types in Swift.
+ What is option chaining in Swift? Provide an example.
+ Discuss the concept of ARC (Automatic Reference Counting) in Swift. How does it work?
+ Compare let and var in Swift. When would you use one over the other?
+ 
+ Memory Management:
+
+ Explain the differences between weak and unowned references in Swift.
+ How would you handle retain cycles in iOS development?
+ Discuss the importance of autorelease pool in iOS memory management.
+ iOS App Architecture:
+
+ Compare MVC, MVVM, and VIPER architectures. When would you choose one over the other?
+ What is the Coordinator pattern, and how does it improve iOS app architecture?
+ Explain the role of the AppDelegate and SceneDelegate in an iOS application.
+ 
+ Concurrency:
+
+ Discuss Grand Central Dispatch (GCD) and its role in iOS concurrency.
+ Compare NSOperationQueue and GCD. When would you choose one over the other?
+ Explain the challenges of multithreading in iOS development and how they can be mitigated.
+ 
+ Networking:
+
+ Describe the purpose of URLSession in iOS. How would you perform a data task using URLSession?
+ Discuss the differences between GET and POST HTTP methods.
+ Explain how to handle background network tasks in iOS.
+ 
+ Core Data:
+
+ What is Core Data, and how does it differ from SQLite or other data persistence solutions?
+ Discuss the main components of the Core Data stack.
+ Explain the concept of NSFetchedResultsController and its uses.
+ 
+ UIKit and Interface Builder:
+
+ Explain the role of delegates and data sources in UITableView.
+ How would you implement a custom view transition animation in iOS?
+ Discuss Auto Layout in iOS and its advantages over manual frame-based layout.
+ 
+ Testing:
+
+ What is the importance of unit testing in iOS development? Provide an example of writing a unit test.
+ Explain the differences between XCTest and third-party testing frameworks.
+ Discuss UI testing in iOS and its limitations.
+ 
+ Security:
+
+ How would you implement secure data storage on iOS?
+ Discuss the importance of using HTTPS for network communication in mobile apps.
+ Explain the purpose of the Keychain in iOS.
+ 
+ App Submission and Optimization:
+
+ What are the steps involved in submitting an app to the App Store?
+ How would you optimize an iOS app for better performance and reduced memory usage?
+ Discuss strategies for handling different screen sizes and resolutions in iOS development.
+
+ */
