@@ -911,6 +911,8 @@ flip(&someNumbers)
 // MARK: Question 33
 /// `What's the difference in weak and unowned and how to decide which one to use?`
 ///
+/// `An instance is deallocated if no other objects have a strong reference to the instance.`
+///
 /// Both weak and unowned are used to resolve memory retain cycle between two types holding strong reference
 /// to each other. In such case one makes one of the reference as weak or unowned so as to break the retain
 /// cycle.
@@ -919,6 +921,13 @@ flip(&someNumbers)
 ///
 /// `weak` can be nil so it always declared as optional, whereas `unowned` will always have a value so can't
 /// be nil.
+///
+/// Few pointers regarding closures. In closures if self is captured then one uses [weak self] OR [unowned self]
+/// So if self can be nil then one should use [weak self] else one should use [unowned self]
+/// If App is crashing and [unowned self] is used this means self has become nil at some point when
+/// it shouldn't have or one need to use [weak self]
+///
+/// It is safe to use an unowned reference where one is sure that the object’s lifetime is more than the reference’s.
 ///
 /// From Apple's documentation itself :
 ///
@@ -1349,3 +1358,6 @@ func codeExampleQuestion38() {
  Discuss strategies for handling different screen sizes and resolutions in iOS development.
 
  */
+
+// TODO: Go through below link
+// https://docs.swift.org/swift-book/documentation/the-swift-programming-language/automaticreferencecounting/
