@@ -10,11 +10,26 @@ import UIKit
  can be stored or transmitted, such as a file or network stream. Basically converting an object into a format so
  that it can be stored or transmittable all along should also be able to be able to put it back to it's old object form.
  
+ `Serialization` helps in facilitating the persistence of data and also helps in communicating data between
+ different systems.
+ 
+ So in a nutshell one can say that `Serialization` helps achieve following in terms of Software Engineering
+ 
+ 1. Conversion of Object to Data
+ 2. Storage and Persistence
+ 3. Data Transmission
+ 4. Interoperability
+ 5. Compatibility
+ 6. Common Serialization Formats like JSON or XML
+ 
  `Encoding`
  Converting an object to a format(for e.g. JSON) which can be transmittable or can be stored on disk.
  
  `Decoding`
  Converting, for e.g. JSON back to an object represented by model.
+ 
+ JSONSerialization and JSONEncoder are options for object Serialization in Swift. In JavaScript one can serialize
+ object using JSON.stringify(object)
  */
 
 /// `Serialization` & `Deserialisation` examples
