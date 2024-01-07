@@ -197,3 +197,45 @@ let objEncodedToSnakeCaseExample = EncodedToSnakeCaseExample(somePropertyNameStr
 let snakeCaseEncodedData = try jsonEncoderSnakeCase.encode(objEncodedToSnakeCaseExample)
 print("snakeCaseEncodedData :: \(String(data: snakeCaseEncodedData, encoding: .utf8) as AnyObject)")
 
+
+struct Movies: Decodable {
+    let name: String
+    let director: String
+    let length: String
+}
+
+let jsonMovieString = """
+{
+  "because_i_am_batman_name": "Batman",
+  "because_i_am_batman_director": "Alfred",
+  "because_i_am_batman_length": "180"
+}
+"""
+
+/// When keyDecodingStrategy is set to .custom then the closure will return a key which should conform to protocol
+/// CodingKey, hence this CustomCodingKey is defined to use in the closure.
+struct CustomCodingKey: CodingKey {
+    var stringValue: String
+    var intValue: Int?
+    
+    init?(stringValue: String) {
+        self.stringValue = stringValue
+        self.intValue = nil
+    }
+    
+    init?(intValue: Int) {
+        self.stringValue = String(intValue)
+        self.intValue = intValue
+    }
+}
+
+let jsonDecoderWithCustomDecodingStrategy = JSONDecoder()
+jsonDecoderWithCustomDecodingStrategy.keyDecodingStrategy = .custom({ keys in
+    let component = "\(keys.last!.stringValue.replacingOccurrences(of: "because_i_am_batman_", with: ""))"
+    return CustomCodingKey(stringValue: component)!
+})
+
+let decodedString = try jsonDecoderWithCustomDecodingStrategy.decode(Movies.self, from: jsonMovieString.data(using: .utf8)!)
+print(decodedString.name)
+
+// TODO: Refactor this file, so that examples can be executed one by one.
