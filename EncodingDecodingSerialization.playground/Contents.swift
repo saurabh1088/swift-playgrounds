@@ -159,6 +159,8 @@ print(decodedPersonObject.description)
 /// Here instead of using `CodingKey` we are using `keyDecodingStrategy` property of `JSONDecoder`
 /// which when set to `convertFromSnakeCase` will automatically try to decode using strategy and map to
 /// a snake case to it's equivalent camel case one.
+/// In the example below we have the struct with property defined name in camel casing i.e. bodyType. However
+/// in the JSON string someJsonStringWithDifferentKeys it's defined in snake case i.e. body_type
 struct Vehicle: Codable, CustomStringConvertible {
     var bodyType: String
     var wheels: Int
@@ -180,3 +182,18 @@ jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
 let dataSomeJsonStringWithDifferentKeys = someJsonStringWithDifferentKeys.data(using: .utf8)!
 let decodedVehicleObject = try jsonDecoder.decode(Vehicle.self, from: dataSomeJsonStringWithDifferentKeys)
 print(decodedVehicleObject.description)
+
+
+struct EncodedToSnakeCaseExample: Encodable {
+    let somePropertyNameString: String
+    let somePropertyNameInt: Int
+}
+
+let jsonEncoderSnakeCase = JSONEncoder()
+jsonEncoderSnakeCase.keyEncodingStrategy = .convertToSnakeCase
+
+let objEncodedToSnakeCaseExample = EncodedToSnakeCaseExample(somePropertyNameString: "value", somePropertyNameInt: 1)
+
+let snakeCaseEncodedData = try jsonEncoderSnakeCase.encode(objEncodedToSnakeCaseExample)
+print("snakeCaseEncodedData :: \(String(data: snakeCaseEncodedData, encoding: .utf8) as AnyObject)")
+
