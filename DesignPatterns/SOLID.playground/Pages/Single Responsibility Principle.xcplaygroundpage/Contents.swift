@@ -17,6 +17,9 @@
  or a single purpose for it's existence.
  This ensures classes created in s system are well defined and maintainable. If a class has only single responsibility
  it would be easier to maintain and debug it in event of future issues/changes.
+ 
+ A class should encapsulate ONLY one aspect of application's functionality. If if does have more than one reason
+ to change, then it should be split into multiple classes.
  */
 
 import Foundation
@@ -62,7 +65,13 @@ class Journal: CustomStringConvertible {
 ///
 /// This requirement for persistance should be better serve by introducing a new class to handle persistence
 /// related functionality.
-
+///
+/// So now `Persist` is introduced which has a Single Responsibility for saving some data to some persistent store.
+/// Now the end client using these APIs to store some journals into a persistent store need to create some journals
+/// and then when those need to be persisted, instance of Persist can be used to perform the same instead of
+/// previous implementation where the journal instances itself would have been needed to call and save to persistent
+/// store.
+/// This makes `Journal` and `Persist` independent and maintaining single responsibilities.
 protocol Persistable {}
 extension Journal: Persistable {}
 
