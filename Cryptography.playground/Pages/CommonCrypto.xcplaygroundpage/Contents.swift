@@ -27,6 +27,21 @@ import CommonCrypto
  
  `Initialization Vector (IV)`
  
+ IV is used in algorithm while encrypting some plaintext information. The aim is to increase security introducing.
+ Initialization Vector need not be secret. Initialization Vector is usually a random non-repeating value sent as an
+ input to an encryption algorithm. So to an encryption algorithm one sends a key and IV to perform encryption.
+ 
+ `Salt`
+ 
+ Salting in key derivation function (KDF)
+ Salt is a random value that is used as an additional input to a key derivation function (KDF) when generating
+ cryptographic keys from a password or passphrase.
+ 
+ Salting in password hashing
+ Salting is used in password hashing, so instead of just hashing a password, one can add a salt, technically speaking
+ append some value to the password and then hash. In hashing even a slightest change in the input will produce
+ a very different hash value hence it becomes more difficult for a brute force attack.
+ 
  */
 
 func encryptData(data: Data, passphrase: String, salt: Data, iv: Data) throws -> Data {
