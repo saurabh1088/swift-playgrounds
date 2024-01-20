@@ -3,6 +3,32 @@
 import Foundation
 import CommonCrypto
 
+/**
+ 
+ `Passphrase`
+ A password used to protect an identity key. After entered by a user or  administrator, a passphrase is mathematically
+ converted into large number which serves as a key that is used to encrypt the identity key. In order to decrypt the
+ identity, the passphrase must be entered again so that the same key can be regenerated for decryption.
+ 
+ So passphrase is a secret which consists of some sequence of words or texts, it's longer.
+ A passphrase can be said to an easier-to-remember password that is longer and therefore stronger.
+ 
+ A passphrase is a sentencelike string of words used for authentication that is longer than a traditional password,
+ easy to remember and difficult to crack. Typical passwords range, on average, from eight to 16 characters, while
+ passphrases can reach up to 100 characters or more.
+ 
+ Most common use-case for a passphrase is an encryption key. Passphrase being longer than a password, provides
+ better protection against potential attempts to guess or crack it.
+ 
+ Passphrases being generally longer are designed to be more resistant to brute-force attacks.
+ 
+ Passphrases are often used to generate cryptographic keys through a key derivation function (KDF). This process
+ makes it computationally expensive for an attacker to guess the passphrase.
+ 
+ `Initialization Vector (IV)`
+ 
+ */
+
 func encryptData(data: Data, passphrase: String, salt: Data, iv: Data) throws -> Data {
     // Derive a key from the passphrase and salt using PBKDF2
     let key = try deriveKey(passphrase: passphrase, salt: salt)
