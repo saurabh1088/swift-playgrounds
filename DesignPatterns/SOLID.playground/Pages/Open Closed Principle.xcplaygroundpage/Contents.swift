@@ -46,8 +46,8 @@ class Vehicle: CustomStringConvertible {
     }
 }
 
-/// Here dealer has an option to filter inventory by color and get all vehicles belonging to a particulat colot. This
-/// is greate, however soon we will need a way to filter via category as well.
+/// Here dealer has an option to filter inventory by color and get all vehicles belonging to a particulat color. This
+/// is great, however soon we will need a way to filter via category as well.
 class Dealer {
     var inventory = [Vehicle]()
     func filterBy(color: ColorOptions) -> [Vehicle] {
@@ -87,6 +87,19 @@ class ColorCriteria: Criteria {
     
     func isMatched(_ item: Vehicle) -> Bool {
         return item.color == color
+    }
+}
+
+class VehicleCategoryCriteria: Criteria {
+    typealias T = Vehicle
+    var category: VehicleCategory
+    
+    init(category: VehicleCategory) {
+        self.category = category
+    }
+    
+    func isMatched(_ item: Vehicle) -> Bool {
+        return item.category == category
     }
 }
 
@@ -133,12 +146,19 @@ func exampleTwoUsingConformanceOfOpenClosedPrinciple() {
     let scalableDealer = ScalableDealer()
     scalableDealer.inventory = vehicles
     
+    print("exampleTwoUsingConformanceOfOpenClosedPrinciple :: filter by color")
     let filterByRed = ColorCriteria(color: .red)
     let filteredVehiclesByColor = scalableDealer.filter(scalableDealer.inventory, criteria: filterByRed)
     for vehicle in filteredVehiclesByColor {
         print("exampleTwoUsingConformanceOfOpenClosedPrinciple :: filter \(vehicle.color) :: \(vehicle)")
     }
     
+    print("exampleTwoUsingConformanceOfOpenClosedPrinciple :: filter by category")
+    let filterBySuv = VehicleCategoryCriteria(category: .suv)
+    let filteredVehiclesBySUV = scalableDealer.filter(scalableDealer.inventory, criteria: filterBySuv)
+    filteredVehiclesBySUV.map({
+        print("exampleTwoUsingConformanceOfOpenClosedPrinciple :: filter \($0.category) :: \($0)")
+    })
 }
 
 exampleOneUsingOpenCloseViolation()
