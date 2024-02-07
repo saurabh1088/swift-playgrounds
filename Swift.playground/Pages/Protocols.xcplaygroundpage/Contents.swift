@@ -203,13 +203,13 @@ project.startProject()
 
 
 /// This all is fine, now suppose due to some criticality we need more hands and we want out developer also
-/// shoule be able to do some testing. How to handle such ask. How to make out developer also perform testing
+/// should be able to do some testing. How to handle such ask. How to make our developers also perform testing
 /// tasks. In inheritance example one might need to further add testing methods to developer class causing a
 /// code repetition. Also this is just a sample example a developer and a tester perform many tasks so a whole lot
-/// of logic might be required to move to our develer class just to make developer also compatible to handle testing
+/// of logic might be required to move to our developer class just to make developer also compatible to handle testing
 /// tasks. One can add those methods to base class but that will unecessarily add those tasks to some other team members
 /// who inherit from `TeamMember` class.
-/// In case of protocol we only need to have our developer struct conform to testing taska protocol and in project
+/// In case of protocol we only need to have our developer struct conform to testing task protocol and in project
 /// pass along developer for testing tasks as well. While in case of inheritance we might need to modify project
 /// class itself to have developer perform testing tasks.
 /// Also for unit testing we have a great advantage. The way Project is defined it has developer and tester properties
@@ -407,6 +407,38 @@ struct IntStorage: Storage {
 struct StringStorage: Storage {
     func storeThis(_ data: String) {
         Database.shared.storage.append(data)
+    }
+}
+
+//##############################################################################
+
+/// `Protocols and Polymorphism`
+/// In example method `examplePolymorphismUsingProtocols` below the `myGarage` array can hold
+/// any type which conforms to `Vehicle` protocol, so basically `myGarage` can hold any `Vehicle`, but
+/// these `Vehicle` types don't share any common ancestor, which is there is no common inheritance relationship
+/// here. So here there is no `V-Table` dispatch happening. Instead here the mechanism used will be `Protocol Witness Table`.
+protocol Vehicle {
+    func drive()
+}
+
+struct Car: Vehicle {
+    func drive() {
+        print("Driving a Car 🚗")
+    }
+}
+
+struct Bike: Vehicle {
+    func drive() {
+        print("Driving a Bike 🏍️")
+    }
+}
+
+func examplePolymorphismUsingProtocols() {
+    var myGarage = [Vehicle]()
+    myGarage.append(Car())
+    myGarage.append(Bike())
+    for vehicle in myGarage {
+        vehicle.drive()
     }
 }
 
