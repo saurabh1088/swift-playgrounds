@@ -34,6 +34,29 @@
  
  3. Lost Type Relationships
     Classe are not a good design fit for solutions where type relationship matter. ```as! ASubclass```
+ 
+ Protocol conformances can be written in angle brackets, or they can be written in a trailing `where` clause, where
+ one can also specify relationships between different type parameters.
+ 
+ ```
+ protocol Animal {}
+ func feed<A>(_ animal: A) where A: Animal
+ ```
+ 
+ This declaration is identical to below one
+ ```
+ func feed(_ animal: some Animal)
+ ```
+ 
+ An abstract type that represents a placeholder for a specific concrete type is called an opaque type.
+ The specific concrete type that is substituted in is called the underlying type.
+ For values with opaque type, the underlying type is fixed for the scope of the value.
+ Both below declarations declare an opaque type.
+ 
+ ```
+ some Animal
+ <T: Animal>
+ ```
         
  */
 import Foundation
