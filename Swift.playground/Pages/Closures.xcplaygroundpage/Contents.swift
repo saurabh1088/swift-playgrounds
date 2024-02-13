@@ -66,7 +66,7 @@ func closureExample2() {
 
 /// `Capturing Values`
 /// Closures can capture constants and variables from surrounding context in which they are defined. Once
-/// captures, closures can refer to and modify these constants and variables from within closure body even though
+/// captured, closures can refer to and modify these constants and variables from within closure body even though
 /// the original scope defining those no longer exists.
 
 // MARK: -----------------------------------------------------------------------

@@ -21,7 +21,7 @@ import Foundation
  - Structures
  - Enumerations
  
- Computed properties are always var as theit values are never fixed and may change.
+ Computed properties are always var as their values are never fixed and may change.
  
  `Enumerations doesn't have stored properties`
  

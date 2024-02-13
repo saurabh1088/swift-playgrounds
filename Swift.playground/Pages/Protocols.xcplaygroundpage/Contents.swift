@@ -43,7 +43,8 @@
  func feed<A>(_ animal: A) where A: Animal
  ```
  
- This declaration is identical to below one
+ This declaration is identical to below one. The bottom one reduces the syntactic complexity as the top one with
+ the type parameter and where clause looks too complex.
  ```
  func feed(_ animal: some Animal)
  ```
