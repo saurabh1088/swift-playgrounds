@@ -91,7 +91,33 @@ func exampleEnumerationWithAssociatedValues() {
 
 
 // MARK: -----------------------------------------------------------------------
-// MARK: Example 5 :
+// MARK: Example 5 : Associated value and CaseIterable
+/// Swift compiler will generate implementation for `CaseIterable` protocol requirement itself for enums
+/// without having any associated values.
+/// But when one tries to conform to `CaseIterable` for an enum having associated values then compiler cries
+/// with below error:
+/// `Type 'SupportedOS' does not conform to protocol 'CaseIterable'`
+enum SupportedOS: CaseIterable {
+    case iphone(String)
+    case mac(String)
+    
+    static var allCases: [SupportedOS] {
+        return [.iphone("iOS16"), .iphone("iOS17"),
+                .mac("Sonoma")]
+    }
+}
+
+func exampleEnumerationWithAssociatedValuesAndCaseIterable() {
+    SupportedOS.allCases.forEach { supportedOS in
+        if case .iphone(let supportedInIOS) = supportedOS {
+            print("Supported in iOS :: \(supportedInIOS)")
+        }
+        if case .mac(let supportedInMacOS) = supportedOS {
+            print("Supported in macOS :: \(supportedInMacOS)")
+        }
+    }
+}
+
 
 
 // MARK: -----------------------------------------------------------------------
@@ -103,5 +129,6 @@ func exampleEnumerationWithAssociatedValues() {
 exampleEnumerationDefaultValue()
 exampleEnumerationCaseIterable()
 exampleEnumerationWithAssociatedValues()
+exampleEnumerationWithAssociatedValuesAndCaseIterable()
 
 //: [Next](@next)
