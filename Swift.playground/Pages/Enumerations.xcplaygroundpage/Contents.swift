@@ -121,7 +121,93 @@ func exampleEnumerationWithAssociatedValuesAndCaseIterable() {
 
 
 // MARK: -----------------------------------------------------------------------
-// MARK: Example 6 :
+// MARK: Example 6 : Enum with initializer
+/// Below example shows an enumeration for which in example a rawValue initializer is used. Please note that
+/// rawValue initializer is a failable initializer, hence the need to unwrap the value returned.
+enum JusticeLeague: String {
+    case batman
+    case superman
+    case wonderwoman
+    case flash
+    case cyborg
+    case aquaman
+}
+
+func exampleEnumerationWithInitializer() {
+    let batman = JusticeLeague(rawValue: "batman")
+    if let enumBatman = batman?.rawValue {
+        print("Because I' am :: \(enumBatman)")
+    }
+}
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 7 : Enumerations in Swift are first class types.
+/// `Enumerations in Swift are first class types`
+/// This is because enumerations in Swift adopt many features which are supported by classes like :
+/// 1. Enums can have computed properties
+/// 2. Enums can define instance methods
+/// 3. Enums can have initializers
+/// 4. One can provide additional funtionality to enum by using extensions
+/// 5. Enums can conform to protocols
+enum Avenger {
+    case ironman
+    case blackwidow
+    case thor
+    case captainamerica
+    
+    init?(withCodeName: String) {
+        switch withCodeName.lowercased() {
+        case "rich":
+            self = .ironman
+        case "assasin":
+            self = .blackwidow
+        case "thunder":
+            self = .thor
+        case "strong":
+            self = .captainamerica
+        default:
+            return nil
+        }
+    }
+    
+    var ability: String {
+        switch self {
+        case .ironman:
+            "I have a strong armour"
+        case .blackwidow:
+            "I am an assasin"
+        case .thor:
+            "I am god of thunder"
+        case .captainamerica:
+            "I have super strength"
+        }
+    }
+    
+    func avengersAssemble() {
+        print("Avengers assembled!")
+    }
+}
+
+extension Avenger: CaseIterable {}
+
+func exampleEnumerationShowingFirstClassCapabilities() {
+    // Computed Property
+    let ironman = Avenger.ironman
+    ironman.ability
+    
+    // Instance Method
+    let captain = Avenger.captainamerica
+    captain.avengersAssemble()
+    
+    // Initializer
+    let whoami = Avenger(withCodeName: "Assasin")
+    whoami?.ability
+    
+    // Extension and Protocol
+    Avenger.allCases.forEach { avenger in
+        print("Hello there, my name is :: \(avenger)")
+    }
+}
 
 
 // MARK: -----------------------------------------------------------------------
@@ -130,5 +216,7 @@ exampleEnumerationDefaultValue()
 exampleEnumerationCaseIterable()
 exampleEnumerationWithAssociatedValues()
 exampleEnumerationWithAssociatedValuesAndCaseIterable()
+exampleEnumerationWithInitializer()
+exampleEnumerationShowingFirstClassCapabilities()
 
 //: [Next](@next)
