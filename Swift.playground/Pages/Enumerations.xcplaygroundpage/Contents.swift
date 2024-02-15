@@ -145,7 +145,7 @@ func exampleEnumerationWithInitializer() {
 /// `Enumerations in Swift are first class types`
 /// This is because enumerations in Swift adopt many features which are supported by classes like :
 /// 1. Enums can have computed properties
-/// 2. Enums can define instance methods
+/// 2. Enums can define functions acting on values it provides
 /// 3. Enums can have initializers
 /// 4. One can provide additional funtionality to enum by using extensions
 /// 5. Enums can conform to protocols
@@ -195,7 +195,7 @@ func exampleEnumerationShowingFirstClassCapabilities() {
     let ironman = Avenger.ironman
     ironman.ability
     
-    // Instance Method
+    // Function
     let captain = Avenger.captainamerica
     captain.avengersAssemble()
     
@@ -209,6 +209,23 @@ func exampleEnumerationShowingFirstClassCapabilities() {
     }
 }
 
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 8 : Can Enum have stored properties.
+/// `NO`
+/// If an attempt to add a stored property is taken then compilor cries with below error:
+/// `Enums must not contain stored properties`
+/// An enum as explained in definition is a common type for a group of related values. So we have a type and
+/// then value of that type which we use in code. This means we don't have instance of enums unlike classes
+/// and structures. Now one can have static properties defined for an enum as static properties are associated
+/// with the type and not instance. But as there is no instance of enum thus it can't have any stored property.
+enum AreStoredPropertyPossible {
+    case optionOne
+    case optionTwo
+
+    static var someStaticProperty = "static"
+//    var someStoredProperty: String
+}
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Example method calls
