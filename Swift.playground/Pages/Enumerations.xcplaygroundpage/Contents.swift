@@ -12,6 +12,7 @@
  */
 import Foundation
 
+
 // MARK: -----------------------------------------------------------------------
 // MARK: Example 1 : Defining an Enumeration
 /// As per Apple's recommendations one should give enums singular name so that in usage these are read as
@@ -119,7 +120,6 @@ func exampleEnumerationWithAssociatedValuesAndCaseIterable() {
 }
 
 
-
 // MARK: -----------------------------------------------------------------------
 // MARK: Example 6 : Enum with initializer
 /// Below example shows an enumeration for which in example a rawValue initializer is used. Please note that
@@ -139,6 +139,7 @@ func exampleEnumerationWithInitializer() {
         print("Because I' am :: \(enumBatman)")
     }
 }
+
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Example 7 : Enumerations in Swift are first class types.
@@ -227,6 +228,76 @@ enum AreStoredPropertyPossible {
 //    var someStoredProperty: String
 }
 
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 9 : Enums with RawRepresentable.
+/// So far in example above we have had enums for basic type, like String, Int etc. One can also use a complext type
+/// like in example below for enum `BodyType`. Trying to use `Car` type initially will give following errors :
+///
+/// `'BodyType' declares raw type 'Car', but does not conform to RawRepresentable and conformance could not be synthesized`
+/// `Raw type 'Car' is not expressible by a string, integer, or floating-point literal`
+/// `RawRepresentable conformance cannot be synthesized because raw type 'Car' is not Equatable`
+///
+/// One need to conform to `RawRepresentable` if one need to use any custom type for raw value.
+protocol Drivable {
+    var numberOfWheels: Int { get set }
+    var engineCapacity: Int { get set }
+    func drive()
+}
+
+struct Car: Drivable, Equatable {
+    var numberOfWheels: Int
+    var engineCapacity: Int
+    var type: BodyType
+    
+    func drive() {
+        print("Driving a car 🚘")
+    }
+}
+
+enum BodyType: RawRepresentable {
+    typealias RawValue = Car
+    init?(rawValue: Car) {
+        switch rawValue.type {
+        case .hatch:
+            self = .hatch
+        case .sedan:
+            self = .sedan
+        case .suv:
+            self = .suv
+        case .mpv:
+            self = .mpv
+        }
+    }
+    
+    var rawValue: Car {
+        switch self {
+        case .hatch:
+            return Car(numberOfWheels: 4, engineCapacity: 1000, type: .hatch)
+        case .sedan:
+            return Car(numberOfWheels: 4, engineCapacity: 1500, type: .sedan)
+        case .suv:
+            return Car(numberOfWheels: 4, engineCapacity: 2000, type: .suv)
+        case .mpv:
+            return Car(numberOfWheels: 4, engineCapacity: 2500, type: .mpv)
+        }
+    }
+    
+    case hatch
+    case sedan
+    case suv
+    case mpv
+}
+
+func exampleEnumerationWithRawRepresentable() {
+    let hatchback = BodyType.hatch
+    print("What's the engine capacity :: \(hatchback.rawValue.engineCapacity)")
+    
+    if let someCarType = BodyType(rawValue: Car(numberOfWheels: 4, engineCapacity: 2500, type: .mpv)) {
+        print("Car type is :: \(someCarType.rawValue.type)")
+    }
+}
+
 // MARK: -----------------------------------------------------------------------
 // MARK: Example method calls
 exampleEnumerationDefaultValue()
@@ -235,5 +306,9 @@ exampleEnumerationWithAssociatedValues()
 exampleEnumerationWithAssociatedValuesAndCaseIterable()
 exampleEnumerationWithInitializer()
 exampleEnumerationShowingFirstClassCapabilities()
+exampleEnumerationWithRawRepresentable()
+
+// TODO: Add example about using enum as a namespace
+// TODO: Add example for Recursive Enumerations and indirect keyword
 
 //: [Next](@next)
