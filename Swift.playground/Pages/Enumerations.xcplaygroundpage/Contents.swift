@@ -298,6 +298,45 @@ func exampleEnumerationWithRawRepresentable() {
     }
 }
 
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 10 : Enums as namespace.
+/// Now namespace is a programming construct enabling one to group together various types and symbols under
+/// one name.
+/// 
+/// Concept is discussed in QnA @:
+/// https://github.com/saurabh1088/notes/blob/main/iOS/QnA/QnA1.md#10-what-is-a-namespace
+///
+/// Now Swift doesn't have a dedicated keyword unlike few other languages for namespace. However one can
+/// achieve the concept of namespace using enums.
+///
+/// In fact Apple uses enum for namespacing in APIs for example in Combine framework:
+/// https://developer.apple.com/documentation/combine/publishers
+/// Here the documentation from Apple itself mentions `Publishers` as `A namespace for types that serve as publishers.
+enum Networking {
+    struct APIManager {}
+    struct Utils {
+        func utility() {
+            print("Utility from Networking")
+        }
+    }
+}
+
+enum StyleGuide {
+    struct Fonts {}
+    struct Utils {
+        func utility() {
+            print("Utility from StyleGuide")
+        }
+    }
+}
+
+func exampleEnumerationsUsedForNamespace() {
+    Networking.Utils().utility()
+    StyleGuide.Utils().utility()
+}
+
+
 // MARK: -----------------------------------------------------------------------
 // MARK: Example method calls
 exampleEnumerationDefaultValue()
@@ -307,6 +346,7 @@ exampleEnumerationWithAssociatedValuesAndCaseIterable()
 exampleEnumerationWithInitializer()
 exampleEnumerationShowingFirstClassCapabilities()
 exampleEnumerationWithRawRepresentable()
+exampleEnumerationsUsedForNamespace()
 
 // TODO: Add example about using enum as a namespace
 // TODO: Add example for Recursive Enumerations and indirect keyword
