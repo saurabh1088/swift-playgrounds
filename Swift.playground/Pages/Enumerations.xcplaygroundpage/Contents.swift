@@ -338,6 +338,42 @@ func exampleEnumerationsUsedForNamespace() {
 
 
 // MARK: -----------------------------------------------------------------------
+// MARK: Example 11 : Recursive Enumerations
+/// `Recursive Enumerations`
+/// When an enum has associated value which is of the type same as the enum itself, then such enumeration is
+/// known as `Recursive Enumeration`.
+/// To mark an enum as recursive, one need to use keyword `indirect`. One can use keyword `indirect`
+/// either at:
+/// 1. The enum declaration itself
+/// 2. Or cases having associated values
+///
+/// Not marking a recursive enum with indirect keyword makes compiler cry with below error:
+/// `Recursive enum 'BinaryTreeAlternative' is not marked 'indirect'`
+///
+/// Below example describes defining recirsive enum using indirect keyword at both possible locations. The enums
+/// `BinaryTree` and `BinaryTreeAlternative` both achieve same result for representing a binary tree
+/// like below:
+///         1
+///        /    \
+///       2       3
+///      /  \       /   \
+///     4     5    6     7
+indirect enum BinaryTree {
+    case leaf(Int)
+    case node(BinaryTree, Int, BinaryTree)
+}
+
+enum BinaryTreeAlternative {
+    case leaf(Int)
+    indirect case node(BinaryTreeAlternative, Int, BinaryTreeAlternative)
+}
+
+func exampleEnumerationRecursiveWithIndirect() {
+    let binaryTree = BinaryTree.node(.node(.leaf(4), 2, .leaf(5)), 1, .node(.leaf(6), 3, .leaf(7)))
+    print(binaryTree)
+}
+
+// MARK: -----------------------------------------------------------------------
 // MARK: Example method calls
 exampleEnumerationDefaultValue()
 exampleEnumerationCaseIterable()
@@ -347,8 +383,8 @@ exampleEnumerationWithInitializer()
 exampleEnumerationShowingFirstClassCapabilities()
 exampleEnumerationWithRawRepresentable()
 exampleEnumerationsUsedForNamespace()
+exampleEnumerationRecursiveWithIndirect()
 
-// TODO: Add example about using enum as a namespace
 // TODO: Add example for Recursive Enumerations and indirect keyword
 
 //: [Next](@next)
