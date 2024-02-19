@@ -64,7 +64,44 @@ func exampleArrayAvailableHelperProperties() {
 }
 
 // MARK: -----------------------------------------------------------------------
-// MARK: Example 3 :
+// MARK: Example 3 : Array capacity
+/// `Array's capacity`
+/// `capacity` is an instance property on Array, it gives a count of number of elements array can contain without
+/// allocating new storage.
+/// For Array the compiler will reserve certain amount of memory to hold its contents. When one appends more
+/// elements to the Array then if more storage is required then the new storage allocate is in multiples of old storage
+/// size.
+///
+/// For example in the example method below the array `someArray` defined initially is having 5 elements so
+/// at this time both `count` and `capacity` of the array is 5. If another element is appended to `someArray`
+///
+/// Note: Both insert and append have same result on capacity, removal however doesn't changes the capacity.
+func exampleArrayCapacity() {
+    // Append
+    var someArray = [1, 2, 3, 4, 5]
+    print("Capacity & count of someArray once array is initialised with some values")
+    print("Count :: \(someArray.count)")
+    print("Capacity :: \(someArray.capacity)")
+    someArray.append(6)
+    print("Capacity & count of someArray once more value is appended to it")
+    print("Count :: \(someArray.count)")
+    print("Capacity :: \(someArray.capacity)")
+    
+    // Insert
+    var anotherArray = [1, 2, 3, 4, 5]
+    print("Capacity & count of anotherArray once array is initialised with some values")
+    print("Count :: \(anotherArray.count)")
+    print("Capacity :: \(anotherArray.capacity)")
+    anotherArray.insert(0, at: 0)
+    print("Capacity & count of anotherArray once an element is inserted at some index")
+    print("Count :: \(anotherArray.count)")
+    print("Capacity :: \(anotherArray.capacity)")
+    anotherArray.remove(at: 0)
+    anotherArray.remove(at: 1)
+    print("Capacity & count of anotherArray once an element is removed from some index")
+    print("Count :: \(anotherArray.count)")
+    print("Capacity :: \(anotherArray.capacity)")
+}
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Example 4 :
@@ -75,7 +112,6 @@ func exampleArrayAvailableHelperProperties() {
 
 exampleArrayDeclarationAndCreation()
 exampleArrayAvailableHelperProperties()
-
-var greeting = "Hello, playground"
+exampleArrayCapacity()
 
 //: [Next](@next)
