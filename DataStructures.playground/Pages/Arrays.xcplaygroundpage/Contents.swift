@@ -104,7 +104,21 @@ func exampleArrayCapacity() {
 }
 
 // MARK: -----------------------------------------------------------------------
-// MARK: Example 4 :
+// MARK: Example 4 : Reserve Capacity
+/// As per Apple's documentation for method `reserveCapacity(_:)` the newly allocated storage might be greater
+/// than the requested capacity.
+func exampleArrayReserveCapacity() {
+    var exampleArrayNoReserve = [1, 2, 3, 4, 5]
+    print("Capacity for exampleArrayNoReserve :: \(exampleArrayNoReserve.capacity)")
+    exampleArrayNoReserve.append(6)
+    print("Capacity for exampleArrayNoReserve on append :: \(exampleArrayNoReserve.capacity)")
+    
+    var exampleArrayWithReserve = [1, 2, 3, 4, 5]
+    print("Capacity for exampleArrayWithReserve :: \(exampleArrayWithReserve.capacity)")
+    exampleArrayWithReserve.reserveCapacity(6)
+    exampleArrayWithReserve.append(6)
+    print("Capacity for exampleArrayWithReserve on append with reserve :: \(exampleArrayWithReserve.capacity)")
+}
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Example 5 :
@@ -113,5 +127,9 @@ func exampleArrayCapacity() {
 exampleArrayDeclarationAndCreation()
 exampleArrayAvailableHelperProperties()
 exampleArrayCapacity()
+exampleArrayReserveCapacity()
+
+//TODO: Check discussion regarding performance
+// https://developer.apple.com/documentation/swift/array/reservecapacity(_:)-5cknc
 
 //: [Next](@next)
