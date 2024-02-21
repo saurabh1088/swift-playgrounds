@@ -121,13 +121,27 @@ func exampleArrayReserveCapacity() {
 }
 
 // MARK: -----------------------------------------------------------------------
-// MARK: Example 5 :
-
+// MARK: Example 5 : ContiguousArray
+/// `ContiguousArray`
+/// It's an array which always stored its elements in a contiguous region of memory. This is different from regular
+/// `Array` as `Array` may or may not store it's elements in contiguous region of memory.
+/// So one can use `ContiguousArray` if requirement is to have elements stored in a contiguous region of
+/// memory.
+/// Now for an `Array`, for most of element types, the storage is actually contiguous only. It's only of the element
+/// type is a reference type like class or @objc protocol type, the storage can be instance of NSArray. So what this
+/// implies is when one is dealing with elements of array which are value types, using Array or ContiguousArray
+/// both will have similar performance. When elements to be stored in array are class or @objc protocol type then
+/// ContiguousArray could be more efficient.
+func exampleArrayContiguousArray() {
+    var contiguousArray: ContiguousArray<Int> = [1, 2, 3, 4, 5]
+    print(contiguousArray.capacity)
+}
 
 exampleArrayDeclarationAndCreation()
 exampleArrayAvailableHelperProperties()
 exampleArrayCapacity()
 exampleArrayReserveCapacity()
+exampleArrayContiguousArray()
 
 //TODO: Check discussion regarding performance
 // https://developer.apple.com/documentation/swift/array/reservecapacity(_:)-5cknc
