@@ -137,11 +137,38 @@ func exampleArrayContiguousArray() {
     print(contiguousArray.capacity)
 }
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 5 : ArraySlice
+/// `ArraySlice`
+/// `ArraySlice` is a view onto Arrays. It's a generic struct behaving very much same as the normal Array.
+/// `ArraySlice` can reference a part of another Array's storage and pass it of as its own. This is helpful to
+/// make it fast and efficient to perform operations on a section of larger array. ArraySlice doesn't copies elements
+/// of section it represents of the larger array, instead it present a view onto the storage of larger array.
+/// ArraySlice offers same interface as that of normal array so one performs same operations as one can on a
+/// normal array.
+/// `ArraySlice` can however allocate its own memory space but that defeats the purpose of using it.
+func exampleArraySlice() {
+    let aLargeArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    let arraySlice = aLargeArray[2...4]
+    print("Slice of big array :: \(arraySlice)")
+    
+    // Slice preserves the indices so below will give an error
+    // print("First element of arraySlice :: \(arraySlice[0])")
+    
+    // this will work fine
+    print("First element of arraySlice :: \(arraySlice[2])")
+    
+    // If we need to know the indexes of slice then one can use startIndex & endIndex
+    print("Starting index of arraySlice :: \(arraySlice.startIndex)")
+    print("Ending index of arraySlice :: \(arraySlice.endIndex)")
+}
+
 exampleArrayDeclarationAndCreation()
 exampleArrayAvailableHelperProperties()
 exampleArrayCapacity()
 exampleArrayReserveCapacity()
 exampleArrayContiguousArray()
+exampleArraySlice()
 
 //TODO: Check discussion regarding performance
 // https://developer.apple.com/documentation/swift/array/reservecapacity(_:)-5cknc
