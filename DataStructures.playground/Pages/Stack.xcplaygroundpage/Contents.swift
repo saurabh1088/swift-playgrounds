@@ -23,30 +23,49 @@
  */
 import Foundation
 
-struct Stack<Element> {
-    private var elements: [Element] = []
+protocol Stackable {
+    associatedtype Element
+    var elements: [Element] { get set }
+    func peek() -> Element?
+    mutating func pop() -> Element?
+    mutating func push(_ element: Element)
+}
+
+struct Stack<T>: Stackable {
+    var elements: [T] = []
     
-    func peek() -> Element? {
+    func peek() -> T? {
         return elements.last
     }
     
-    mutating func pop() -> Element? {
+    mutating func pop() -> T? {
         return elements.removeLast()
     }
     
-    mutating func push(_ element: Element) {
+    mutating func push(_ element: T) {
         elements.append(element)
     }
+    
 }
 
-func exampleStackDataStructure() {
+func exampleStackDataStructureUsingInt() {
     var stackOfInt = Stack<Int>()
     stackOfInt.push(0)
     stackOfInt.push(1)
     stackOfInt.push(2)
+    stackOfInt.push(3)
     print(stackOfInt)
 }
 
-exampleStackDataStructure()
+func exampleStackDataStructureUsingString() {
+    var stackOfString = Stack<String>()
+    stackOfString.push("Batman")
+    stackOfString.push("Wonder Woman")
+    stackOfString.push("Superman")
+    print(stackOfString)
+}
+
+exampleStackDataStructureUsingInt()
+exampleStackDataStructureUsingString()
 
 //: [Next](@next)
