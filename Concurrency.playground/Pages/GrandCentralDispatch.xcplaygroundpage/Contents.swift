@@ -397,7 +397,52 @@ func dispatchQueueExample13() {
     }))
 }
 
-/// `Examples`
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 14 :
+func dispatchQueueExample14() {
+    let backgroundQOSQueue = DispatchQueue.global(qos: .background)
+    let defaultQOSQueue = DispatchQueue.global(qos: .default)
+    let unspecifiedQOSQueue = DispatchQueue.global(qos: .unspecified)
+    let userInitiatedQOSQueue = DispatchQueue.global(qos: .userInitiated)
+    let userInteractiveQOSQueue = DispatchQueue.global(qos: .userInteractive)
+    
+    DispatchQueue.global().async {
+        backgroundQOSQueue.async {
+            print("Inside queue with QOS :: background")
+            for index in 1...5 {
+                print("     background \(index)")
+            }
+        }
+        defaultQOSQueue.async {
+            print("Inside queue with QOS :: default")
+            for index in 1...5 {
+                print("     default \(index)")
+            }
+        }
+        unspecifiedQOSQueue.async {
+            print("Inside queue with QOS :: unspecified")
+            for index in 1...5 {
+                print("     unspecified \(index)")
+            }
+        }
+        userInitiatedQOSQueue.async {
+            print("Inside queue with QOS :: userInitiated")
+            for index in 1...5 {
+                print("     userInitiated \(index)")
+            }
+        }
+        userInteractiveQOSQueue.async {
+            print("Inside queue with QOS :: userInteractive")
+            for index in 1...5 {
+                print("     userInteractive \(index)")
+            }
+        }
+    }
+}
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Examples
+
 //dispatchQueueExample1()
 //dispatchQueueExample2()
 //dispatchQueueExample3()
@@ -411,5 +456,6 @@ func dispatchQueueExample13() {
 //dispatchQueueExample11()
 //dispatchQueueExample12()
 //dispatchQueueExample13()
+//dispatchQueueExample14()
 
 //: [Next](@next)
