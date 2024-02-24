@@ -27,8 +27,8 @@
  
  `DispatchQueue`
  As mentioned in GCD, tasks are dispatched to a queue. `DispatchQueue` helps define object which manages
- execution of tasks. So basically it represents a queue in GCD. `DispatchQueue` are FIFI queues and the
- tasks can be submitted to a `DispatchQueue` as block objects. Taks which are submitted to `DispatchQueue`
+ execution of tasks. So basically it represents a queue in GCD. `DispatchQueue` are FIFO queues and the
+ tasks can be submitted to a `DispatchQueue` as block objects. Tasks which are submitted to `DispatchQueue`
  are executed on a pool of threads which are managed by system. There is a main `DispatchQueue` which
  guarantees tasks submitted will get executed on main thread, as for other queues, there is no gurantee which thread
  will be used to execute it.
@@ -38,7 +38,8 @@
  */
 import Foundation
 
-/// Example 1 : Main Dispatch Queue
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 1 : Main Dispatch Queue
 /// One can access main queue with `DispatchQueue.main`. Main queue is the queue associated with the
 /// main thread of application. Any task submitted on main queue gets executed on main thread.
 /// `DispatchQueue.main.async` is usually used to submit a block of code to be used to update UI as all
@@ -47,13 +48,14 @@ import Foundation
 func dispatchQueueExample1() {
     let mainQueue = DispatchQueue.main
     mainQueue.async {
-        print("mainQueue :: am i printed from main thread :: \(Thread.isMainThread)")
+        print("mainQueue :: Am i printed from main thread :: \(Thread.isMainThread)")
     }
 }
 
-/// Example 2 : Global queue
-/// `globalQueueQOSBackground` is a global concurrent queue with QoS as background. In example below
-/// onto this queue two tasks are submitted which are printing some statements. When executed the print statements
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 2 : Global queue
+/// `globalQueueQOSBackground` is a global concurrent queue with QoS as background. In example below,
+/// two tasks are submitted onto this queue, which are printing some statements. When executed the print statements
 /// on console appear jumbled up between the two tasks, which should happen as because of queue being concurrent
 /// both tasks are performed concurrently.
 func dispatchQueueExample2() {
@@ -79,12 +81,12 @@ func dispatchQueueExample2() {
     }
 }
 
-
-
-
-/// Example 3 : Global queue with `DispatchWorkItem`
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 3 : Global queue with DispatchWorkItem
 /// Queue `dispatchQueueWorkItem` is a global concurrent queue with QoS as default. To this dispatch
 /// queue there are two `DispatchWorkItem's` are submitted.
+///
+/// This one and the dispatchQueueExample2 are same functionally except use of DispatchWorkItem here.
 func dispatchQueueExample3() {
     let dispatchQueueWorkItem = DispatchQueue.global(qos: .default)
 
@@ -104,10 +106,9 @@ func dispatchQueueExample3() {
     dispatchQueueWorkItem.async(execute: dispatchQueueWorkItemTwo)
 }
 
-
-
-/// Example 4 : Serial queue
-/// Below example show how to create a custom serial queue. the queue created needs a label. Usual naming
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 4 : Serial queue
+/// Below example shows how to create a custom serial queue. The queue created needs a label. Usual naming
 /// conventions followed is to use reverse domain name similar to app id. This helps in identifying the queue in
 /// event of any issues.
 func dispatchQueueExample4() {
@@ -128,8 +129,8 @@ func dispatchQueueExample4() {
     serialDispatchQueue.async(execute: serialDispatchQueueTaskTwo)
 }
 
-
-/// Example 5 : Async vs Sync
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 5 : Async vs Sync
 /// In example below we have a queue `concurrentQueueExample5` onto which a task is submitted. Now
 /// within that task another task is dispatched to a different queue `innerConcurrentQueueExample5`.
 /// Task submitted to `innerConcurrentQueueExample5` is using `sync`.
@@ -156,7 +157,8 @@ func dispatchQueueExample5() {
     }
 }
 
-/// Example 6 :
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 6 :
 /// Below example creates a messaging service. The service keeps a record of messages sent to it and can
 /// read out the recent message sent to it.
 /// Messages to this messaging service as dispatched over a concurrent queue. If at the same time attempt
@@ -214,8 +216,8 @@ func dispatchQueueExample6() {
     }
 }
 
-
-/// Example 7 :
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 7 :
 /// `RobustMessaging` uses a concurrent queue to append any new message it will receive. On the concurrent
 /// queue a barrier is also set.
 ///
@@ -277,9 +279,8 @@ func dispatchQueueExample7() {
     }
 }
 
-
-
-/// Example 8 : Initially inactive queue
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 8 : Initially inactive queue
 /// Usually as soon as tasks are submitted to a queue, the queue will schedule execution of those tasks
 /// immediately.
 func dispatchQueueExample8() {
@@ -292,7 +293,8 @@ func dispatchQueueExample8() {
     initiallyInactiveQueue.activate()
 }
 
-/// Example 9 : autoreleaseFrequency
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 9 : autoreleaseFrequency
 // TODO: Need to figure out exact relevance of autoreleaseFrequency and update example acordingly.
 class TestClassForAutoRelease {
     init() { print("TestClassForAutoRelease initialised") }
@@ -313,7 +315,8 @@ func dispatchQueueExample9() {
     }
 }
 
-/// Example 10 :
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 10 :
 /// DispatchQueue also provides a way to return some value from task scheduled synchronously over a queue.
 func dispatchQueueExample10() {
     let someSerialQueue = DispatchQueue(label: "some.serial.queue")
@@ -323,7 +326,8 @@ func dispatchQueueExample10() {
     print("Result from queue :: \(result)")
 }
 
-/// Example 11 :
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 11 :
 /// Here the `DispatchWorkItem` get executed on current thread when `perform()` is called on it.
 func dispatchQueueExample11() {
     let dispatchWorkItem = DispatchWorkItem {
@@ -332,7 +336,8 @@ func dispatchQueueExample11() {
     dispatchWorkItem.perform()
 }
 
-/// Example 12 :
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 12 :
 /// `DispatchGroup`
 /// `DispatchGroup` helps to monitor a group of tasks as single unit.
 func dispatchQueueExample12() {
@@ -357,7 +362,8 @@ func dispatchQueueExample12() {
     }))
 }
 
-/// Example 13 :
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 13 :
 /// This example uses `DispatchGroup` to schedule few tasks as a group and also lets define a condition
 /// for one task to only executed once others are finished. Tasks workItemA, workItemB and workItemC are
 /// dispatched to a global concurrent queue so these will get executed concurrently, but workItemB here will
