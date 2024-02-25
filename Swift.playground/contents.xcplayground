@@ -6,5 +6,6 @@
         <page name='Properties'/>
         <page name='Protocols'/>
         <page name='Enumerations'/>
+        <page name='Subscripts'/>
     </pages>
 </playground>
