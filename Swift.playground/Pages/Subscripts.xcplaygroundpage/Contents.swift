@@ -30,5 +30,27 @@
  */
 import Foundation
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 1 : Defining an Subscript
+struct MultiplicationTable {
+    let base: Int
+    
+    subscript(index: Int) -> Int {
+        return base * index
+    }
+}
+
+func exampleSubscript() {
+    let multiplicationTableFive = MultiplicationTable(base: 5)
+    print("Table of 5")
+    for index in 1...10 {
+        print("5 x \(index) = \(multiplicationTableFive[index])")
+    }
+}
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example method calls
+
+exampleSubscript()
 
 //: [Next](@next)
