@@ -78,10 +78,24 @@ func exampleSubscriptWithMultipleArguments() {
 }
 
 // MARK: -----------------------------------------------------------------------
+// MARK: Example 4 :
+struct IsEven {
+    static subscript(number: Int) -> Bool {
+        return number % 2 == 0
+    }
+}
+
+func exampleTypeSubscript() {
+    print("Is 333 even :: \(IsEven[333])")
+    print("Is 432 even :: \(IsEven[432])")
+}
+
+// MARK: -----------------------------------------------------------------------
 // MARK: Example method calls
 
 exampleSubscript()
 exampleSubscriptUsingStrings()
 exampleSubscriptWithMultipleArguments()
+exampleTypeSubscript()
 
 //: [Next](@next)
