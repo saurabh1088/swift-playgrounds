@@ -91,11 +91,48 @@ func exampleTypeSubscript() {
 }
 
 // MARK: -----------------------------------------------------------------------
+// MARK: Example 5 : Subscripts in enumeration
+enum SuperHero: CaseIterable {
+    case Batman
+    case WonderWoman
+    case SuperMan
+    case Flash
+}
+
+enum SuperPower: String {
+    case fast
+    case strength
+    case immortal
+    case intellect
+    
+    static subscript(hero: SuperHero) -> String {
+        switch hero {
+        case .Batman:
+            return "Batman has super \(SuperPower.intellect.rawValue)"
+        case .WonderWoman:
+            return "Wonder Woman is \(SuperPower.immortal.rawValue)"
+        case .SuperMan:
+            return "SuperMan has super \(SuperPower.strength.rawValue)"
+        case .Flash:
+            return "Flash is super \(SuperPower.fast.rawValue)"
+        }
+    }
+}
+
+func exampleSubscriptInEnumerations() {
+    SuperHero.allCases.forEach { hero in
+        print("------✫JL✫------")
+        print(SuperPower[hero])
+    }
+}
+
+// MARK: -----------------------------------------------------------------------
 // MARK: Example method calls
 
-exampleSubscript()
-exampleSubscriptUsingStrings()
-exampleSubscriptWithMultipleArguments()
-exampleTypeSubscript()
+//exampleSubscript()
+//exampleSubscriptUsingStrings()
+//exampleSubscriptWithMultipleArguments()
+//exampleTypeSubscript()
+exampleSubscriptInEnumerations()
 
 //: [Next](@next)
