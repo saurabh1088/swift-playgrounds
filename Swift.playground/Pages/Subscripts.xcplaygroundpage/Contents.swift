@@ -49,8 +49,39 @@ func exampleSubscript() {
 }
 
 // MARK: -----------------------------------------------------------------------
+// MARK: Example 2 :
+struct ConvertToUpperCaps {
+    subscript(text: String) -> String {
+        return text.uppercased()
+    }
+}
+
+func exampleSubscriptUsingStrings() {
+    let convertToCaps = ConvertToUpperCaps()
+    print(convertToCaps["because"])
+    print(convertToCaps["i"])
+    print(convertToCaps["am"])
+    print(convertToCaps["batman"])
+}
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 3 :
+struct Multiplication {
+    subscript(a: Int, b: Int) -> Int {
+        return a * b
+    }
+}
+
+func exampleSubscriptWithMultipleArguments() {
+    let multiplier = Multiplication()
+    print("12 x 23 = \(multiplier[12, 23])")
+}
+
+// MARK: -----------------------------------------------------------------------
 // MARK: Example method calls
 
 exampleSubscript()
+exampleSubscriptUsingStrings()
+exampleSubscriptWithMultipleArguments()
 
 //: [Next](@next)
