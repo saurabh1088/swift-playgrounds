@@ -26,24 +26,41 @@ class LinkedList<Value> {
     func append(_ value: Value) {
         let node = Node(value: value)
         
-        if head?.next == nil {
-            // There isn't any node added to linked list yet
-            head?.next = node
-        } else {
-            var someNode = head?.next
-            while someNode?.next != nil {
-                someNode = someNode?.next
+        if let _ = head {
+            // Only head is present in list, so there is no next element
+            if head?.next == nil {
+                head?.next = node
+            } else {
+                // Next element is present, need to find out the last element of list
+                var someNode = head?.next
+                while someNode?.next != nil {
+                    someNode = someNode?.next
+                }
+                someNode?.next = node
             }
-            someNode?.next = node
+        } else {
+            // There isn't any node added to linked list yet so set head here
+            head = node
         }
     }
-    
-    func printList() {
-        var currentNode = head
+}
+
+extension LinkedList: CustomStringConvertible {
+    var description: String {
+        var output = String()
+        guard let root = head else { return "List is EMPTY!" }
+        output = "\(output) \(root.value) ->"
+        var currentNode = root.next
         while currentNode?.next != nil {
-            print(currentNode?.value)
+            if let value = currentNode?.value {
+                output = "\(output) \(value) ->"
+            }
             currentNode = currentNode?.next
         }
+        if let value = currentNode?.value {
+            output = "\(output) \(value)"
+        }
+        return output
     }
 }
 
@@ -53,8 +70,12 @@ func exampleLinkedList() {
     linkedList.append("Wonder Woman")
     linkedList.append("Superman")
     linkedList.append("Flash")
-    linkedList.printList()
+    print(linkedList)
 }
 
 exampleLinkedList()
+
+//TODO: Add unit tests
+//TODO: Check access level for methods and props
+//TODO: Check for any missing funtionality
 //: [Next](@next)
