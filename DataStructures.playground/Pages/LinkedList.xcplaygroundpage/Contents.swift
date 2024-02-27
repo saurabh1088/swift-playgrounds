@@ -12,7 +12,7 @@ import Foundation
 
 class Node<Value> {
     var value: Value
-    var next: Node?
+    var next: Node<Value>?
     
     init(value: Value, next: Node? = nil) {
         self.value = value
@@ -21,7 +21,7 @@ class Node<Value> {
 }
 
 class LinkedList<Value> {
-    var head: Node?
+    var head: Node<Value>?
     
     func append(_ value: Value) {
         let node = Node(value: value)
@@ -30,8 +30,31 @@ class LinkedList<Value> {
             // There isn't any node added to linked list yet
             head?.next = node
         } else {
-            
+            var someNode = head?.next
+            while someNode?.next != nil {
+                someNode = someNode?.next
+            }
+            someNode?.next = node
+        }
+    }
+    
+    func printList() {
+        var currentNode = head
+        while currentNode?.next != nil {
+            print(currentNode?.value)
+            currentNode = currentNode?.next
         }
     }
 }
+
+func exampleLinkedList() {
+    let linkedList = LinkedList<String>()
+    linkedList.append("Batman")
+    linkedList.append("Wonder Woman")
+    linkedList.append("Superman")
+    linkedList.append("Flash")
+    linkedList.printList()
+}
+
+exampleLinkedList()
 //: [Next](@next)
