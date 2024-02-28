@@ -375,16 +375,15 @@ func exampleEnumerationRecursiveWithIndirect() {
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Example method calls
-exampleEnumerationDefaultValue()
-exampleEnumerationCaseIterable()
-exampleEnumerationWithAssociatedValues()
-exampleEnumerationWithAssociatedValuesAndCaseIterable()
-exampleEnumerationWithInitializer()
-exampleEnumerationShowingFirstClassCapabilities()
-exampleEnumerationWithRawRepresentable()
-exampleEnumerationsUsedForNamespace()
-exampleEnumerationRecursiveWithIndirect()
 
-// TODO: Add example for Recursive Enumerations and indirect keyword
+//exampleEnumerationDefaultValue()
+//exampleEnumerationCaseIterable()
+//exampleEnumerationWithAssociatedValues()
+//exampleEnumerationWithAssociatedValuesAndCaseIterable()
+//exampleEnumerationWithInitializer()
+//exampleEnumerationShowingFirstClassCapabilities()
+//exampleEnumerationWithRawRepresentable()
+//exampleEnumerationsUsedForNamespace()
+//exampleEnumerationRecursiveWithIndirect()
 
 //: [Next](@next)
