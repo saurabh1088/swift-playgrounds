@@ -96,53 +96,59 @@ import Foundation
 import Combine
 import PlaygroundSupport
 
-/// Creating a URLSession instance
-/// Use `URLSession.shared` to create a shared instance.
-/// Limitations of `URLSession.shared`
-/// 1. One can't set any `URLSessionConfiguration` object to shared `URLSession` instance.
-/// 2. One can't set any delegate i.e. `URLSessionDelegate`
-/// 3. Background downloads or uploads can't be performed as those need to have a `URLSessionConfiguration`
-/// configured for performing those operations.
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 1 : URLSession instance options
 
-let sharedSession = URLSession.shared
+func exampleURLSessionInstanceOptionsAndConfigurations() {
+    /// Creating a URLSession instance
+    /// Use `URLSession.shared` to create a shared instance.
+    /// Limitations of `URLSession.shared`
+    /// 1. One can't set any `URLSessionConfiguration` object to shared `URLSession` instance.
+    /// 2. One can't set any delegate i.e. `URLSessionDelegate`
+    /// 3. Background downloads or uploads can't be performed as those need to have a `URLSessionConfiguration`
+    /// configured for performing those operations.
 
-// #############################################################################
+    let sharedSession = URLSession.shared
 
-/// This will generate a compile issue stating
-/// Cannot assign to property: 'configuration' is a get-only property
-/// `configuration` property can only be injected to URLSession instance while initialisation
-/// ```sharedSession.configuration = URLSessionConfiguration.default```
+    // #############################################################################
 
-let defaultConfigurations = URLSessionConfiguration.default
-let defaultConfigURLSession = URLSession(configuration: defaultConfigurations)
-print("Default URLSessionConfiguration : allowsCellularAccess value is : \(defaultConfigurations.allowsCellularAccess)")
+    /// This will generate a compile issue stating
+    /// Cannot assign to property: 'configuration' is a get-only property
+    /// `configuration` property can only be injected to URLSession instance while initialisation
+    /// ```sharedSession.configuration = URLSessionConfiguration.default```
 
-/// `defaultConfigurations` can be modified, for e.g. we can change the default value of `allowsCellularAccess`
-defaultConfigurations.allowsCellularAccess = false
-print("Updated URLSessionConfiguration : allowsCellularAccess value is : \(defaultConfigurations.allowsCellularAccess)")
+    let defaultConfigurations = URLSessionConfiguration.default
+    let defaultConfigURLSession = URLSession(configuration: defaultConfigurations)
+    print("Default URLSessionConfiguration : allowsCellularAccess value is : \(defaultConfigurations.allowsCellularAccess)")
 
-/// However when `URLSession` is instantiated with a `URLSessionConfiguration` then the configuration
-/// object gets copied so now after intantiation any changes made to `URLSessionConfiguration` will not
-/// change the `URLSession` configurations.
-/// Now ONLY way would be to instantiate a NEW `URLSession` object.
-print("allowsCellularAccess value for our defaultConfigURLSession : \(defaultConfigURLSession.configuration.allowsCellularAccess)")
+    /// `defaultConfigurations` can be modified, for e.g. we can change the default value of `allowsCellularAccess`
+    defaultConfigurations.allowsCellularAccess = false
+    print("Updated URLSessionConfiguration : allowsCellularAccess value is : \(defaultConfigurations.allowsCellularAccess)")
 
-// #############################################################################
+    /// However when `URLSession` is instantiated with a `URLSessionConfiguration` then the configuration
+    /// object gets copied so now after intantiation any changes made to `URLSessionConfiguration` will not
+    /// change the `URLSession` configurations.
+    /// Now ONLY way would be to instantiate a NEW `URLSession` object.
+    print("allowsCellularAccess value for our defaultConfigURLSession : \(defaultConfigURLSession.configuration.allowsCellularAccess)")
 
-/// `URLSessionConfiguration ephemeral`
-/// `ephemeral` configuration uses no persistent storage for caches, cookies or credentials.
-/// This means all this won't get saved to disk.
-/// `ephemeral` session will store all session related data to RAM
-/// However one can tell it to write contents of a URL to file.
-/// `ephemeral` sessions are great for private browsing. Size of cache being restricted due to RAM can potentially
-/// appear to be reduced performance.
-/// All session data for an `ephemeral` session is purged the moment session is invalidated. It is alsp purged when
-/// app is terminated or system is experiencing memory pressure.
-let ephemeralConfiguration = URLSessionConfiguration.ephemeral
-let ephemeralURLSession = URLSession(configuration: ephemeralConfiguration)
+    // #############################################################################
+
+    /// `URLSessionConfiguration ephemeral`
+    /// `ephemeral` configuration uses no persistent storage for caches, cookies or credentials.
+    /// This means all of these won't get saved to disk.
+    /// `ephemeral` session will store all session related data to RAM
+    /// However one can tell it to write contents of a URL to file.
+    /// `ephemeral` sessions are great for private browsing. Size of cache being restricted due to RAM can potentially
+    /// appear to reduce the performance.
+    /// All session data for an `ephemeral` session is purged the moment session is invalidated. It is also get purged when
+    /// app is terminated or system is experiencing memory pressure.
+    let ephemeralConfiguration = URLSessionConfiguration.ephemeral
+    let ephemeralURLSession = URLSession(configuration: ephemeralConfiguration)
+}
 
 
-/// Example 1 : URLSession using completion handler
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 2 : URLSession using completion handler
 class MySimpleNetworkingClass {
     static let shared = MySimpleNetworkingClass()
     private let session = URLSession.shared
@@ -162,16 +168,20 @@ class MySimpleNetworkingClass {
     }
 }
 
+func exampleURLSessionUsingCompletionHandler() {
+    let apiURL = URL(string: "https://itunes.apple.com/search?term=jack+johnson&limit=1")!
+    let request = URLRequest(url: apiURL)
+    MySimpleNetworkingClass.shared.makeAPICallFor(request: request)
+}
 
 //TODO: Analyzing HTTP Traffic with Instruments
 // https://developer.apple.com/documentation/foundation/url_loading_system/analyzing_http_traffic_with_instruments
 
-/// Example 2 :
-/// Networking with URLSession and using a URLSessionDelegate
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 3 : Networking with URLSession and using a URLSessionDelegate
 /// NOTE : It's important to not to use `URLSession's` completion handler APIs here else delegate method
 /// won't get called.
-
-class NetworkingService: NSObject, URLSessionDelegate, URLSessionDataDelegate {
+class NetworkingService: NSObject {
     var session: URLSession?
     
     func setupUrlSession() {
@@ -186,24 +196,34 @@ class NetworkingService: NSObject, URLSessionDelegate, URLSessionDataDelegate {
         dataTask?.delegate = self
         dataTask?.resume()
     }
-    
+}
+
+extension NetworkingService: URLSessionDelegate {
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        print("Received authentication challenge")
+        print("Received authentication challenge :: \(challenge.description)")
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         print("URLSessionTaskDelegate : urlSession task didComplete")
     }
-    
+}
+
+extension NetworkingService: URLSessionTaskDelegate {
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
-        print("URLSessionDataDelegate : Received data :: \(String(data: data, encoding: .utf8))")
+        print("URLSessionDataDelegate : Received data :: \(String(data: data, encoding: .utf8)!)")
     }
 }
 
+func exampleURLSessionUsingURLSessionDelegate() {
+    let apiURL = URL(string: "https://itunes.apple.com/search?term=jack+johnson&limit=1")!
+    let request = URLRequest(url: apiURL)
+    let service = NetworkingService()
+    service.setupUrlSession()
+    service.makeAPICall(with: request)
+}
 
-
-/// Example 3 : Using Combine
-
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 4 : Using Combine
 class NetworkingUsingCombine {
     let session = URLSession.shared
     var cancellables = Set<AnyCancellable>()
@@ -220,8 +240,15 @@ class NetworkingUsingCombine {
     }
 }
 
-/// Example 4 : Using async/await
+func exampleURLSessionUsingCombine() {
+    let apiURL = URL(string: "https://itunes.apple.com/search?term=jack+johnson&limit=1")!
+    let request = URLRequest(url: apiURL)
+    let networking = NetworkingUsingCombine()
+    networking.makeAPICall(with: request)
+}
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 5 : Using async/await
 class NetworkingUsingAsyncAwait {
     let session = URLSession.shared
     
@@ -234,27 +261,35 @@ class NetworkingUsingAsyncAwait {
     }
 }
 
-// Setup
-//let apiURL = URL(string: "https://chat.openai.com/chat")!
-let apiURL = URL(string: "https://itunes.apple.com/search?term=jack+johnson&limit=1")!
-let request = URLRequest(url: apiURL)
-PlaygroundPage.current.needsIndefiniteExecution = true
-
-// 1.
-//MySimpleNetworkingClass.shared.makeAPICallFor(request: request)
-
-// 2.
-//let service = NetworkingService()
-//service.setupUrlSession()
-//service.makeAPICall(with: request)
-
-// 3.
-//let serviceUsingCombine = NetworkingUsingCombine()
-//serviceUsingCombine.makeAPICall(with: request)
-
-// 4.
-let serviceUsingAsyncAwait = NetworkingUsingAsyncAwait()
-Task {
-    try await serviceUsingAsyncAwait.makeAPICall(with: request)
+func exampleURLSessionUsingAsyncAwait() {
+    let apiURL = URL(string: "https://itunes.apple.com/search?term=jack+johnson&limit=1")!
+    let request = URLRequest(url: apiURL)
+    let serviceUsingAsyncAwait = NetworkingUsingAsyncAwait()
+    Task {
+        try await serviceUsingAsyncAwait.makeAPICall(with: request)
+    }
 }
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 6 : URLSession with Authentication challenge
+
+func exampleURLSessionWithAuthenticationChallenge() {
+    let apiURL = URL(string: "https://chat.openai.com/chat")!
+    let request = URLRequest(url: apiURL)
+    let networkingService = NetworkingService()
+    networkingService.setupUrlSession()
+    networkingService.makeAPICall(with: request)
+}
+
+// Setup
+//let apiURL = URL(string: "https://chat.openai.com/chat")!
+PlaygroundPage.current.needsIndefiniteExecution = true
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example method calls
+
+//exampleURLSessionInstanceOptionsAndConfigurations()
+//exampleURLSessionUsingCompletionHandler()
+exampleURLSessionUsingURLSessionDelegate()
+//exampleURLSessionUsingCombine()
+//exampleURLSessionWithAuthenticationChallenge()
