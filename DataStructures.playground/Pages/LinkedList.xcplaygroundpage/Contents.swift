@@ -9,6 +9,7 @@
  whereas linked lists has collections of elements which are connected via references.
  */
 import Foundation
+import XCTest
 
 class Node<Value> {
     var value: Value
@@ -64,6 +65,20 @@ extension LinkedList: CustomStringConvertible {
     }
 }
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Unit Tests
+
+class LinkedListTests: XCTestCase {
+    
+    func test_EmptyLinkedList() {
+        let linkedList = LinkedList<Int>()
+        XCTAssertNil(linkedList.head)
+    }
+}
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example :
+
 func exampleLinkedList() {
     let linkedList = LinkedList<String>()
     linkedList.append("Batman")
@@ -73,7 +88,8 @@ func exampleLinkedList() {
     print(linkedList)
 }
 
-exampleLinkedList()
+//exampleLinkedList()
+LinkedListTests.defaultTestSuite.run()
 
 //TODO: Add unit tests
 //TODO: Check access level for methods and props
