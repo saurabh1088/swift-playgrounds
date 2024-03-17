@@ -117,6 +117,8 @@ func exampleURLSessionInstanceOptionsAndConfigurations() {
     /// `configuration` property can only be injected to URLSession instance while initialisation
     /// ```sharedSession.configuration = URLSessionConfiguration.default```
 
+    print("Shared URLSession delegate property value is :: \(sharedSession.delegate)")
+    
     let defaultConfigurations = URLSessionConfiguration.default
     let defaultConfigURLSession = URLSession(configuration: defaultConfigurations)
     print("Default URLSessionConfiguration : allowsCellularAccess value is : \(defaultConfigurations.allowsCellularAccess)")
@@ -288,8 +290,8 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 // MARK: -----------------------------------------------------------------------
 // MARK: Example method calls
 
-//exampleURLSessionInstanceOptionsAndConfigurations()
+exampleURLSessionInstanceOptionsAndConfigurations()
 //exampleURLSessionUsingCompletionHandler()
-exampleURLSessionUsingURLSessionDelegate()
+//exampleURLSessionUsingURLSessionDelegate()
 //exampleURLSessionUsingCombine()
 //exampleURLSessionWithAuthenticationChallenge()
