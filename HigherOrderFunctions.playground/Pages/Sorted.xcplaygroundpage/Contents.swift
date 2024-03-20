@@ -10,9 +10,8 @@ import Foundation
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Example 1 :
-
-func exampleOneArraySorted() {
-    let array = [1, 4, 6, 2, 4, 34, 32, 66, 12, 50, 31, 99, 100, 2342, 123, 321]
+func exampleArraySorted() {
+    let array = [86, 24, 53, 12, 95, 63, 42, 71, 38, 77, 57, 19, 5, 33, 49, 28, 92, 67, 14, 81]
     let sortedArray = array.sorted()
     print(array)
     print(sortedArray)
@@ -21,27 +20,168 @@ func exampleOneArraySorted() {
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Example 2 :
-
-func exampleTwoArraySortedByAscending() {
-    
-}
-
-func exampleTwoArraySortedByDescending() {
-    let array = [0, 34, 23, 123, 321, 456, 32, 55, 66, 90, 1, 4, 2, 5, 7, 99]
-    let sortedArray = array.sorted { $0 > $1 }
+func exampleArraySortedByAscending() {
+    let array = [86, 24, 53, 12, 95, 63, 42, 71, 38, 77, 57, 19, 5, 33, 49, 28, 92, 67, 14, 81]
+    let sortedArray = array.sorted { $0 < $1 }
     print(array)
     print(sortedArray)
 }
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Example 3 :
+func exampleArraySortedByDescending() {
+    let array = [86, 24, 53, 12, 95, 63, 42, 71, 38, 77, 57, 19, 5, 33, 49, 28, 92, 67, 14, 81]
+    let sortedArray = array.sorted { $0 > $1 }
+    print(array)
+    print(sortedArray)
+}
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 4 :
+func exampleArraySortedByDescendingUsingFullClosureSyntax() {
+    let array = [86, 24, 53, 12, 95, 63, 42, 71, 38, 77, 57, 19, 5, 33, 49, 28, 92, 67, 14, 81]
+    let sortedArray = array.sorted { elementA, elementB in
+        elementA > elementB
+    }
+    print(array)
+    print(sortedArray)
+}
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 5 :
+func exampleArrayOfStringSorted() {
+    let array = ["Batman", "Superman", "Flash", "Wonder Woman", "Aquaman"]
+    let sortedArray = array.sorted()
+    print(array)
+    print(sortedArray)
+}
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 6 :
+func exampleArrayOfStringSortedByAscending() {
+    let array = ["Batman", "Superman", "Flash", "Wonder Woman", "Aquaman"]
+    let sortedArray = array.sorted { elementOne, elementTwo in
+        elementOne < elementTwo
+    }
+    print(array)
+    print(sortedArray)
+}
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 7 :
+func exampleArrayOfStringSortedByDescending() {
+    let array = ["Batman", "Superman", "Flash", "Wonder Woman", "Aquaman"]
+    let sortedArray = array.sorted { $0 > $1 }
+    print(array)
+    print(sortedArray)
+}
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 8 :
+struct Employee: CustomStringConvertible {
+    var id: Int
+    var name: String
+    
+    var description: String {
+        return "\(id) : \(name)"
+    }
+}
+
+func exampleArraySortedByForCustomTypes() {
+    let array = [Employee(id: 234, name: "Batman"),
+                 Employee(id: 123, name: "Superman"),
+                 Employee(id: 333, name: "Wonder Woman"),
+                 Employee(id: 456, name: "Flash"),
+                 Employee(id: 999, name: "Aquaman")]
+    let sortedArray = array.sorted { employeeA, employeeB in
+        employeeA.id > employeeB.id
+    }
+    print(array)
+    print(sortedArray)
+}
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 9 :
+struct Movie: CustomStringConvertible {
+    var title: String
+    var director: String
+    var yearOfRelease: Int
+    
+    var description: String {
+        return "\(title) : \(director) : \(yearOfRelease)"
+    }
+}
+
+struct MovieSortComparator: SortComparator {
+    typealias Compared = Movie
+    var order: SortOrder
+    
+    func compare(_ lhs: Movie, _ rhs: Movie) -> ComparisonResult {
+        if lhs.yearOfRelease < rhs.yearOfRelease {
+            return .orderedAscending
+        } else {
+            return .orderedDescending
+        }
+    }
+}
+
+func exampleArraySortedByUsingSortComparator() {
+    let array = [Movie(title: "Dune 1", director: "Denis Villeneuve", yearOfRelease: 2021),
+                 Movie(title: "Dune 2", director: "Denis Villeneuve", yearOfRelease: 2024),
+                 Movie(title: "Oppenheimer", director: "Christopher Nolan", yearOfRelease: 2023),
+                 Movie(title: "The Dark Knight", director: "Christopher Nolan", yearOfRelease: 2008)]
+    let movieSortComparator = MovieSortComparator(order: .forward)
+    let sortedArray = array.sorted(using: movieSortComparator)
+    print(array)
+    print(sortedArray)
+}
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 10 :
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 11 :
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 12 :
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 13 :
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 14 :
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 15 :
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 16 :
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 17 :
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 18 :
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 19 :
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 20 :
+
 
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Examples
 
-exampleOneArraySorted()
-exampleTwoArraySortedByAscending()
-exampleTwoArraySortedByDescending()
+//exampleArraySorted()
+//exampleArraySortedByAscending()
+//exampleArraySortedByDescending()
+//exampleArraySortedByDescendingUsingFullClosureSyntax()
+//exampleArrayOfStringSorted()
+//exampleArrayOfStringSortedByAscending()
+//exampleArrayOfStringSortedByDescending()
+//exampleArraySortedByForCustomTypes()
+exampleArraySortedByUsingSortComparator()
 
 //: [Next](@next)
