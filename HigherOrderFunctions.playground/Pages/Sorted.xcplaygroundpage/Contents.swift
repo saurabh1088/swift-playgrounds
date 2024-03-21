@@ -101,7 +101,13 @@ func exampleArraySortedByForCustomTypes() {
 }
 
 // MARK: -----------------------------------------------------------------------
-// MARK: Example 9 :
+// MARK: Example 9 : Using SortComparator
+/// `SortComparator`
+/// Using `SortComparator` one can implement sorting algorithm for conforming types and then further
+/// pass on the `SortComparator` to a `Sequence`  `sorted<Comparator>(using comparator: Comparator)` method
+///
+/// One great advantage of using `SortComparator` is that it encapsulates the sorting algorithm to a separate
+/// type and this can be very useful for unit testing the sorting algorithm itself.
 struct Movie: CustomStringConvertible {
     var title: String
     var director: String
@@ -125,6 +131,42 @@ struct MovieSortComparator: SortComparator {
     }
 }
 
+struct MovieSortComparatorAdvanced: SortComparator {
+    
+    enum SortKey {
+        case title
+        case director
+        case yearOfRelease
+    }
+    
+    typealias Compared = Movie
+    var order: SortOrder
+    let sortKey: SortKey
+    
+    func compare(_ lhs: Movie, _ rhs: Movie) -> ComparisonResult {
+        switch sortKey {
+        case .title:
+            if lhs.title > rhs.title {
+                return .orderedDescending
+            } else {
+                return .orderedAscending
+            }
+        case .director:
+            if lhs.director > rhs.director {
+                return .orderedDescending
+            } else {
+                return .orderedAscending
+            }
+        case .yearOfRelease:
+            if lhs.yearOfRelease > rhs.yearOfRelease {
+                return .orderedDescending
+            } else {
+                return .orderedAscending
+            }
+        }
+    }
+}
+
 func exampleArraySortedByUsingSortComparator() {
     let array = [Movie(title: "Dune 1", director: "Denis Villeneuve", yearOfRelease: 2021),
                  Movie(title: "Dune 2", director: "Denis Villeneuve", yearOfRelease: 2024),
@@ -132,6 +174,17 @@ func exampleArraySortedByUsingSortComparator() {
                  Movie(title: "The Dark Knight", director: "Christopher Nolan", yearOfRelease: 2008)]
     let movieSortComparator = MovieSortComparator(order: .forward)
     let sortedArray = array.sorted(using: movieSortComparator)
+    print(array)
+    print(sortedArray)
+}
+
+func exampleArraySortedByUsingSortComparatorAdvanced() {
+    let array = [Movie(title: "Dune 1", director: "Denis Villeneuve", yearOfRelease: 2021),
+                 Movie(title: "Dune 2", director: "Denis Villeneuve", yearOfRelease: 2024),
+                 Movie(title: "Oppenheimer", director: "Christopher Nolan", yearOfRelease: 2023),
+                 Movie(title: "The Dark Knight", director: "Christopher Nolan", yearOfRelease: 2008)]
+    let advancedMovieSortComparator = MovieSortComparatorAdvanced(order: .forward, sortKey: .director)
+    let sortedArray = array.sorted(using: advancedMovieSortComparator)
     print(array)
     print(sortedArray)
 }
@@ -182,6 +235,7 @@ func exampleArraySortedByUsingSortComparator() {
 //exampleArrayOfStringSortedByAscending()
 //exampleArrayOfStringSortedByDescending()
 //exampleArraySortedByForCustomTypes()
-exampleArraySortedByUsingSortComparator()
+//exampleArraySortedByUsingSortComparator()
+exampleArraySortedByUsingSortComparatorAdvanced()
 
 //: [Next](@next)
