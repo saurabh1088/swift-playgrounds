@@ -3,5 +3,6 @@
     <pages>
         <page name='Sorted'/>
         <page name='Map'/>
+        <page name='FlatMap'/>
     </pages>
 </playground>
