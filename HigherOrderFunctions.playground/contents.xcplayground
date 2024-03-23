@@ -5,6 +5,7 @@
         <page name='Map'/>
         <page name='FlatMap'/>
         <page name='CompactMap'/>
+        <page name='Reduce'/>
         <page name='Filter'/>
     </pages>
 </playground>
