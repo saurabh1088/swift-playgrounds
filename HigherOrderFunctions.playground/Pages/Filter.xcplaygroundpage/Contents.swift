@@ -17,6 +17,54 @@ func exampleArrayFilter1() {
     print(evenNumbers)
 }
 
-exampleArrayFilter1()
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 2 :
+struct Movie: CustomStringConvertible {
+    let title: String
+    let releaseYear: Int
+    
+    var description: String {
+        return "\(releaseYear) : \(title)"
+    }
+}
+
+func exampleArrayFilter2() {
+    let movies = [Movie(title: "Dune 2", releaseYear: 2024),
+                  Movie(title: "Oppenheimer", releaseYear: 2023),
+                  Movie(title: "Jawan", releaseYear: 2023),
+                  Movie(title: "Dangal", releaseYear: 2016),
+                  Movie(title: "Animal", releaseYear: 2023)]
+    let movies2023 = movies.filter({ $0.releaseYear == 2023 })
+    print(movies)
+    print(movies2023)
+}
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 3 :
+// TODO: Figure out why this isn't working
+/*
+func exampleArrayFilter3() {
+    let movies = [Movie(title: "Dune 2", releaseYear: 2024),
+                  Movie(title: "Oppenheimer", releaseYear: 2023),
+                  Movie(title: "Jawan", releaseYear: 2023),
+                  Movie(title: "Dangal", releaseYear: 2016),
+                  Movie(title: "Animal", releaseYear: 2023)]
+    let predicate2024 = #Predicate<Movie> { movie in
+        movie.releaseYear == 2024
+    }
+    var movies2024 = [Movie]()
+    do {
+        movies2024 = try movies.filter(predicate2024)
+    } catch {
+        print("Error while filtering movies based on predicate")
+    }
+    print(movies)
+    print(movies2024)
+}
+*/
+
+//exampleArrayFilter1()
+//exampleArrayFilter2()
+//exampleArrayFilter3()
 
 //: [Next](@next)
