@@ -4,5 +4,6 @@
         <page name='Sorted'/>
         <page name='Map'/>
         <page name='FlatMap'/>
+        <page name='CompactMap'/>
     </pages>
 </playground>
