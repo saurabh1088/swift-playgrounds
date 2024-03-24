@@ -56,11 +56,20 @@ func exampleSmallestNumberInArrayUsingReduce() {
     print(smallestNumber)
 }
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 2 : Find largest string in array of strings
+func exampleLargestStringInArray() {
+    let array = ["Batman", "Wonder Woman", "Superman", "Flash", "Aquaman"]
+    let largestString = array.reduce(array[0]) { $0.count > $1.count ? $0 : $1 }
+    print(largestString)
+}
+
 //exampleLargestNumberInArrayUsingMax()
 //exampleLargestNumberInArrayUsingLoop()
 //exampleLargestNumberInArrayUsingReduce()
 exampleSmallestNumberInArrayUsingMin()
 exampleSmallestNumberInArrayUsingLoop()
 exampleSmallestNumberInArrayUsingReduce()
+exampleLargestStringInArray()
 
 //: [Next](@next)
