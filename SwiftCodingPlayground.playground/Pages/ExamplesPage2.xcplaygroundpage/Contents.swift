@@ -31,8 +31,36 @@ func exampleLargestNumberInArrayUsingReduce() {
     print(largestNumber)
 }
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 2 : Find smallest number from array of numbers
+func exampleSmallestNumberInArrayUsingMin() {
+    let array = [2, 1, 4, 5, 2, 34, 67, 21, 9, 0, 89]
+    let smallestNumber = array.min()
+    print(smallestNumber ?? "NOT FOUND")
+}
+
+func exampleSmallestNumberInArrayUsingLoop() {
+    let array = [2, 1, 4, 5, 2, 34, 67, 21, 9, 0, 89]
+    var smallestNumber = array[0] // Start from first number
+    for value in array {
+        if value < smallestNumber {
+            smallestNumber = value
+        }
+    }
+    print(smallestNumber)
+}
+
+func exampleSmallestNumberInArrayUsingReduce() {
+    let array = [2, 1, 4, 5, 2, 34, 67, 21, 9, 0, 89]
+    let smallestNumber = array.reduce(array[0]) { $0 < $1 ? $0 : $1 }
+    print(smallestNumber)
+}
+
 //exampleLargestNumberInArrayUsingMax()
 //exampleLargestNumberInArrayUsingLoop()
 //exampleLargestNumberInArrayUsingReduce()
+exampleSmallestNumberInArrayUsingMin()
+exampleSmallestNumberInArrayUsingLoop()
+exampleSmallestNumberInArrayUsingReduce()
 
 //: [Next](@next)
