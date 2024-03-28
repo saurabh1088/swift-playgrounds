@@ -49,9 +49,9 @@ func reversePrintStringUsingInsert() {
 // MARK: -----------------------------------------------------------------------
 // MARK: Examples
 
-reversePrintStringUsingAppleAPI()
-reversePrintStringWithoutNewAllocation()
-reversePrintStringUsingHigherOrderFunction()
-reversePrintStringUsingInsert()
+//reversePrintStringUsingAppleAPI()
+//reversePrintStringWithoutNewAllocation()
+//reversePrintStringUsingHigherOrderFunction()
+//reversePrintStringUsingInsert()
 
 // TODO: Swift find largest substring from an array of strings

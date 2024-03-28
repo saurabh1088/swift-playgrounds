@@ -67,9 +67,9 @@ func exampleLargestStringInArray() {
 //exampleLargestNumberInArrayUsingMax()
 //exampleLargestNumberInArrayUsingLoop()
 //exampleLargestNumberInArrayUsingReduce()
-exampleSmallestNumberInArrayUsingMin()
-exampleSmallestNumberInArrayUsingLoop()
-exampleSmallestNumberInArrayUsingReduce()
-exampleLargestStringInArray()
+//exampleSmallestNumberInArrayUsingMin()
+//exampleSmallestNumberInArrayUsingLoop()
+//exampleSmallestNumberInArrayUsingReduce()
+//exampleLargestStringInArray()
 
 //: [Next](@next)
