@@ -90,12 +90,84 @@ func exampleOperationQueue3() {
     operationQueue.addOperation(operationFive)
 }
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 4 : Operation queue with operations having dependencies
+func exampleOperationQueue4() {
+    let operationQueue = OperationQueue()
+    
+    let operationOne = BlockOperation {
+        for index in 1...10 {
+            print("\(index). Performing operation one")
+        }
+    }
+    
+    let operationTwo = BlockOperation {
+        for index in 1...10 {
+            print("\(index). Performing operation two")
+        }
+    }
+    
+    let operationThree = BlockOperation {
+        for index in 1...10 {
+            print("\(index). Performing operation three")
+        }
+    }
+    
+    operationOne.addDependency(operationThree)
+    
+    operationQueue.addOperation(operationOne)
+    operationQueue.addOperation(operationTwo)
+    operationQueue.addOperation(operationThree)
+}
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 5 : Operation queue with operations having completion blocks
+func exampleOperationQueue5() {
+    let operationQueue = OperationQueue()
+    
+    let operationOne = BlockOperation {
+        for index in 1...10 {
+            print("\(index). Performing operation one")
+        }
+    }
+    operationOne.completionBlock = {
+        print("✅ Operation one completed")
+    }
+    
+    let operationTwo = BlockOperation {
+        for index in 1...10 {
+            print("\(index). Performing operation two")
+        }
+    }
+    operationTwo.completionBlock = {
+        print("✅ Operation two completed")
+    }
+    
+    operationQueue.addOperation(operationOne)
+    operationQueue.addOperation(operationTwo)
+}
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 6 : Trigerring an operation without a operation queue
+/// One can perform an operation without needing operation queue. Operations have a `start()` method which
+/// can be called directly to start the operation. This is manual execution, caveat however is that there is more
+/// burden on the code as if the operation isn't in a ready state could lead to exception.
+func exampleOperationQueue6() {
+    let operation = BlockOperation {
+        print("Performing some operation")
+    }
+    operation.start()
+}
+
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Examples
 
 //exampleOperationQueue1()
 //exampleOperationQueue2()
-exampleOperationQueue3()
+//exampleOperationQueue3()
+//exampleOperationQueue4()
+//exampleOperationQueue5()
+exampleOperationQueue6()
 
 //: [Next](@next)
