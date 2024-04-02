@@ -159,6 +159,62 @@ func exampleOperationQueue6() {
     operation.start()
 }
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 7 : maxConcurrentOperationCount
+func exampleOperationQueue7() {
+    let operationQueue = OperationQueue()
+    operationQueue.maxConcurrentOperationCount = 1
+    
+    let operationOne = BlockOperation {
+        for index in 1...5 {
+            print("\(index). performing operation one")
+        }
+    }
+    
+    let operationTwo = BlockOperation {
+        for index in 1...5 {
+            print("\(index). performing operation two")
+        }
+    }
+    
+    let operationThree = BlockOperation {
+        for index in 1...5 {
+            print("\(index). performing operation three")
+        }
+    }
+    
+    operationQueue.addOperation(operationOne)
+    operationQueue.addOperation(operationTwo)
+    operationQueue.addOperation(operationThree)
+}
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 8 : OperationQueue main
+func exampleOperationQueue8() {
+    let operationQueueMain = OperationQueue.main
+    
+    let operation = BlockOperation {
+        print("Performing operation from main thread? :: \(Thread.isMainThread)")
+    }
+    
+    operationQueueMain.addOperation(operation)
+}
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 9 :
+class MyCustomOperation: Operation {
+    override func main() {
+        print("Performing custom operation")
+    }
+}
+
+func exampleOperationQueue9() {
+    let operationQueue = OperationQueue()
+    
+    let operation = MyCustomOperation()
+    
+    operationQueue.addOperation(operation)
+}
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Examples
@@ -168,6 +224,9 @@ func exampleOperationQueue6() {
 //exampleOperationQueue3()
 //exampleOperationQueue4()
 //exampleOperationQueue5()
-exampleOperationQueue6()
+//exampleOperationQueue6()
+//exampleOperationQueue7()
+//exampleOperationQueue8()
+exampleOperationQueue9()
 
 //: [Next](@next)
