@@ -217,6 +217,62 @@ func exampleOperationQueue9() {
 }
 
 // MARK: -----------------------------------------------------------------------
+// MARK: Example 10 : Dependency between operations added to different operation queues
+func exampleOperationQueue10() {
+    let operationQueueOne = OperationQueue()
+    let operationQueueTwo = OperationQueue()
+    
+    let operationOne = BlockOperation {
+        for index in 1...10 {
+            print("\(index). performing operation one")
+        }
+    }
+    
+    let operationTwo = BlockOperation {
+        for index in 1...10 {
+            print("\(index). performing operation two")
+        }
+    }
+    
+    operationOne.addDependency(operationTwo)
+    operationQueueOne.addOperation(operationOne)
+    operationQueueTwo.addOperation(operationTwo)
+}
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 11 :
+class CustomLongRunningOperation: Operation {
+    override func start() {
+        print("Started operation...")
+        for index in 1...10 {
+            if !self.isCancelled {
+                print("\(index). performing operation...")
+                sleep(1)
+            }
+        }
+        print("Finishing operation!!!")
+    }
+}
+
+func exampleOperationQueue11() {
+    let operationQueue = OperationQueue()
+    
+    let operation = CustomLongRunningOperation()
+    operation.completionBlock = {
+        print("Completed operation!!!")
+    }
+    
+    operationQueue.addOperation(operation)
+    print("Is operation is cancelled :: \(operation.isCancelled)")
+    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        print("Cancelling operation...")
+        operation.cancel()
+    }
+    print("Is operation is cancelled :: \(operation.isCancelled)")
+}
+
+
+// MARK: -----------------------------------------------------------------------
 // MARK: Examples
 
 //exampleOperationQueue1()
@@ -227,6 +283,8 @@ func exampleOperationQueue9() {
 //exampleOperationQueue6()
 //exampleOperationQueue7()
 //exampleOperationQueue8()
-exampleOperationQueue9()
+//exampleOperationQueue9()
+//exampleOperationQueue10()
+exampleOperationQueue11()
 
 //: [Next](@next)
