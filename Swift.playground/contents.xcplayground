@@ -8,5 +8,6 @@
         <page name='Enumerations'/>
         <page name='Subscripts'/>
         <page name='Result'/>
+        <page name='AccessControl'/>
     </pages>
 </playground>
