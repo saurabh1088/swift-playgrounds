@@ -3,5 +3,6 @@
     <pages>
         <page name='OperationQueues'/>
         <page name='GrandCentralDispatch'/>
+        <page name='AsyncAwait'/>
     </pages>
 </playground>
