@@ -5,6 +5,14 @@
 
 /**
  `Async Await`
+ 
+ `What is async?`
+ `async` keyword when used for a function indicates that the function performs some asynchronous operation.
+ 
+ `What is await?`
+ When some function is called which is asyncronous, then one needs to wait till the asynchronous operation is
+ ready, execution is suspended till the method returns. To mark this suspension point in the code, one needs to
+ mark it with `await`.
  */
 import Foundation
 
@@ -73,9 +81,48 @@ func exampleAsynchronousOperationWithAsyncAwait() {
 }
 
 // MARK: -----------------------------------------------------------------------
+// MARK: Example 3 : Default execution of multiple async functions one after another
+func performAsyncOperationA() async throws {
+    Task.init {
+        for index in 1...10 {
+            try await Task.sleep(for: .seconds(1))
+            print("\(index). Performing async operation A")
+        }
+    }
+}
+
+func performAsyncOperationB() async throws {
+    Task.init {
+        for index in 1...10 {
+            try await Task.sleep(for: .seconds(1))
+            print("\(index). Performing async operation B")
+        }
+    }
+}
+
+func performAsyncOperationC() async throws {
+    Task.init {
+        for index in 1...10 {
+            try await Task.sleep(for: .seconds(1))
+            print("\(index). Performing async operation C")
+        }
+    }
+}
+
+func exampleMultipleAsyncFunctionsCallsDefaultBehaviour() {
+    Task {
+        try await performAsyncOperationA()
+        try await performAsyncOperationB()
+        try await performAsyncOperationC()
+    }
+}
+
+
+// MARK: -----------------------------------------------------------------------
 // MARK: Examples
 
 //exampleTraditionalAsynchronousOperationWithCompletionBlocks()
-exampleAsynchronousOperationWithAsyncAwait()
+//exampleAsynchronousOperationWithAsyncAwait()
+exampleMultipleAsyncFunctionsCallsDefaultBehaviour()
 
 //: [Next](@next)
