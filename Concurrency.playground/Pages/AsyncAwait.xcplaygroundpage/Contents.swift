@@ -82,38 +82,45 @@ func exampleAsynchronousOperationWithAsyncAwait() {
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Example 3 : Default execution of multiple async functions one after another
-func performAsyncOperationA() async throws {
-    Task.init {
-        for index in 1...10 {
-            try await Task.sleep(for: .seconds(1))
-            print("\(index). Performing async operation A")
-        }
-    }
+func performAsyncOperationA() async throws -> String {
+    try await Task.sleep(for: .seconds(5))
+    print("Completed operation A")
+    return "A"
 }
 
-func performAsyncOperationB() async throws {
-    Task.init {
-        for index in 1...10 {
-            try await Task.sleep(for: .seconds(1))
-            print("\(index). Performing async operation B")
-        }
-    }
+func performAsyncOperationB() async throws -> String {
+    try await Task.sleep(for: .seconds(5))
+    print("Completed operation B")
+    return "B"
 }
 
-func performAsyncOperationC() async throws {
-    Task.init {
-        for index in 1...10 {
-            try await Task.sleep(for: .seconds(1))
-            print("\(index). Performing async operation C")
-        }
-    }
+func performAsyncOperationC() async throws -> String {
+    try await Task.sleep(for: .seconds(5))
+    print("Completed operation C")
+    return "C"
 }
 
 func exampleMultipleAsyncFunctionsCallsDefaultBehaviour() {
     Task {
-        try await performAsyncOperationA()
-        try await performAsyncOperationB()
-        try await performAsyncOperationC()
+        let resultA = try await performAsyncOperationA()
+        let resultB = try await performAsyncOperationB()
+        let resultC = try await performAsyncOperationC()
+        
+        let results = [resultA, resultB, resultC]
+        print(results)
+    }
+}
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 4 : Making multiple aysn functions execute in parallel
+func exampleMultipleAsyncFunctionsExecutedInParallel() {
+    Task {
+        async let resultA = performAsyncOperationA()
+        async let resultB = performAsyncOperationB()
+        async let resultC = performAsyncOperationC()
+        
+        let results = try await [resultA, resultB, resultC]
+        print(results)
     }
 }
 
@@ -123,6 +130,7 @@ func exampleMultipleAsyncFunctionsCallsDefaultBehaviour() {
 
 //exampleTraditionalAsynchronousOperationWithCompletionBlocks()
 //exampleAsynchronousOperationWithAsyncAwait()
-exampleMultipleAsyncFunctionsCallsDefaultBehaviour()
+//exampleMultipleAsyncFunctionsCallsDefaultBehaviour()
+exampleMultipleAsyncFunctionsExecutedInParallel()
 
 //: [Next](@next)
