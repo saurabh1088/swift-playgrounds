@@ -25,7 +25,7 @@ func exampleSimpleTask() {
 }
 
 // MARK: -----------------------------------------------------------------------
-// MARK: Example 1 : Task returning some value
+// MARK: Example 2 : Task returning some value
 let whatIsMyNameTask = Task {
     return "Batman"
 }
@@ -37,11 +37,40 @@ func exampleTaskWithReturnValue() {
     }
 }
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 3 : Task performing some operation and then returning value
+let justiceLeague = Task {
+    var justiceLeague = [String]()
+    print("Recruiting Superman.")
+    for index in 1...5 {
+        print("\(index)...")
+        sleep(1)
+    }
+    justiceLeague.append("Superman")
+    
+    print("Recruiting Wonder Woman.")
+    for index in 1...5 {
+        print("\(index)...")
+        sleep(1)
+    }
+    justiceLeague.append("Wonder Woman")
+    
+    return justiceLeague
+}
+
+func exampleTaskWithSomeOperationAndReturnValuePostThat() {
+    Task {
+        let justiceLeagueRecruitedMembers = await justiceLeague.value
+        print("Recruited members :: \(justiceLeagueRecruitedMembers)")
+    }
+}
+
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Examples
 
-exampleSimpleTask()
-exampleTaskWithReturnValue()
+//exampleSimpleTask()
+//exampleTaskWithReturnValue()
+//exampleTaskWithSomeOperationAndReturnValuePostThat()
 
 //: [Next](@next)
