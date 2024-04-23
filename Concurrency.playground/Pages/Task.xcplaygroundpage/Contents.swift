@@ -7,6 +7,12 @@
  `Task`
  
  Task as pe Apple's official documentation is a unit of asynchronous work.
+ 
+ `How do one runs a Task?`
+ 
+ A task runs immediately after it is created and one doesn't need to call any api to get it executed.
+ 
+ The closure given to Task is marked as async as one can see in the definition of Task initialisers.
  */
 import Foundation
 
@@ -19,8 +25,23 @@ func exampleSimpleTask() {
 }
 
 // MARK: -----------------------------------------------------------------------
+// MARK: Example 1 : Task returning some value
+let whatIsMyNameTask = Task {
+    return "Batman"
+}
+
+func exampleTaskWithReturnValue() {
+    Task {
+        let value = await whatIsMyNameTask.value
+        print(value)
+    }
+}
+
+
+// MARK: -----------------------------------------------------------------------
 // MARK: Examples
 
 exampleSimpleTask()
+exampleTaskWithReturnValue()
 
 //: [Next](@next)
