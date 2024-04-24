@@ -124,6 +124,79 @@ func exampleMultipleAsyncFunctionsExecutedInParallel() {
     }
 }
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 5 : Nested completion blocks
+enum JusticeLeagueMember: String {
+    case Batman
+    case Superman
+    case WonderWoman
+}
+
+func contactAndRecruit(_ member: JusticeLeagueMember, completion: @escaping AsyncronousOperationCompletionBlock) {
+    DispatchQueue.global().async {
+        for index in 1...5 {
+            sleep(1)
+            print("\(index). In talks for recruiting with : \(member.rawValue)")
+        }
+        
+        DispatchQueue.main.async {
+            completion(.success("Recruited : \(member.rawValue)"))
+        }
+    }
+}
+
+func exampleMultipleNestedAsyncFunctionCalls() {
+    contactAndRecruit(.Batman) { result in
+        switch result {
+        case .success(let data):
+            print(data)
+            contactAndRecruit(.Superman) { result in
+                switch result {
+                case .success(let data):
+                    print(data)
+                    contactAndRecruit(.WonderWoman) { result in
+                        switch result {
+                        case .success(let data):
+                            print(data)
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        case .failure(let error):
+            print(error.localizedDescription)
+        }
+    }
+}
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 6 : Same as Example 5 but using structured concurrency
+func contactAndRecruit(_ member: JusticeLeagueMember) async -> String? {
+    let task = Task {
+        for index in 1...5 {
+            sleep(1)
+            print("\(index). In talks for recruiting with : \(member.rawValue)")
+        }
+    }
+    await task.value
+    return "Recruited : \(member.rawValue)"
+}
+
+func exampleMultipleNestedAsyncFunctionCallsUsingStructuredConcurrency() {
+    Task {
+        let resultBatman = await contactAndRecruit(.Batman)
+        print(resultBatman ?? "Failed recruiting Batman")
+        
+        let resultSuperman = await contactAndRecruit(.Superman)
+        print(resultSuperman ?? "Failed recruiting Superman")
+        
+        let resultWonderWoman = await contactAndRecruit(.WonderWoman)
+        print(resultWonderWoman ?? "Failed recruiting Wonder Woman")
+    }
+}
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Examples
@@ -131,6 +204,8 @@ func exampleMultipleAsyncFunctionsExecutedInParallel() {
 //exampleTraditionalAsynchronousOperationWithCompletionBlocks()
 //exampleAsynchronousOperationWithAsyncAwait()
 //exampleMultipleAsyncFunctionsCallsDefaultBehaviour()
-exampleMultipleAsyncFunctionsExecutedInParallel()
+//exampleMultipleAsyncFunctionsExecutedInParallel()
+//exampleMultipleNestedAsyncFunctionCalls()
+//exampleMultipleNestedAsyncFunctionCallsUsingStructuredConcurrency()
 
 //: [Next](@next)
