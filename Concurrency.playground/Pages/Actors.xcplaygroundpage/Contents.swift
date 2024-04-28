@@ -5,6 +5,28 @@
 
 /**
  `Actors`
+ 
+ Swift has -
+ - Struct
+ - Class
+ - Actor
+
+ Actors are conceptually similar to classes except some differences.
+
+ `What makes Actors and Classes similar?`
+ Actors are conceptually classes with some safety features for concurrent environment.
+ Actors like classes are reference type.
+
+ `What makes Actors different from classes?`
+ Actors ensure safety in concurrent environment.
+ Swift compiler ensures no two pieces of code attempts to access actor’s data at same time.
+ Compiler safety ensures no boilerplate code required to manage locks
+ Actors DO NOT support inheritance.
+ Actors DO NOT support final or override keywords : this make sense as they don’t support inheritance
+ An actor automatically serialises all access to its properties and methods, which ensures that only one caller can 
+ directly interact with the actor at any given time. That in turn gives us complete protection against data races,
+ since all mutations will be performed serially, one after the other.
+
  */
 import Foundation
 

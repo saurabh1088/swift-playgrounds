@@ -13,6 +13,31 @@
  When some function is called which is asyncronous, then one needs to wait till the asynchronous operation is
  ready, execution is suspended till the method returns. To mark this suspension point in the code, one needs to
  mark it with `await`.
+ 
+ WWDC 2021
+ https://developer.apple.com/videos/play/wwdc2021/10132
+
+ While writing asynchronous code using completion handler approach, one needs to ensure that the completion 
+ handler gets called for all possible scenarios. Compiler will not make any issues if the completion handler isn’t
+ called and this can lead to unexpected results.
+
+ Properties and initialisers can also be async. Only read-only properties can be async.
+
+ TODOs
+ Check AsyncSequence
+
+ A function marked with keyword async can suspend, and when it suspends, it also suspends its callers. So 
+ callers for an async function should also be async.
+
+ Frequent error when an async method is called : async method used in a context that does not support concurrency.
+ This error comes as async functions needs to be called by async functions only and eventually from some asynchronous context.
+ To bridge this gap between synchronous and asynchronous worlds one need to use Task.
+
+ Apple recommends not using get in name of async functions.
+
+ Continuations
+ Continuations must be resumed exactly once on every path.
+ Discarding continuation without resuming is not allowed.
  */
 import Foundation
 
