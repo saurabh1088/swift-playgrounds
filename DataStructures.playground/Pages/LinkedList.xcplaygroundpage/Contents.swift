@@ -11,7 +11,7 @@
 import Foundation
 import XCTest
 
-class Node<Value> {
+class Node<Value: Equatable> {
     var value: Value
     var next: Node<Value>?
     
@@ -21,9 +21,11 @@ class Node<Value> {
     }
 }
 
-class LinkedList<Value> {
+class LinkedList<Value: Equatable> {
     var head: Node<Value>?
-    
+}
+
+extension LinkedList {
     func append(_ value: Value) {
         let node = Node(value: value)
         
@@ -42,6 +44,30 @@ class LinkedList<Value> {
         } else {
             // There isn't any node added to linked list yet so set head here
             head = node
+        }
+    }
+}
+
+extension LinkedList {
+    func remove(_ value: Value) {
+        // If the value to be removed itself is the head, then make next value as head
+        if head?.value == value {
+            head = head?.next
+        } else {
+            var node = head?.next
+            var previousNode: Node<Value>?
+            while node?.next != nil && node?.value != value {
+                previousNode = node
+                node = node?.next
+            }
+            
+            if node?.value == value {
+                if node?.next != nil {
+                    previousNode?.next = node?.next
+                } else {
+                    previousNode?.next = nil
+                }
+            }
         }
     }
 }
@@ -79,7 +105,7 @@ class LinkedListTests: XCTestCase {
 // MARK: -----------------------------------------------------------------------
 // MARK: Example :
 
-func exampleLinkedList() {
+func exampleCreateAndAppendToLinkedList() {
     let linkedList = LinkedList<String>()
     linkedList.append("Batman")
     linkedList.append("Wonder Woman")
@@ -88,8 +114,56 @@ func exampleLinkedList() {
     print(linkedList)
 }
 
-//exampleLinkedList()
-LinkedListTests.defaultTestSuite.run()
+func exampleRemoveHeadFromLinkedList() {
+    let linkedList = LinkedList<Int>()
+    linkedList.append(30)
+    linkedList.append(13)
+    linkedList.append(22)
+    linkedList.append(2)
+    
+    print("Complete linked list")
+    print(linkedList)
+    
+    print("Remove head")
+    linkedList.remove(30)
+    print(linkedList)
+}
+
+func exampleRemoveLastFromLinkedList() {
+    let linkedList = LinkedList<Int>()
+    linkedList.append(30)
+    linkedList.append(13)
+    linkedList.append(22)
+    linkedList.append(2)
+    
+    print("Complete linked list")
+    print(linkedList)
+    
+    print("Remove last")
+    linkedList.remove(2)
+    print(linkedList)
+}
+
+func exampleRemoveInBetweenFromLinkedList() {
+    let linkedList = LinkedList<Int>()
+    linkedList.append(30)
+    linkedList.append(13)
+    linkedList.append(22)
+    linkedList.append(2)
+    
+    print("Complete linked list")
+    print(linkedList)
+    
+    print("Remove in between")
+    linkedList.remove(22)
+    print(linkedList)
+}
+
+//exampleCreateAndAppendToLinkedList()
+//exampleRemoveHeadFromLinkedList()
+//exampleRemoveLastFromLinkedList()
+//exampleRemoveInBetweenFromLinkedList()
+//LinkedListTests.defaultTestSuite.run()
 
 //TODO: Add unit tests
 //TODO: Check access level for methods and props
