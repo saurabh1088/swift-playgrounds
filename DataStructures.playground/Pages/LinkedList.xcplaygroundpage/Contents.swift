@@ -21,7 +21,15 @@ class Node<Value: Equatable> {
     }
 }
 
-class LinkedList<Value: Equatable> {
+protocol LinkedListProvider {
+    associatedtype Value: Equatable
+    var head: Node<Value>? { get set }
+    func append(_ value: Value)
+    func count() -> Int
+    func remove(_ value: Value)
+}
+
+class LinkedList<Value: Equatable>: LinkedListProvider {
     var head: Node<Value>?
 }
 
@@ -72,6 +80,26 @@ extension LinkedList {
     }
 }
 
+extension LinkedList {
+    func count() -> Int {
+        var numberOfValues = 0
+        
+        // If head itself is nil, there are 0 elements in linked list
+        guard let headNode = head else { return numberOfValues }
+        guard headNode.next != nil else {
+            numberOfValues += 1
+            return numberOfValues
+        }
+        
+        var node: Node<Value>? = headNode
+        while node?.next != nil {
+            numberOfValues += 1
+            node = node?.next
+        }
+        return numberOfValues
+    }
+}
+
 extension LinkedList: CustomStringConvertible {
     var description: String {
         var output = String()
@@ -99,6 +127,27 @@ class LinkedListTests: XCTestCase {
     func test_EmptyLinkedList() {
         let linkedList = LinkedList<Int>()
         XCTAssertNil(linkedList.head)
+    }
+    
+    func test_EmptyLinkedListCount() {
+        let emptyLinkedList = LinkedList<Int>()
+        XCTAssertEqual(0, emptyLinkedList.count())
+    }
+    
+    func test_linkedListAppend() {
+        let linkedList = LinkedList<String>()
+        linkedList.append("One")
+        XCTAssertNotNil(linkedList.head)
+        XCTAssertNil(linkedList.head?.next)
+        XCTAssertEqual(1, linkedList.count())
+    }
+    
+    func test_linkedListAppendMultipleItems() {
+        let linkedList = LinkedList<Int>()
+        linkedList.append(1)
+        linkedList.append(2)
+        linkedList.append(3)
+        XCTAssertEqual(2, linkedList.count())
     }
 }
 
@@ -159,11 +208,16 @@ func exampleRemoveInBetweenFromLinkedList() {
     print(linkedList)
 }
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Examples
 //exampleCreateAndAppendToLinkedList()
 //exampleRemoveHeadFromLinkedList()
 //exampleRemoveLastFromLinkedList()
 //exampleRemoveInBetweenFromLinkedList()
-//LinkedListTests.defaultTestSuite.run()
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Unit Tests
+LinkedListTests.defaultTestSuite.run()
 
 //TODO: Add unit tests
 //TODO: Check access level for methods and props
