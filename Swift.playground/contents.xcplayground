@@ -9,5 +9,6 @@
         <page name='Subscripts'/>
         <page name='Result'/>
         <page name='AccessControl'/>
+        <page name='PhantomTypes'/>
     </pages>
 </playground>
