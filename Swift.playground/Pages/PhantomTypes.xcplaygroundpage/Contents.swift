@@ -54,23 +54,28 @@ func exampleWithoutPhantomType() {
 /// `SafeIdentifier` type for defining their identities, one gets type safety from compilor. Now one can no
 /// longer accidently compare identity of an employee against that of company, which in previous implementation
 /// would have been possible and could have lead to potential issues.
-struct SafeIdentifier<Type>: Equatable {
+struct SafeIdentifier<PhantomType>: Equatable {
     let id: Int
 }
 
+enum IdType {
+    enum Employee {}
+    enum Company {}
+}
+
 struct SafeEmployee {
-    let employeeId: SafeIdentifier<Self>
+    let employeeId: SafeIdentifier<IdType.Employee>
 }
 
 struct SafeCompany {
-    let registrationId: SafeIdentifier<Self>
+    let registrationId: SafeIdentifier<IdType.Company>
 }
 
 func exampleWithPhantomTypes() {
-    let employee = SafeEmployee(employeeId: SafeIdentifier<SafeEmployee>(id: 1))
-    let company = SafeCompany(registrationId: SafeIdentifier<SafeCompany>(id: 1))
-    /// Attempt to uncomment below code will make compilr cry with error :
-    /// `Cannot convert value of type 'SafeIdentifier<SafeCompany>' to expected argument type 'SafeIdentifier<SafeEmployee>'`
+    let employee = SafeEmployee(employeeId: SafeIdentifier<IdType.Employee>(id: 1))
+    let company = SafeCompany(registrationId: SafeIdentifier<IdType.Company>(id: 1))
+    /// Attempt to uncomment below code will make compilor cry with error :
+    /// `Cannot convert value of type 'SafeIdentifier<IdType.Company>' to expected argument type 'SafeIdentifier<IdType.Employee>'`
 //    if employee.employeeId == company.registrationId {
 //        print("Employee and company are same")
 //    }
@@ -80,5 +85,6 @@ func exampleWithPhantomTypes() {
 // MARK: -----------------------------------------------------------------------
 // MARK: Example method calls
 exampleWithoutPhantomType()
+exampleWithPhantomTypes()
 
 //: [Next](@next)
