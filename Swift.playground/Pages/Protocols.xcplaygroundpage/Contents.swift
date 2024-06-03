@@ -65,10 +65,10 @@ import UIKit
 import XCTest
 
 /// Example : Lost Type Relationships with Classes
-/// We declared a superclass `Collection` with a method `biggerThan(other: Collection)` which
-/// takes another collection and returns a bool based on size comparison. Now `Collection` is supposed to
+/// We declared a superclass `CollectionClass` with a method `biggerThan(other: CollectionClass)` which
+/// takes another collection and returns a bool based on size comparison. Now `CollectionClass` is supposed to
 /// be implemented by a subclass and at this point we don't know what could be implementation for our method
-/// `biggerThan(other: Collection)`  and as the method body can't be left empty usually it's implemented
+/// `biggerThan(other: CollectionClass)`  and as the method body can't be left empty usually it's implemented
 /// by adding a `fatalError` assuming all subclasses to provide a proper implementation. In case a subclass
 /// fails to do so we will get this fatalError.
 class CollectionClass {
