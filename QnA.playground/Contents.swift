@@ -260,7 +260,7 @@ do {
 /// The obvious and foremost purpose of MVVM design pattern is to abstraction of view. Abstraction of view here
 /// means that the view should be free from business logic so that it can be re-used. This also means that when
 /// business logic is segregated from view layer the resulting view model layer which gets created is great to be
-/// unit tested hence increating code coverage.
+/// unit tested hence increasing code coverage.
 ///
 /// Here are some disadvantages which an MVVM might have
 ///
@@ -433,7 +433,7 @@ avoidCreatingRetainCycle()
 /// - Viewcontroller will create appropriate bindings between view model and view. This binding is what communicates
 /// changes from view-model to view.
 ///
-/// - Viewcontroller will offcource continue to handle user input, it anyways is a part of responder chain. Also it
+/// - Viewcontroller will off-course continue to handle user input, it anyways is a part of responder chain. Also it
 /// will take user input and pass it to view-model
 ///
 /// - Viewcontroller will control the navigation, push/pop of subsequent viewcontrollers and segues in case of
@@ -474,7 +474,7 @@ avoidCreatingRetainCycle()
 ///     case Some(T)
 /// }
 /// ```
-/// So basically its an enumeration with two cases None and Some, with some implecating an associated value
+/// So basically its an enumeration with two cases None and Some, with some implicating an associated value
 /// of the type matching for which optional is defined.
 
 
@@ -580,6 +580,7 @@ if let iuoValue = iuoExample.iuo {
 /// used for any value type, or reference type etc. So now with this change any Swift value type can be passed
 /// to Objective C APIs and can be extracted as Swift types.
 /// https://cocoacasts.com/what-is-anyobject-in-swift
+/// https://cocoacasts.com/what-is-any-in-swift
 
 struct TestAny { }
 class TestAnyObject { }
@@ -589,7 +590,7 @@ let packOfAny: [Any] = [1, "two", { print("Three") }, TestAny(), TestAnyObject()
 /// Both `packOfAnyObjectsError` and `packOfAnyObjectsErrorStill` will give error Type of
 /// expression is ambiguous without more context.
 //let packOfAnyObjectsError: [AnyObject] = [1, "two", TestAny()]
-//let packOfAnyObjectsErrorStill: [AnyObject] = [TestAnyObject(), { print("Closures are referece types but not AnyObject") }]
+//let packOfAnyObjectsErrorStill: [AnyObject] = [TestAnyObject(), { print("Closures are reference types but not AnyObject") }]
 let packOfLegalAnyObjects: [AnyObject] = [TestAnyObject(), TestAnyObject()]
 
 
@@ -614,13 +615,13 @@ let packOfLegalAnyObjects: [AnyObject] = [TestAnyObject(), TestAnyObject()]
 ///
 /// 1. Instead of creating private concurrent queues, one should use any one of global concurrent queues provided
 /// by GCD.
-/// 2. For serial queue as well that target of the queue can be set to one of the global concurrent queue, this still
+/// 2. For serial queue as well, the target of the queue can be set to one of the global concurrent queue, this still
 /// maintains the serialised behaviour but prevents creating separate queues further creating more threads.
 
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Question 26
-/// `What is App App thinning, Bitcode, Slicing?`
+/// `What is App thinning, Bitcode, Slicing?`
 ///
 /// `App Thinning`
 /// There are various iOS devices available with varying degree of screen sizes, resolution and architecture.

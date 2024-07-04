@@ -295,7 +295,7 @@ func dispatchQueueExample8() {
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Example 9 : autoreleaseFrequency
-// TODO: Need to figure out exact relevance of autoreleaseFrequency and update example acordingly.
+// TODO: Need to figure out exact relevance of autoreleaseFrequency and update example accordingly.
 class TestClassForAutoRelease {
     init() { print("TestClassForAutoRelease initialised") }
     func doSomeWork() { print("This is TestClassForAutoRelease instance") }
