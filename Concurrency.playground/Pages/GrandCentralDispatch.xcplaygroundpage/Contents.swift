@@ -21,7 +21,7 @@
  framework.
  
  `Grand Central Dispatch` works with queues. It takes tasks and dispatches those tasks onto queues.
- So while interacting with the APIs as a developmer one doesn't need to worry regarding thread management.
+ So while interacting with the APIs as a developer one doesn't need to worry regarding thread management.
  
  While talking about GCD, we come across queues and work items.
  
