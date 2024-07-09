@@ -332,12 +332,15 @@ func dispatchQueueExample10() {
 func dispatchQueueExample11() {
     let dispatchWorkItem = DispatchWorkItem {
         print("This is dispatch work item")
+        if let threadName = Thread.current.name {
+            print("Thread \(threadName) is executing on main thread :: \(Thread.isMainThread)")
+        }
     }
     dispatchWorkItem.perform()
 }
 
 // MARK: -----------------------------------------------------------------------
-// MARK: Example 12 :
+// MARK: Example 12 : DispatchGroup example
 /// `DispatchGroup`
 /// `DispatchGroup` helps to monitor a group of tasks as single unit.
 func dispatchQueueExample12() {
@@ -363,7 +366,7 @@ func dispatchQueueExample12() {
 }
 
 // MARK: -----------------------------------------------------------------------
-// MARK: Example 13 :
+// MARK: Example 13 : Dispatch group wait on few tasks before proceeding
 /// This example uses `DispatchGroup` to schedule few tasks as a group and also lets define a condition
 /// for one task to only executed once others are finished. Tasks workItemA, workItemB and workItemC are
 /// dispatched to a global concurrent queue so these will get executed concurrently, but workItemB here will
@@ -398,7 +401,7 @@ func dispatchQueueExample13() {
 }
 
 // MARK: -----------------------------------------------------------------------
-// MARK: Example 14 :
+// MARK: Example 14 : Dispatch queues with different QoS
 func dispatchQueueExample14() {
     let backgroundQOSQueue = DispatchQueue.global(qos: .background)
     let defaultQOSQueue = DispatchQueue.global(qos: .default)
@@ -441,6 +444,34 @@ func dispatchQueueExample14() {
 }
 
 // MARK: -----------------------------------------------------------------------
+// MARK: Example 15 : DispatchWorkItem with cancel
+/// In the example below, a `DispatchWorkItem` is created and dispatched multiple times on a global `DispatchQueue`.
+/// `DispatchWorkItem` provides a instance method `cancel()` which cancels the work item asynchronously.
+/// Catch however is that if the workitem for which `cancel()` is called is currently in progress, that will finish
+/// it's execution without any issues. If however the work item is attempted to dispatched again, then it won't
+/// be executed as it's already cancelled.
+func dispatchQueueExample15() {
+    let dispatchQueue = DispatchQueue.global(qos: .background)
+    let workItem = DispatchWorkItem {
+        print("Starting some work...")
+        for index in 1...10 {
+            print("\(index). Performing some work")
+        }
+        print("Work finished")
+    }
+    
+    dispatchQueue.async(execute: workItem)
+    dispatchQueue.async(execute: workItem)
+    print("Dispatched work item two times")
+    workItem.cancel()
+    print("Cancelled the work item")
+    print("Dispatching work item three times more")
+    dispatchQueue.async(execute: workItem)
+    dispatchQueue.async(execute: workItem)
+    dispatchQueue.async(execute: workItem)
+}
+
+// MARK: -----------------------------------------------------------------------
 // MARK: Examples
 
 //dispatchQueueExample1()
@@ -457,5 +488,6 @@ func dispatchQueueExample14() {
 //dispatchQueueExample12()
 //dispatchQueueExample13()
 //dispatchQueueExample14()
+dispatchQueueExample15()
 
 //: [Next](@next)
