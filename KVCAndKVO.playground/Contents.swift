@@ -17,3 +17,30 @@
  Yes KVS and KVO are available in Swift, however it works with some constraints.
  */
 import UIKit
+
+class Employee: NSObject {
+    @objc let id: Int
+    @objc let name: String
+    
+    init(id: Int, name: String) {
+        self.id = id
+        self.name = name
+    }
+}
+
+/// Important to note here is that any the property being accessed using `value(forKey:)` should be KVC
+/// complaint. In Swift class, to make so, one need to mark property with `@objc`. If property isn't marked with
+/// `@objc` then at runtime following error will be thrown.
+///
+/// `Terminating app due to uncaught exception 'NSUnknownKeyException', reason: '[<__lldb_expr_7.Employee 0x600000250880> valueForUndefinedKey:]: this class is not key value coding-compliant for the key name.'`
+func exampleKeyValueCodingComplaintClass() {
+    let employee = Employee(id: 1, name: "Batman")
+    if let employeeName = employee.value(forKey: "name"), 
+        let employeeId = employee.value(forKey: "id") {
+        print("Employee details ::")
+        print("ID : \(employeeId)")
+        print("Name : \(employeeName)")
+    }
+}
+
+exampleKeyValueCodingComplaintClass()
