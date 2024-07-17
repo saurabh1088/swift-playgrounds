@@ -36,7 +36,7 @@ class RedCircle: Circle {
 }
 
 /// This approach works fine, but this example is very simple. Suppose we only have two shapes like above, i.e.
-/// Circle and Square if we consider even seven colors, we are looking at fourteen classes to have each share
+/// Circle and Square, if we consider even seven colors, we are looking at fourteen classes to have each shape
 /// corresponds to each color.
 /// This problem could be solved using bridge pattern.
 

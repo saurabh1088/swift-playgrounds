@@ -9,6 +9,11 @@
  This principle states that a classes/modules/methods should be open for extension but closed for modifications.
  This means that once a class is written/designed, then to add new functionality it should not be modified, instead
  it should have been designed in a way that it should be able to be extended to add those functionalities.
+ 
+ `Why?`
+ 1. Enhanced Maintainability of code as new code can be added without altering existing one.
+ 2. Enhanced Scalability as new features can be added without altering existing ones.
+ 3. Less risk factor as existing code is not modified
  */
 
 import Foundation

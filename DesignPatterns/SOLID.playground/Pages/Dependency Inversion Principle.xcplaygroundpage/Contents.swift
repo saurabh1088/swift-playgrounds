@@ -10,8 +10,13 @@
  
  First thing first, Dependency Inversion Principle has NOTHING to do with Dependency Injection.
  
- High leve module should not depend upon low level modules, both should depend upon abstraction.
+ High level module should not depend upon low level modules, both should depend upon abstraction.
  Also abstraction should not depend upon details, details should depend on abstractions.
+ 
+ `Why?`
+ 1. Promotes Decoupling between modules
+ 2. Enhances Flexibility
+ 3. Enhances Testability
  */
 
 import Foundation

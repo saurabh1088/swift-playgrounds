@@ -25,6 +25,9 @@
  Factory Method is usually creating a single product while a Abstract Factory will provide a set of products to
  client using APIs.
  
+ Good discussion on this thread :
+ https://stackoverflow.com/questions/5739611/what-are-the-differences-between-abstract-factory-and-factory-design-patterns
+ 
  `Use case for using Factory Method?`
  
  Factories are more flexible in naming and allows to express more from what is expected and asked.

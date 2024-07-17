@@ -69,7 +69,7 @@ print("singletonClassInstanceTwo name :: \(singletonClassInstanceTwo.name)")
 
 /// `Swift provides structs and classes both, which one should be used to define a Singleton?`
 ///
-/// Singletons should be defines using classes. Reason for this is that classes are reference type so if one happens
+/// Singletons should be defined using classes. Reason for this is that classes are reference type so if one happens
 /// to pass a singleton reference along it will be passed as a reference only in case of class. One can define
 /// singleton using struct as well, however if the struct is passed along it will get copied technically having multiple
 /// instances which will defeat the purpose of having a Singleton.

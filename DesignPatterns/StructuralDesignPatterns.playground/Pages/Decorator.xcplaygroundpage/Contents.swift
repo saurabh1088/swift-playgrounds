@@ -18,7 +18,7 @@
  1. Well we want to augment an object with some additional functionality but we don’t want to rewrite or alter
  existing code so as to avoid breaking open close principle
 
- 2. Inheritance might not be possible for final tupes or say value types
+ 2. Inheritance might not be possible for final types or say value types
 
  3. So decorator facilitates the addition of behaviour to individual objects without inheriting from them.
  

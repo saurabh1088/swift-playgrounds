@@ -15,11 +15,22 @@
  
  A class should have ONLY one reason to change. This means that a class should only have single responsibility
  or a single purpose for it's existence.
- This ensures classes created in s system are well defined and maintainable. If a class has only single responsibility
+ This ensures classes created in a system are well defined and maintainable. If a class has only single responsibility
  it would be easier to maintain and debug it in event of future issues/changes.
  
  A class should encapsulate ONLY one aspect of application's functionality. If if does have more than one reason
  to change, then it should be split into multiple classes.
+ 
+ `Why?`
+ Following SRP enhances:
+ 1. Code Readability
+ 2. Code Maintainability
+ 3. Code Reusability
+ 4. Code Testability
+ 5. Code Scalability
+ 
+ `Disadvantages`
+ 1. More classes
  */
 
 import Foundation
