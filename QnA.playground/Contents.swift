@@ -400,7 +400,7 @@ avoidCreatingRetainCycle()
 /// only if necessary.
 ///
 /// Using `open` for a struct makes compiler cry with below error :
-/// Only classes and overridable class members can be declared 'open'; use 'public'
+/// `Only classes and overridable class members can be declared 'open'; use 'public'`
 
 
 // MARK: -----------------------------------------------------------------------
