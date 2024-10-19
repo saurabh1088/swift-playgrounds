@@ -17,9 +17,10 @@
  
  If a property is having some default value, then its a good practice to provide this default value in property declaration
  itself rather than providing it in initializer. The end result in both the cases is same however providing default value
- at time of declaration itself makes initializers short and cleaner.
- This way one can also utilize Swift's type inference.
- Also this way default initializers can be utilized.
+ at time of declaration itself gives below advantages:
+ 1. It makes initializers short and cleaner.
+ 2. This way one can also utilize Swift's type inference.
+ 3. Also this way default initializers can be utilized.
  
  
  A constant stored property (let someProperty) can be assigned a value during initialization. In case of classes, this
@@ -79,7 +80,7 @@ let employee2 = Employee(id: 2, name: "Superman", dateOfJoining: Date())
 let employee3 = Employee(id: 3, name: "Wonder Woman")
 
 /// `Initialization for Reference types`
-/// For reference types the initialization should make sure not only to initialize stored properties the class type
+/// For reference types, the initialization should make sure not only to initialize stored properties the class type
 /// introduces, but also the stored properties it is inheriting from it's parent.
 /// To help aid this requirement Swift provides two kinds of initializers
 ///
