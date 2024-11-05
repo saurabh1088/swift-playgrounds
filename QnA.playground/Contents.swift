@@ -70,6 +70,48 @@ let serialQueue = DispatchQueue(label: "my.serial.queue")
 //    }
 //}
 
+/// Example 3 :
+/// Below example i.e. createDeadlockExample3() showcases a deadlock scenario happening while using NSLock.
+/// Here there are two background threads in action, lets call those as thread 1 and thread 2. Two locks, lock1
+/// lock2 are defined. Thread 1 aquires lock1 and after sometime tries to aquire lock2, meanwhile thread 2 aquires
+/// lock2 and after sometime tries to aquire lock1. What eventually happens is that thread 1 has got hold of lock1
+/// and thread 2 has got hold of lock2. Now when thread 1 tries to aquire lock 2 it can't as thread 2 has aquired it
+/// so thread 1 will have to wait. Similarly when thread 2 tries to aquire lock1 it couldn't as thread 1 has aquired
+/// it. So eventually both threads are waiting and it leads to a deadlock.
+func createDeadlockExample3() {
+    let lock1 = NSLock()
+    let lock2 = NSLock()
+    
+    DispatchQueue.global(qos: .background).async {
+        print("Executing from thread 1")
+        lock1.lock()
+        print("Thread 1 aquired lock1")
+        
+        sleep(2)
+        
+        lock2.lock()
+        print("Thread 1 aquired lock2")
+        
+        lock2.unlock()
+        lock1.unlock()
+    }
+    
+    DispatchQueue.global(qos: .background).async {
+        print("Executing from thread 2")
+        lock2.lock()
+        print("Thread 2 aquired lock2")
+        
+        sleep(2)
+        
+        lock1.lock()
+        print("Thread 2 aquired lock1")
+        
+        lock1.unlock()
+        lock2.unlock()
+    }
+    
+}
+
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Question 4
@@ -1359,6 +1401,11 @@ func codeExampleQuestion38() {
  Discuss strategies for handling different screen sizes and resolutions in iOS development.
 
  */
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example function calls
+createDeadlockExample3()
+
 
 // TODO: Go through below link
 // https://docs.swift.org/swift-book/documentation/the-swift-programming-language/automaticreferencecounting/
