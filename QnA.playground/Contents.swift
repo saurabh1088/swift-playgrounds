@@ -141,7 +141,7 @@ func codeExampleQuestion5A() {
     }
 }
 
-/// 2. Usine `performSelector(onMainThread:with:waitUntilDone:)`
+/// 2. Using `performSelector(onMainThread:with:waitUntilDone:)`
 class SomeClass: NSObject {
     @objc func callMeOnMainThread() {
         print("Am I i.e. callMeOnMainThread getting called on main thread :: \(Thread.isMainThread)")
@@ -156,6 +156,12 @@ class SomeClass: NSObject {
 func codeExampleQuestion5B() {
     let object = SomeClass()
     object.execute()
+}
+
+func codeExampleQuestion5C() {
+    RunLoop.main.perform {
+        print("Executing this block of code from RunLoop.main.perform is on main thread :: \(Thread.isMainThread)")
+    }
 }
 
 
@@ -1404,7 +1410,8 @@ func codeExampleQuestion38() {
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Example function calls
-createDeadlockExample3()
+//createDeadlockExample3()
+//codeExampleQuestion5C()
 
 
 // TODO: Go through below link
