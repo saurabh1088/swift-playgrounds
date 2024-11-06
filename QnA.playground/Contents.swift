@@ -181,6 +181,18 @@ func codeExampleQuestion5D() {
     }
 }
 
+/// 5. Using MainActor.run
+func codeExampleQuestion5E() {
+    DispatchQueue.global(qos: .background).async {
+        print("Started execution from background thread : \(!Thread.isMainThread)")
+        Task {
+            await MainActor.run {
+                print("Do I get executed on main thread? : \(Thread.isMainThread)")
+            }
+        }
+    }
+}
+
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Question 6
@@ -1430,6 +1442,7 @@ func codeExampleQuestion38() {
 //createDeadlockExample3()
 //codeExampleQuestion5C()
 //codeExampleQuestion5D()
+//codeExampleQuestion5E()
 
 
 // TODO: Go through below link
