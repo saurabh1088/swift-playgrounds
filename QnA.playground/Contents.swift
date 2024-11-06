@@ -158,9 +158,26 @@ func codeExampleQuestion5B() {
     object.execute()
 }
 
+/// 3. Using `RunLoop.main.perform`
 func codeExampleQuestion5C() {
     RunLoop.main.perform {
         print("Executing this block of code from RunLoop.main.perform is on main thread :: \(Thread.isMainThread)")
+    }
+}
+
+/// 4. Using `@MainActor`
+class SampleClass {
+    
+    @MainActor
+    func sampleMethod() {
+        print("Am I getting executed from main thread? :: \(Thread.isMainThread)")
+    }
+}
+
+func codeExampleQuestion5D() {
+    Task {
+        let object = SampleClass()
+        await object.sampleMethod()
     }
 }
 
@@ -1412,6 +1429,7 @@ func codeExampleQuestion38() {
 // MARK: Example function calls
 //createDeadlockExample3()
 //codeExampleQuestion5C()
+//codeExampleQuestion5D()
 
 
 // TODO: Go through below link
