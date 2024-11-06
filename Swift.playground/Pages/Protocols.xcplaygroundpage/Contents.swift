@@ -466,6 +466,48 @@ func examplePolymorphismUsingProtocols() {
     }
 }
 
+//##############################################################################
+
+/// `Declaring type as protocol vs concrete type`
+/// Below a protocol Foo is declared which then is extended to provide a default implementation of property moo.
+/// Protocol is conformed by class Bar, which implements the property. Further in example method exampleDeclaringTypeAsProtocolVsConcreteType
+/// one can observe the difference in which implementation will be called if a variable is declared to be of type
+/// protocol vs to be of a concrete type which conforms the protocol. When declared as protocol type, the default
+/// protocol's implementation in extension is given preference.
+protocol Foo {
+    var moo: String {get}
+}
+
+extension Foo {
+    var moo: String {
+        return "Moo"
+    }
+    func test() {
+        print("Protocol version")
+        print("Foo \(moo)")
+    }
+}
+
+class Bar: Foo {
+    var moo: String {
+        return "Moooooooo"
+    }
+    
+    func test() {
+        print("Class version")
+        print("Bar \(moo)")
+    }
+}
+
+func exampleDeclaringTypeAsProtocolVsConcreteType() {
+    let b: Bar = Bar()
+    b.test()
+
+    let p: Foo = Bar()
+    p.test()
+}
+
+
 // TODO: https://www.avanderlee.com/swift/associated-types-protocols/
 // TODO: https://khawerkhaliq.com/blog/swift-associated-types-self-requirements/
 
