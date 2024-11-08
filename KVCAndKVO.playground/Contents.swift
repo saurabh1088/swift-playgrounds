@@ -14,7 +14,7 @@
  used for implementing the observer pattern, enabling one object to observe changes in another object's properties.
  
  `Is KVC & KVO available in Swift?`
- Yes KVS and KVO are available in Swift, however it works with some constraints.
+ Yes KVC and KVO are available in Swift, however it works with some constraints.
  */
 import UIKit
 

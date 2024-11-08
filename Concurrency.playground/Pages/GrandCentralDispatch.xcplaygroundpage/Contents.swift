@@ -472,6 +472,30 @@ func dispatchQueueExample15() {
 }
 
 // MARK: -----------------------------------------------------------------------
+// MARK: Example 16 : DispatchWorkItem with cancelling long running task
+func dispatchQueueExample16() {
+    let dispatchQueue = DispatchQueue.global(qos: .background)
+    
+    var workItem: DispatchWorkItem!
+    workItem = DispatchWorkItem {
+        print("Started work item...")
+        for index in 1...50 {
+            if !workItem.isCancelled {
+                print("\(index). performing work item...")
+                sleep(1)
+            }
+        }
+        print("Finishing work item!!!")
+    }
+    
+    dispatchQueue.async(execute: workItem)
+    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+        workItem.cancel()
+        print("Did work item cancel? \(workItem.isCancelled)")
+    }
+}
+
+// MARK: -----------------------------------------------------------------------
 // MARK: Examples
 
 //dispatchQueueExample1()
@@ -488,6 +512,7 @@ func dispatchQueueExample15() {
 //dispatchQueueExample12()
 //dispatchQueueExample13()
 //dispatchQueueExample14()
-dispatchQueueExample15()
+//dispatchQueueExample15()
+dispatchQueueExample16()
 
 //: [Next](@next)

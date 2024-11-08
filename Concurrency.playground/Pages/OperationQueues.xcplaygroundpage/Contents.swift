@@ -240,7 +240,7 @@ func exampleOperationQueue10() {
 }
 
 // MARK: -----------------------------------------------------------------------
-// MARK: Example 11 :
+// MARK: Example 11 : Cancelling an operation
 class CustomLongRunningOperation: Operation {
     override func start() {
         print("Started operation...")
