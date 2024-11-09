@@ -271,6 +271,57 @@ func exampleOperationQueue11() {
     print("Is operation is cancelled :: \(operation.isCancelled)")
 }
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 11 : Pause/Resume an operation queue
+func exampleOperationQueue12() {
+    let operationQueue = OperationQueue()
+    
+    let operationOne = BlockOperation {
+        for index in 1...5 {
+            print("Performing operation 1...")
+            sleep(1)
+        }
+    }
+    operationOne.completionBlock = {
+        print("Finihsed operation 1...")
+    }
+    
+    let operationTwo = BlockOperation {
+        for index in 1...5 {
+            print("Performing operation 2...")
+            sleep(1)
+        }
+    }
+    operationTwo.completionBlock = {
+        print("Finihsed operation 2...")
+    }
+    
+    let operationThree = BlockOperation {
+        for index in 1...5 {
+            print("Performing operation 3...")
+            sleep(1)
+        }
+    }
+    operationThree.completionBlock = {
+        print("Finihsed operation 3...")
+    }
+    
+    operationQueue.addOperation(operationOne)
+    
+    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        print("Suspending the operation queue...")
+        operationQueue.isSuspended = true
+        operationQueue.addOperation(operationTwo)
+    }
+    
+    operationQueue.addOperation(operationThree)
+    
+    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        print("Resuming the operation queue...")
+        operationQueue.isSuspended = false
+    }
+}
+
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Examples
@@ -285,6 +336,7 @@ func exampleOperationQueue11() {
 //exampleOperationQueue8()
 //exampleOperationQueue9()
 //exampleOperationQueue10()
-exampleOperationQueue11()
+//exampleOperationQueue11()
+exampleOperationQueue12()
 
 //: [Next](@next)
