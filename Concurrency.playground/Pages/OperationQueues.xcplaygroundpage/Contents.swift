@@ -273,6 +273,14 @@ func exampleOperationQueue11() {
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Example 11 : Pause/Resume an operation queue
+/// `isSuspended` instance property of an `OperationQueue` is a bool value which indicates if the queue
+/// is actively scheduling operations for execution. Quoting from Apple's official documentation
+///
+/// `Setting this property to true prevents the queue from starting any queued operations, but already executing operations continue to execute.`
+///
+/// This implies if the queue is executing some task while this property is set to true, the current executing task
+/// will continue, however any operation added post setting this flag to true won't be executed unless value is
+/// set to false again. Same can be observed in the example below.
 func exampleOperationQueue12() {
     let operationQueue = OperationQueue()
     
@@ -337,6 +345,6 @@ func exampleOperationQueue12() {
 //exampleOperationQueue9()
 //exampleOperationQueue10()
 //exampleOperationQueue11()
-exampleOperationQueue12()
+//exampleOperationQueue12()
 
 //: [Next](@next)
