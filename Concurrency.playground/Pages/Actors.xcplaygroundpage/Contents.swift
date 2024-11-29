@@ -182,10 +182,33 @@ func exampleWithConcurrencyConsiderationsUsingActors() {
 }
 
 // MARK: -----------------------------------------------------------------------
+// MARK: Example 4 : Actors with constant properties
+actor ActorWithConstantProperties {
+    let constantProperty = "CONSTANT_PROPERTY"
+    var state: String = "INITIAL_STATE"
+    
+    func updateState(with value: String) {
+        state = value
+    }
+}
+
+func exampleActorWithConstantProperty() {
+    Task {
+        let actor = ActorWithConstantProperties()
+        // Constant property of actor can be used without the need of await
+        print(actor.constantProperty)
+        print(await actor.state)
+        await actor.updateState(with: "UPDATED_STATE")
+        print(await actor.state)
+    }
+}
+
+// MARK: -----------------------------------------------------------------------
 // MARK: Examples
 
 //exampleWithoutAnyConcurrencyConsiderations()
 //exampleWithConcurrencyConsiderationsUsingSerialQueue()
 //exampleWithConcurrencyConsiderationsUsingActors()
+//exampleActorWithConstantProperty()
 
 //: [Next](@next)
