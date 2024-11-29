@@ -204,11 +204,41 @@ func exampleActorWithConstantProperty() {
 }
 
 // MARK: -----------------------------------------------------------------------
+// MARK: Example 5 : Actors with nonisolated properties/methods
+actor ActorWithNonisolatedProperties {
+    
+    var state: String = "INITIAL_STATE"
+    
+    nonisolated var dayToday: String {
+        let date = Date()
+        return DateFormatter.localizedString(from: date, dateStyle: .short, timeStyle: .none)
+    }
+    
+    nonisolated func functionAccessingNonisolatedProperties() {
+        print(dayToday)
+    }
+    
+    func functionAccessingIsolatedProperties() {
+        print(state)
+    }
+}
+
+func exampleActorWithNonisolatedProperty() {
+    Task {
+        let actor = ActorWithNonisolatedProperties()
+        print(actor.dayToday)
+        actor.functionAccessingNonisolatedProperties()
+        await actor.functionAccessingIsolatedProperties()
+    }
+}
+
+// MARK: -----------------------------------------------------------------------
 // MARK: Examples
 
 //exampleWithoutAnyConcurrencyConsiderations()
 //exampleWithConcurrencyConsiderationsUsingSerialQueue()
 //exampleWithConcurrencyConsiderationsUsingActors()
 //exampleActorWithConstantProperty()
+//exampleActorWithNonisolatedProperty()
 
 //: [Next](@next)
