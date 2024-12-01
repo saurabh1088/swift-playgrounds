@@ -34,7 +34,8 @@
 import UIKit
 import SwiftUI
 
-/// Example 1
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 1 :
 /// `AbstractSwiftUIButton` and `AbstractSwiftUIList` are abstract products. In Swift defined
 /// as protocols. `IPhoneButton` and `MACButton` are concrete implementations as per use cases. Here
 /// the use case is creating a UI component library then implementing it for various platforms (iOS, macOS, iPadOS etc)
@@ -158,8 +159,8 @@ myiOSApp.createList()
 
 //##############################################################################
 
-/// Example 2 :
-
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 2 :
 // Some abstract product
 protocol Book {
     var title: String { get set }

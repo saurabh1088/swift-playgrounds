@@ -58,7 +58,8 @@
 
 import Foundation
 
-/// Example 1
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 1 :
 enum HouseType {
     case highRise
     case villa
@@ -119,8 +120,8 @@ func exampleOne() {
     print(apartment.description)
 }
 
-/// Example 2 : Using multiple builders for same object
-
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 2 : Using multiple builders for same object
 class Person: CustomStringConvertible {
     var houseNumber = 0
     var streetName = String()

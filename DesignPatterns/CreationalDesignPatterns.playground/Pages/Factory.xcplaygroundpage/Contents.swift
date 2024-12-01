@@ -36,7 +36,8 @@
 
 import Foundation
 
-/// Example 1 :
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 1 :
 protocol Currency {
     var currencySymbol: String { get }
     var currencyCode: String { get }
