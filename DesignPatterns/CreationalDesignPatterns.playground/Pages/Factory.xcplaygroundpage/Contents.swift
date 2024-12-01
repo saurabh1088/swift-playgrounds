@@ -36,7 +36,6 @@
 
 import Foundation
 
-// TODO: This example is debatable, Explore more.
 /// Example 1 :
 protocol Currency {
     var currencySymbol: String { get }
