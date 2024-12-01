@@ -80,6 +80,56 @@ func exampleOne() {
     traveller.getCurrencyFrom(exchange: DollarExchange())
 }
 
-exampleOne()
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 2 :
+protocol UIButton {
+    func draw()
+}
+
+// Concrete products
+class IPhoneButton: UIButton {
+    func draw() {
+        print("Drawing IPhone Button")
+    }
+}
+
+class MacButton: UIButton {
+    func draw() {
+        print("Drawing Mac Button")
+    }
+}
+
+// Factories
+protocol UIButtonFactory {
+    func createButton() -> UIButton
+}
+
+class IPhoneButtonFactory: UIButtonFactory {
+    func createButton() -> UIButton {
+        return IPhoneButton()
+    }
+}
+
+class MacButtonFactory: UIButtonFactory {
+    func createButton() -> UIButton {
+        return MacButton()
+    }
+}
+
+func exampleTwo() {
+    let factory: UIButtonFactory
+#if os(iOS)
+    factory = IPhoneButtonFactory()
+#else
+    factory = MacButtonFactory()
+#endif
+    let button = factory.createButton()
+    button.draw()
+}
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Examples
+//exampleOne()
+//exampleTwo()
 
 //: [Next](@next)
