@@ -36,7 +36,7 @@
  problem using this approach would mean to write code describing how one should solve the problem. The code
  then is executed sequentially to get the desired outcome. Imperative programming is about `HOW` to do it.
  
- - Focus is on describing HOW a program operates.
+ - Focus is on describing `HOW` a program operates.
  - Emphasizes changing program state through statements that modify variables and data structures.
  - Uses statements like assignments, loops, and conditionals to control the flow of execution.
  
@@ -44,7 +44,7 @@
  It's a declarative style of programming. Here the focus is on `WHAT` to do/solve. Here things are modeled as a
  result of some function which will avoid changing state and mutating data.
  
- - Focus is on WHAT the program should accomplish.
+ - Focus is on `WHAT` the program should accomplish.
  - Emphasizes the use of functions and avoids changing state and mutable data.
  - Uses expressions and declarations rather than statements, and functions are treated as first-class citizens.
  
@@ -64,11 +64,11 @@
  There are many parts of the systems we program that can be viewed as asynchronous streams of information
  - events, objects, or pieces of data. The observer pattern watches a single object, providing notifications of changes
  and updates. If you view these notifications over time, they make up a stream of objects. Functional reactive
- programming, Combine in this case, allows you to create code that describes what happens when getting data
+ programming, Combine in this case, allows one to create code that describes what happens when getting data
  in a stream.
 
- You may want to create logic to watch more than one element that is changing. You may also want to include
- logic that does additional asynchronous operations, some of which may fail. You may want to change the content
+ One may want to create logic to watch more than one element that is changing. One may also want to include
+ logic that does additional asynchronous operations, some of which may fail. One may want to change the content
  of the streams based on timing, or change the timing of the content. Handling the flow of these event streams,
  the timing, errors when they happen, and coordinating how a system responds to all those events is at the heart
  of functional reactive programming.
@@ -103,14 +103,11 @@
   
  */
 
-// Example 1
-// Imperative programming
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 1 : Imperative programming
 // In the example below we have declared an array containing Int 1 to 10. Desired
 // result is to create an array of even number only. The logic here is imperative
 // as it is sequentially executing a series of instruction to achieve end result.
-
-print("Example 1 : Imperative programming")
-
 let someArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 var evenArrayImperative = [Int]()
 
@@ -125,13 +122,10 @@ print("Original array :: \(someArray)")
 print("Even array :: \(evenArrayImperative)")
 
 
-// Example 2
-// Functional programming
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 2 : Functional programming
 // In example below the same problem statement of Example 1 is attemped with a
 // functional approach.
-
-print("Example 2 : Functional programming")
-
 let evenArrayFunctional = someArray.filter { $0 % 2 == 0 }
 
 print("Original array :: \(someArray)")
