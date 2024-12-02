@@ -51,6 +51,8 @@ import Foundation
 /// Also `static` ensures even when singleton is accessed across multiple threads simultaneously the property
 /// is initialised only once, so providing thread safety.
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 1 : Defining a Singleton
 class MySingletonClass {
     static let shared = MySingletonClass()
     private init() {}
@@ -76,6 +78,9 @@ print("singletonClassInstanceTwo name :: \(singletonClassInstanceTwo.name)")
 /// Notice in example below for Singleton `MySingletonStruct`
 /// Here `singletonStructInstanceOne` and `singletonStructInstanceTwo` turn out to be two
 /// different instances and hold different values for `name`
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 2 : Can structs be used as Singletons?
 struct MySingletonStruct {
     static let shared = MySingletonStruct()
     private init() {}
