@@ -9,6 +9,8 @@
  `Publishers` and  `Subscribers` form the core concepts of combine framework. It's important to discuss
  and learn publishers and subscribers along with each other.
  
+ -------------------------------------------------------------------------------
+ 
  `About Publisher`
  
  Publisher is a protocol which can declare a type which can deliver a sequence of values over time.
@@ -30,6 +32,7 @@
  As mentioned above the Publisher is a protocol ```protocol Publisher<Output, Failure>```
  Here `Output` and `Failure` are associated types.
  
+ -------------------------------------------------------------------------------
  
  `About Subscriber`
  
@@ -82,8 +85,9 @@
 import Foundation
 import Combine
 
-/// Example 1
-/// Create a Publisher
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 1 : Create a Publisher
 /// In example below a publisher `mySimplePublisher` is created using `Just`
 /// `Just` is a publisher which will emit the value just once(to subscribers) and then finishes. It's one among
 /// few convenience publishers provided by Combine framework.
@@ -102,8 +106,9 @@ let mySubscription = mySimplePublisher.sink { receivedValue in
 // Now we have defines a subscription(i.e. mySubscription) for our publisher mySimplePublisher
 // Playground executed at this point will show output by executing the print statement.
 
-/// Example 2
-/// Create a publisher to emit a series of values
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 2 : Create a publisher to emit a series of values
 /// In example below a publisher `multipleValuesPublisher` is created using an array and calling property `publisher`
 /// on the array. This `publisher` property `Array` gets by conforming to `Sequence` protocol.
 /// `Sequence` protocol has declared `publisher` as
@@ -117,7 +122,9 @@ let subscriptionToMultipleValuePublisher = multipleValuesPublisher.sink { receiv
     print("Received value from my publisher, multipleValuesPublisher :: \(receivedValue)")
 }
 
-/// Example 3
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 3 : Subscriber using assign(to:on:)
 /// In previous examples (1 & 2) the subscriber were created using ```.sink```.
 /// Example 3 uses another approach ```assign(to:on:)```
 
@@ -144,8 +151,9 @@ let subscriptionToMyClassForRollCall = studentsInClassPublisher.assign(to: \.rol
 // Timer, NotificationCenter, and URLSession. Example 4 and Example 5 show usage of
 // NotificationCenter and Timer
 
-/// Example 4
-/// NotificationCenter.Publisher
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 4 : NotificationCenter.Publisher
 /// This example uses publisher from NotificationCenter. When a new employee gets added to the company
 /// the company posts a notification. When the notification is posted then subscriber may need to take some
 /// action.
@@ -180,8 +188,9 @@ let myNotificationSubscription = myNotificationPublisher.sink { receivedValue in
 let company = MyCompany()
 company.add(employee: Employee(name: "Saurabh"))
 
-/// Example 5
-/// Timer publisher
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 5 : Timer publisher
 
 let timerPublisher = Timer.publish(every: 2, on: .main, in: .default).autoconnect()
 
@@ -197,8 +206,8 @@ RunLoop.main.schedule(after: .init(Date(timeIntervalSinceNow: 6))) {
 }
 
 
-/// Example 6
-/// Back pressure (control values) using custom subscriber
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 6 : Back pressure (control values) using custom subscriber
 /// To control the rate at which publisher will emit values one need to create a custom implementation of `Subscriber`
 /// protocol. Then this custom implementation will specify demand as per requirement. A subscriber once receives
 /// values can always request for more by returning a new demand value.
