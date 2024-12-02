@@ -104,6 +104,31 @@ func example2() {
     print("singletonStructInstanceTwo name :: \(singletonStructInstanceTwo.name)")
 }
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 3 : Can actors be used as Singletons?
+actor SingletonUsingActor {
+    static let shared = SingletonUsingActor()
+    private init() {}
+    var name: String = String()
+    
+    func update(name: String) {
+        self.name = name
+    }
+}
+
+func example3() {
+    var singletonActorInstanceOne = SingletonUsingActor.shared
+    var singletonActorInstanceTwo = SingletonUsingActor.shared
+
+    Task {
+        await singletonActorInstanceOne.update(name: "Batman")
+        await singletonActorInstanceTwo.update(name: "Superman")
+        
+        await print("singletonActorInstanceOne name :: \(singletonActorInstanceOne.name)")
+        await print("singletonActorInstanceTwo name :: \(singletonActorInstanceTwo.name)")
+    }
+}
+
 
 /// `Why Singleton design pattern is called an anti-pattern?`
 ///
@@ -126,5 +151,6 @@ func example2() {
 // MARK: Examples
 //example1()
 //example2()
+example3()
 
 //: [Next](@next)
