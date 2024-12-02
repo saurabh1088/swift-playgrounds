@@ -59,14 +59,16 @@ class MySingletonClass {
     var name: String = String()
 }
 
-let singletonClassInstanceOne = MySingletonClass.shared
-let singletonClassInstanceTwo = MySingletonClass.shared
+func example1() {
+    let singletonClassInstanceOne = MySingletonClass.shared
+    let singletonClassInstanceTwo = MySingletonClass.shared
 
-singletonClassInstanceOne.name = "Batman"
-singletonClassInstanceTwo.name = "Superman"
+    singletonClassInstanceOne.name = "Batman"
+    singletonClassInstanceTwo.name = "Superman"
 
-print("singletonClassInstanceOne name :: \(singletonClassInstanceOne.name)")
-print("singletonClassInstanceTwo name :: \(singletonClassInstanceTwo.name)")
+    print("singletonClassInstanceOne name :: \(singletonClassInstanceOne.name)")
+    print("singletonClassInstanceTwo name :: \(singletonClassInstanceTwo.name)")
+}
 
 
 /// `Swift provides structs and classes both, which one should be used to define a Singleton?`
@@ -87,17 +89,20 @@ struct MySingletonStruct {
     var name: String = String()
 }
 
-var singletonStructInstanceOne = MySingletonStruct.shared
-var singletonStructInstanceTwo = MySingletonStruct.shared
 
-singletonStructInstanceOne.name = "Batman"
-singletonStructInstanceTwo.name = "Superman"
+func example2() {
+    var singletonStructInstanceOne = MySingletonStruct.shared
+    var singletonStructInstanceTwo = MySingletonStruct.shared
 
-// Both singletonStructInstanceOne and singletonStructInstanceTwo end up having
-// different values so proving why defining Singleton using struct can be having
-// side effects and should not be used
-print("singletonStructInstanceOne name :: \(singletonStructInstanceOne.name)")
-print("singletonStructInstanceTwo name :: \(singletonStructInstanceTwo.name)")
+    singletonStructInstanceOne.name = "Batman"
+    singletonStructInstanceTwo.name = "Superman"
+
+    // Both singletonStructInstanceOne and singletonStructInstanceTwo end up having
+    // different values so proving why defining Singleton using struct can be having
+    // side effects and should not be used
+    print("singletonStructInstanceOne name :: \(singletonStructInstanceOne.name)")
+    print("singletonStructInstanceTwo name :: \(singletonStructInstanceTwo.name)")
+}
 
 
 /// `Why Singleton design pattern is called an anti-pattern?`
@@ -116,5 +121,10 @@ print("singletonStructInstanceTwo name :: \(singletonStructInstanceTwo.name)")
 /// - Using a `Singleton` makes code untestable. Singleton dependencies are not visible as these are used
 /// within other places directly accessing the shared instance and not injected. This makes code difficult to test.
 
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Examples
+//example1()
+//example2()
 
 //: [Next](@next)
