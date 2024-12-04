@@ -12,7 +12,7 @@ func removeDuplicates(from string: String) -> String {
     return string.filter { seen.insert($0).inserted }
 }
 
-func exampleRemoveDuplicates() {
+func stringCodingExampleRemoveDuplicates() {
     let result = removeDuplicates(from: "czechoslovakia")
     print(result)
 }
@@ -23,7 +23,7 @@ func areAnagrams(_ str1: String, _ str2: String) -> Bool {
     return str1.sorted() == str2.sorted()
 }
 
-func exampleStringCheckIfAnagrams() {
+func stringCodingExampleCheckIfAnagrams() {
     print(areAnagrams("listen", "silent"))
     print(areAnagrams("hello", "world"))
 }
@@ -31,7 +31,7 @@ func exampleStringCheckIfAnagrams() {
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Examples
-exampleRemoveDuplicates()
-exampleStringCheckIfAnagrams()
+stringCodingExampleRemoveDuplicates()
+stringCodingExampleCheckIfAnagrams()
 
 //: [Next](@next)
