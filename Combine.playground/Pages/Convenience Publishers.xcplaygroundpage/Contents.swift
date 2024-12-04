@@ -37,7 +37,9 @@ import Combine
 /// `Future` can be said to represent some asynchronous operation and `Promise` is used to deliver either
 /// a value or error.
 
-// Example 1 : Future Success
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 1 : Future Success
 func generateSomeRandomNumber() -> Future<Int, Never> {
     return Future { promise in
         let randomNumber = Int.random(in: 1...100)
@@ -50,7 +52,9 @@ let futurePublisherSubscriber = futurePublisher.sink { receivedValue in
     print("Value published from future publisher : \(receivedValue)")
 }
 
-// Example 2 : Future Failure
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 2 : Future Failure
 enum SomeError: Error {
     case futureRejected
 }
@@ -65,7 +69,9 @@ let futureRejectedPublisherSubscriber = futureRejectedPublisher.sink { error in
     print("Value published from future publisher : \(receivedValue)")
 }
 
-// Example 3 : Future Finishes immediately, it's one shot
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 3 : Future Finishes immediately, it's one shot
 // Once a value is passed to a Future's Promise, the publisher will finish immediately.
 // This means for below example of simpleFuture the moment value "First" is published
 // publisher will finish. So here the value "Second" won't ever get published.
@@ -91,8 +97,9 @@ let simpleFutureSubscriber = simpleFuture.sink { receivedValue in
 ///
 /// As per definition `struct Just<Output>` the output can be any type.
 
-// Example 1 : Just Publisher
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 4 : Just Publisher
 let justAPublisher = Just("Batman")
 let justPublisherSubscriber = justAPublisher.sink { receivedValue in
     print("Value published from justAPublisher publisher : \(receivedValue)")
@@ -105,8 +112,9 @@ let justPublisherSubscriber = justAPublisher.sink { receivedValue in
 /// are executed only when someone subscribes to them. It kind of makes the publisher lazy.
 /// For example, the `Future` publisher is too eager and will run as soon as its created.
 
-// Example 1 : Deferred Publisher
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 4 : Deferred Publisher
 let anEagerPublisher = Future<String, Error> { promise in
     print("Creating a eager publisher")
     promise(Result.success("Batman"))
@@ -144,7 +152,9 @@ let subscriberToLazyDeferredPublisher = lazyDeferredPublisher.sink(receiveComple
 /// Empty publishers can be used for scenarios where requirement from a publisher is not to receive any value
 /// but just want to get notify that some task is done.
 
-// Example 1 : Empty publisher with completeImmediately as true
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 5 : Empty publisher with completeImmediately as true
 // emptyPublisherCompleteImmediately will finish immediately so for .sink subscriber
 // receiveCompletion block will be called, but receiveValue closure will never get
 // called as the publisher never publishes any value.
@@ -157,7 +167,8 @@ let subscriberToEmptyPublisherCompleteImmediately = emptyPublisherCompleteImmedi
 })
 
 
-// Example 2 : Empty publisher with completeImmediately as false
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 6 : Empty publisher with completeImmediately as false
 // emptyPublisherNotCompletingImmediately will never publishe any value as being
 // an Empty publisher, but also it will never complete due to completeImmediately set
 // to false.
@@ -176,8 +187,9 @@ let subscriberToEmptyPublisherNotCompletingImmediately = emptyPublisherNotComple
 /// `Fail`
 /// `Fail` publisher will immediately fail with a specified error.
 
-// Example 1 : Fail publisher
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 7 : Fail publisher
 enum FailError: Error {
     case failPublisherError
 }
@@ -196,7 +208,9 @@ let subscriberToFailPublisher = failPublisher.sink(receiveCompletion: { error in
 /// `Record` is a publisher which allows for recording a series of values and a completion. These can be later
 /// playbacked for subscribers.
 
-// Example 1 : Record publisher with output
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 8 : Record publisher with output
 let recordPublisherWithOutput = Record<Int, Never>(output: [1, 2, 3], completion: .finished)
 
 let subscriberToRecordPublisherWithOutput = recordPublisherWithOutput.sink { receivedValue in
