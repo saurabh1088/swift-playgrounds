@@ -28,10 +28,24 @@ func stringCodingExampleCheckIfAnagrams() {
     print(areAnagrams("hello", "world"))
 }
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 3 : Remove duplicates from given string
+func reverseWords(in string: String) -> String {
+    let words = string.split(separator: " ")
+    return words.map({ String($0.reversed()) }).joined(separator: " ")
+}
+
+func stringCodingExampleReverseWordsInString() {
+    let result = reverseWords(in: "This is a string and we want to reverse all words keeping order same")
+    print(result)
+}
+
+
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Examples
 stringCodingExampleRemoveDuplicates()
 stringCodingExampleCheckIfAnagrams()
+stringCodingExampleReverseWordsInString()
 
 //: [Next](@next)
