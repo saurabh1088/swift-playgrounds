@@ -28,7 +28,9 @@
  */
 import Foundation
 
-// Example 1 : @Published property
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 1 : @Published property
 class Employee {
     @Published var certification: String = String()
 }
@@ -40,9 +42,11 @@ let cancellable = employeeOne.$certification.sink { receivedValue in
 }
 employeeOne.certification = "Java"
 
+
 /// `ObservableObject`
 /// `ObservableObject` is a protocol which synthesizes an `objectWillChange` publisher.
-// Example 2 : ObservableObject
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 2 : ObservableObject
 class Company: ObservableObject {
     @Published var headCount: Int = 1
     @Published var ceo: String = "Batman"
