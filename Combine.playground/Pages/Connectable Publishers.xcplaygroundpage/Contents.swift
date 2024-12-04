@@ -20,8 +20,9 @@
 import Foundation
 import Combine
 
-// Example 1 : A subsciber misses out values from publisher
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 1 : A subsciber misses out values from publisher
 let justPublisher = PassthroughSubject<String, Never>()
 
 let firstSubscriber = justPublisher.sink { receivedValue in
@@ -40,8 +41,9 @@ DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
 
 justPublisher.send("Batman")
 
-// Example 2 : Creating a Connectable publisher
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 2 : Creating a Connectable publisher
 let connectablePublisher = Just("Superman").makeConnectable()
 // cancellable and subscriberThree is defined over here so as to keep it alive in current context
 // If declared within DispatchQueue block it would get release too soon.
@@ -71,7 +73,9 @@ DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
     cancellable = connectablePublisher.connect()
 }
 
-// Example 3 : Making a connectable publisher autoconnect
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 3 : Making a connectable publisher autoconnect
 // Note that no .connect() is required in this example unlikely Example 2
 // This is because subscriber1 here calls autoconnect() causing publisher to
 // start emitting values right away. This leads to subscriber2 not able to receive
