@@ -18,7 +18,20 @@ func exampleRemoveDuplicates() {
 }
 
 // MARK: -----------------------------------------------------------------------
+// MARK: Example 1 : Check if strings are anagram
+func areAnagrams(_ str1: String, _ str2: String) -> Bool {
+    return str1.sorted() == str2.sorted()
+}
+
+func exampleStringCheckIfAnagrams() {
+    print(areAnagrams("listen", "silent"))
+    print(areAnagrams("hello", "world"))
+}
+
+
+// MARK: -----------------------------------------------------------------------
 // MARK: Examples
 exampleRemoveDuplicates()
+exampleStringCheckIfAnagrams()
 
 //: [Next](@next)
