@@ -90,11 +90,53 @@ func example3() {
     print("Are instance and duplicateInstance same? \(ceo === coCeo)")
 }
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 4 :
+/**
+ Here is a final class, to conform to `Duplicatable` protocol any of two implementations would work
+ 
+ ```
+ func duplicate() -> Self {
+     return Self(value: self.value)
+ }
+ ```
+ 
+ OR
+ 
+ ```
+ func duplicate() -> SomeFinalClass {
+     return SomeFinalClass(value: self.value)
+ }
+ ```
+ */
+final class SomeFinalClass: Duplicatable {
+    var value: String
+    
+    init(value: String) {
+        self.value = value
+    }
+    
+//    func duplicate() -> Self {
+//        return Self(value: self.value)
+//    }
+    
+    func duplicate() -> SomeFinalClass {
+        return SomeFinalClass(value: self.value)
+    }
+}
+
+func example4() {
+    let someFinalClass = SomeFinalClass(value: "Hello")
+    let duplicateInstance = someFinalClass.duplicate()
+    print("Are instance and duplicateInstance same? \(someFinalClass === duplicateInstance)")
+}
+
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Examples
 //example1()
 //example2()
-example3()
+//example3()
+//example4()
 
 //: [Next](@next)
