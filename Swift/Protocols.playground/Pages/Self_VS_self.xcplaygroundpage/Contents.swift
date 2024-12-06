@@ -73,9 +73,28 @@ func example2() {
 
 
 // MARK: -----------------------------------------------------------------------
+// MARK: Example 3 :
+class CEO: Employee {
+    let designation: String = "CEO"
+    
+    required init(name: String) {
+        super.init(name: name)
+    }
+}
+
+func example3() {
+    let ceo = CEO(name: "John")
+    let coCeo = ceo.duplicate()
+    print("Type of ceo : \(type(of: ceo))")
+    print("Type of ceo : \(type(of: coCeo))")
+    print("Are instance and duplicateInstance same? \(ceo === coCeo)")
+}
+
+
+// MARK: -----------------------------------------------------------------------
 // MARK: Examples
 //example1()
 //example2()
-
+example3()
 
 //: [Next](@next)
