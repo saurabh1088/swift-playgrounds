@@ -31,7 +31,8 @@ struct TwiceTheInteger: Duplicatable {
     var value: Int
     
     func duplicate() -> TwiceTheInteger {
-        TwiceTheInteger(value: value * 2)
+        // self here is the instance
+        TwiceTheInteger(value: self.value * 2)
     }
 }
 
