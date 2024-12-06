@@ -42,9 +42,40 @@ func example1() {
     print(duplicate)
 }
 
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 2 :
+class Employee: Duplicatable {
+    var name: String
+    
+    /// NOTE: If required is not used here, compilor cries with below error
+    /// `Constructing an object of class type 'Self' with a metatype value must use a 'required' initializer`
+    required init(name: String) {
+        self.name = name
+    }
+    
+    /// NOTE: If instead of Self here Employee was used as return type compilor will cry with below error
+    /// `Method 'duplicate()' in non-final class 'Employee' must return 'Self' to conform to protocol 'Duplicatable'`
+    /// This happens because class Employee is not final and once can subclass it in which case the return
+    /// type will be the subclass and hence Self make more sense here to incorporate possibility of subclasses,
+    /// or one can use concrete type if the class is marked as final.
+    func duplicate() -> Self {
+        // Below line is same as writing : return Employee(name: self.name)
+        return Self(name: self.name)
+    }
+}
+
+func example2() {
+    let instance = Employee(name: "John")
+    let duplicateInstance = instance.duplicate()
+    print("Are instance and duplicateInstance same? \(instance === duplicateInstance)")
+}
+
+
 // MARK: -----------------------------------------------------------------------
 // MARK: Examples
-example1()
+//example1()
+//example2()
 
 
 //: [Next](@next)
