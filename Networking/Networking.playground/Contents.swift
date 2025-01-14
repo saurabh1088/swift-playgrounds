@@ -290,8 +290,9 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 // MARK: -----------------------------------------------------------------------
 // MARK: Example method calls
 
-exampleURLSessionInstanceOptionsAndConfigurations()
+//exampleURLSessionInstanceOptionsAndConfigurations()
 //exampleURLSessionUsingCompletionHandler()
 //exampleURLSessionUsingURLSessionDelegate()
 //exampleURLSessionUsingCombine()
+//exampleURLSessionUsingAsyncAwait()
 //exampleURLSessionWithAuthenticationChallenge()
