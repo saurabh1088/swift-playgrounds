@@ -11,25 +11,25 @@ extension Float {
 }
 
 func exampleFloatOne() {
-    let valueOne = FloatValueModel(value: 10.99)
+    let valueOne = FloatValueModel(value: 10.9999)
     print(valueOne)
     print(valueOne.value.cleanValue)
 }
 
 func exampleFloatTwo() {
-    let valueOne = FloatValueModel(value: 9999.99)
+    let valueOne = FloatValueModel(value: 9999.9999)
     print(valueOne)
     print(valueOne.value.cleanValue)
 }
 
 func exampleFloatThree() {
-    let valueOne = FloatValueModel(value: 99999.99)
+    let valueOne = FloatValueModel(value: 698799.33)
     print(valueOne)
     print(valueOne.value.cleanValue)
 }
 
 func exampleFloatFour() {
-    let valueOne = FloatValueModel(value: 999999.99)
+    let valueOne = FloatValueModel(value: 9999999.99)
     print(valueOne)
     print(valueOne.value.cleanValue)
 }
@@ -45,19 +45,19 @@ extension Double {
 }
 
 func exampleDoubleOne() {
-    let valueOne = DoubleValueModel(value: 999999.99)
+    let valueOne = DoubleValueModel(value: 9999999.99)
     print(valueOne)
     print(valueOne.value.cleanValue)
 }
 
 func exampleDoubleTwo() {
-    let valueOne = DoubleValueModel(value: 999999999999.99)
+    let valueOne = DoubleValueModel(value: 698799.33)
     print(valueOne)
     print(valueOne.value.cleanValue)
 }
 
 func exampleDoubleThree() {
-    let valueOne = DoubleValueModel(value: 999999999999999999999999.44)
+    let valueOne = DoubleValueModel(value: 8888888.88)
     print(valueOne)
     print(valueOne.value.cleanValue)
 }
@@ -70,12 +70,12 @@ func exampleDoubleFour() {
 
 
 
-exampleFloatOne()
-exampleFloatTwo()
-exampleFloatThree()
-exampleFloatFour()
+//exampleFloatOne()
+//exampleFloatTwo()
+//exampleFloatThree()
+//exampleFloatFour()
 
-exampleDoubleOne()
-exampleDoubleTwo()
-exampleDoubleThree()
-exampleDoubleFour()
+//exampleDoubleOne()
+//exampleDoubleTwo()
+//exampleDoubleThree()
+//exampleDoubleFour()
