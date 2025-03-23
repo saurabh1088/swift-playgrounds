@@ -501,17 +501,30 @@ avoidCreatingRetainCycle()
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Question 16
-/// `In a design pattern MVVM what could be the responsibilities of controller?`
+/// `In a design pattern MVVM what could be the responsibilities of viewcontroller?`
+///
+/// In an iOS app using the MVVM design pattern with UIKit, the ViewController retains a significant role,
+/// despite the separation of concerns introduced by MVVM. While the ViewModel handles business logic and
+/// data transformation, the ViewController acts as the glue between the View and the ViewModel.
+/// Its responsibilities include:
+///
+/// `1. Managing the View Hierarchy and Display`
 ///
 /// - Even with an iOS App using MVVM design pattern, in UIKit there will be viewcontrollers to manage the
 /// views. Managing view hierarchy and displaying views on screen and playing part in responder chain still
 /// remains with viewcontrollers.
 ///
+/// `2. Setting Up Bindings Between ViewModel and View`
+///
 /// - Viewcontroller will create appropriate bindings between view model and view. This binding is what communicates
 /// changes from view-model to view.
 ///
+/// `3. Handling User Input`
+///
 /// - Viewcontroller will off-course continue to handle user input, it anyways is a part of responder chain. Also it
 /// will take user input and pass it to view-model
+///
+/// `4. Controlling Navigation`
 ///
 /// - Viewcontroller will control the navigation, push/pop of subsequent viewcontrollers and segues in case of
 /// storyboards.
