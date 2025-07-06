@@ -233,6 +233,25 @@ func exampleActorWithNonisolatedProperty() {
 }
 
 // MARK: -----------------------------------------------------------------------
+// MARK: Example 6 : Actors with nonisolated constant properties
+actor ActorsWithNonisolatedConstantProperties {
+    nonisolated let constant: String = "CONSTANT"
+    
+    nonisolated func functionAccessingNonisolatedConstantProperties() {
+        print(constant)
+    }
+}
+
+func exmapleActorsWithNonisolatedConstantProperties() {
+    Task {
+        let actor = ActorsWithNonisolatedConstantProperties()
+        print(actor.constant)
+        print(actor.functionAccessingNonisolatedConstantProperties())
+    }
+}
+
+
+// MARK: -----------------------------------------------------------------------
 // MARK: Examples
 
 //exampleWithoutAnyConcurrencyConsiderations()
@@ -240,5 +259,6 @@ func exampleActorWithNonisolatedProperty() {
 //exampleWithConcurrencyConsiderationsUsingActors()
 //exampleActorWithConstantProperty()
 //exampleActorWithNonisolatedProperty()
+exmapleActorsWithNonisolatedConstantProperties()
 
 //: [Next](@next)
