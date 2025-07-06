@@ -234,6 +234,7 @@ func exampleActorWithNonisolatedProperty() {
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Example 6 : Actors with nonisolated constant properties
+/// This example is to check if one can use nonisolated on a let constant with an actor
 actor ActorsWithNonisolatedConstantProperties {
     nonisolated let constant: String = "CONSTANT"
     
@@ -259,6 +260,6 @@ func exmapleActorsWithNonisolatedConstantProperties() {
 //exampleWithConcurrencyConsiderationsUsingActors()
 //exampleActorWithConstantProperty()
 //exampleActorWithNonisolatedProperty()
-exmapleActorsWithNonisolatedConstantProperties()
+//exmapleActorsWithNonisolatedConstantProperties()
 
 //: [Next](@next)
