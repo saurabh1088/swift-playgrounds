@@ -129,6 +129,38 @@ func exampleMultipleTasksDefaultBehaviour() {
     }
 }
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 6 :
+func exampleMultipleTasksSerialBehaviour() {
+    Task {
+        await Task {
+            for index in 1...5 {
+                print("This is task number : 1")
+            }
+        }.value
+        await Task {
+            for index in 1...5 {
+                print("This is task number : 2")
+            }
+        }.value
+        await Task {
+            for index in 1...5 {
+                print("This is task number : 3")
+            }
+        }.value
+        await Task {
+            for index in 1...5 {
+                print("This is task number : 4")
+            }
+        }.value
+        await Task {
+            for index in 1...5 {
+                print("This is task number : 5")
+            }
+        }.value
+    }
+}
+
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Examples
@@ -138,5 +170,6 @@ func exampleMultipleTasksDefaultBehaviour() {
 //exampleTaskWithSomeOperationAndReturnValuePostThat()
 //exampleTaskLongRunningWithCheckForCancellation()
 //exampleMultipleTasksDefaultBehaviour()
+//exampleMultipleTasksSerialBehaviour()
 
 //: [Next](@next)
