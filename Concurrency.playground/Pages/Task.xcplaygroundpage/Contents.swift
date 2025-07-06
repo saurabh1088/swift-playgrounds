@@ -161,6 +161,28 @@ func exampleMultipleTasksSerialBehaviour() {
     }
 }
 
+// MARK: -----------------------------------------------------------------------
+// MARK: Example 7 :
+func exampleTaskWithPriority() {
+    Task(priority: .background) {
+        print("Priority of task is .background")
+        for _ in 1...5 {
+            print("Background Task Working...")
+        }
+    }
+    Task(priority: .userInitiated) {
+        print("Priority of task is .userInitiated")
+        for _ in 1...5 {
+            print("User Initiated Task Working...")
+        }
+    }
+    Task(priority: .utility) {
+        print("Priority of task is .utility")
+        for _ in 1...5 {
+            print("Utility Task Working...")
+        }
+    }
+}
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Examples
@@ -171,5 +193,6 @@ func exampleMultipleTasksSerialBehaviour() {
 //exampleTaskLongRunningWithCheckForCancellation()
 //exampleMultipleTasksDefaultBehaviour()
 //exampleMultipleTasksSerialBehaviour()
+//exampleTaskWithPriority()
 
 //: [Next](@next)
