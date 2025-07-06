@@ -185,6 +185,40 @@ func exampleTaskWithPriority() {
 }
 
 // MARK: -----------------------------------------------------------------------
+// MARK: Example 8 :
+func exampleTaskGroup() {
+    Task {
+        print("Starting Task Group Example...")
+        var collectedResults = [String]()
+        
+        await withTaskGroup(of: String.self, body: { group in
+            group.addTask {
+                print("Starting Task A...")
+                try? await Task.sleep(for: .seconds(2))
+                return "Result from Task A"
+            }
+            group.addTask {
+                print("Starting Task B...")
+                try? await Task.sleep(for: .seconds(2))
+                return "Result from Task B"
+            }
+            group.addTask {
+                print("Starting Task C...")
+                try? await Task.sleep(for: .seconds(2))
+                return "Result from Task C"
+            }
+            
+            for await result in group {
+                collectedResults.append(result)
+            }
+        })
+        
+        print("All tasks in group completed. Results: \(collectedResults.sorted())")
+        print("Task Group Example Finished.")
+    }
+}
+
+// MARK: -----------------------------------------------------------------------
 // MARK: Examples
 
 //exampleSimpleTask()
@@ -194,5 +228,6 @@ func exampleTaskWithPriority() {
 //exampleMultipleTasksDefaultBehaviour()
 //exampleMultipleTasksSerialBehaviour()
 //exampleTaskWithPriority()
+exampleTaskGroup()
 
 //: [Next](@next)
