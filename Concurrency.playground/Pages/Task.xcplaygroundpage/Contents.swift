@@ -101,10 +101,6 @@ func exampleTaskLongRunningWithCheckForCancellation() {
 
 // MARK: -----------------------------------------------------------------------
 // MARK: Example 5 :
-
-
-// MARK: -----------------------------------------------------------------------
-// MARK: Examples
 func exampleMultipleTasksDefaultBehaviour() {
     Task {
         for index in 1...5 {
@@ -133,10 +129,14 @@ func exampleMultipleTasksDefaultBehaviour() {
     }
 }
 
+
+// MARK: -----------------------------------------------------------------------
+// MARK: Examples
+
 //exampleSimpleTask()
 //exampleTaskWithReturnValue()
 //exampleTaskWithSomeOperationAndReturnValuePostThat()
 //exampleTaskLongRunningWithCheckForCancellation()
-exampleMultipleTasksDefaultBehaviour()
+//exampleMultipleTasksDefaultBehaviour()
 
 //: [Next](@next)
