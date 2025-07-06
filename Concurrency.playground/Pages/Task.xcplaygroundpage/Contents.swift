@@ -25,7 +25,10 @@ import Foundation
 // MARK: Example 1 : Simple Task
 func exampleSimpleTask() {
     Task {
+        print("That's it, just create and give a closure.")
         print("This is printed from a Task")
+        print("A task runs immediately after it is created.")
+        print("One doesn't need to call any api to get it executed")
     }
 }
 
@@ -97,11 +100,43 @@ func exampleTaskLongRunningWithCheckForCancellation() {
 }
 
 // MARK: -----------------------------------------------------------------------
+// MARK: Example 5 :
+
+
+// MARK: -----------------------------------------------------------------------
 // MARK: Examples
+func exampleMultipleTasksDefaultBehaviour() {
+    Task {
+        for index in 1...5 {
+            print("This is task number : 1")
+        }
+    }
+    Task {
+        for index in 1...5 {
+            print("This is task number : 2")
+        }
+    }
+    Task {
+        for index in 1...5 {
+            print("This is task number : 3")
+        }
+    }
+    Task {
+        for index in 1...5 {
+            print("This is task number : 4")
+        }
+    }
+    Task {
+        for index in 1...5 {
+            print("This is task number : 5")
+        }
+    }
+}
 
 //exampleSimpleTask()
 //exampleTaskWithReturnValue()
 //exampleTaskWithSomeOperationAndReturnValuePostThat()
 //exampleTaskLongRunningWithCheckForCancellation()
+exampleMultipleTasksDefaultBehaviour()
 
 //: [Next](@next)
