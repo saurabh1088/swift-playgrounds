@@ -496,6 +496,24 @@ func dispatchQueueExample16() {
 }
 
 // MARK: -----------------------------------------------------------------------
+// MARK: Example 17 : Using DispatchSemaphore for Resource Limiting
+/// Limit the number of concurrent tasks accessing a shared resource (e.g., a database connection pool):
+func dispatchQueueExample17() {
+    let semaphore = DispatchSemaphore(value: 3)
+    let queue = DispatchQueue.global(qos: .utility)
+
+    for i in 1...10 {
+        queue.async {
+            semaphore.wait()
+            print("Task \(i) started")
+            sleep(2)  // simulate resource usage
+            print("Task \(i) completed")
+            semaphore.signal()
+        }
+    }
+}
+
+// MARK: -----------------------------------------------------------------------
 // MARK: Examples
 
 //dispatchQueueExample1()
@@ -513,6 +531,7 @@ func dispatchQueueExample16() {
 //dispatchQueueExample13()
 //dispatchQueueExample14()
 //dispatchQueueExample15()
-dispatchQueueExample16()
+//dispatchQueueExample16()
+//dispatchQueueExample17()
 
 //: [Next](@next)
