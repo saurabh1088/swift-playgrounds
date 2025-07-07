@@ -221,6 +221,64 @@ func exampleTaskGroup() {
 }
 
 // MARK: -----------------------------------------------------------------------
+// MARK: Example 9 : Task Group with Error Handling and Cancellation
+enum SomeError: Error {
+    case failedToFetch(String)
+    case cancelled
+}
+
+func exampleTaskGroupWithErrorAndCancellation() {
+    Task {
+        print("Starting Task Group with Error and Cancellation Example...")
+        do {
+            let finalResult = try await withThrowingTaskGroup(of: String.self) { group in
+                group.addTask {
+                    print("Child Task 1: Starting long operation...")
+                    try await Task.sleep(for: .seconds(4)) // This task will be cancelled
+                    try Task.checkCancellation() // Will throw here
+                    return "Result from Task 1"
+                }
+
+                group.addTask {
+                    print("Child Task 2: Starting short operation...")
+                    try await Task.sleep(for: .seconds(1))
+                    return "Result from Task 2"
+                }
+
+                group.addTask {
+                    print("Child Task 3: Simulating a failure...")
+                    try await Task.sleep(for: .seconds(2))
+                    throw SomeError.failedToFetch("Data for Task 3")
+                }
+
+                // Cancel the group after a short delay
+                try await Task.sleep(for: .seconds(1.5))
+                print("Cancelling Task Group...")
+                group.cancelAll() // Propagates cancellation to all child tasks
+
+                var results: [String] = []
+                for try await result in group {
+                    results.append(result)
+                }
+                return "Collected: \(results.sorted().joined(separator: ", "))"
+            }
+            print("Task Group Succeeded: \(finalResult)")
+        } catch {
+            print("Task Group Failed with error: \(error.localizedDescription)")
+            if let myError = error as? SomeError {
+                switch myError {
+                case .failedToFetch(let msg): print("Specific error: \(msg)")
+                case .cancelled: print("Specific error: Task Group was cancelled.")
+                }
+            } else if error is CancellationError {
+                print("Specific error: A task within the group was cancelled.")
+            }
+        }
+        print("Task Group with Error and Cancellation Example Finished.")
+    }
+}
+
+// MARK: -----------------------------------------------------------------------
 // MARK: Examples
 
 //exampleSimpleTask()
@@ -231,5 +289,6 @@ func exampleTaskGroup() {
 //exampleMultipleTasksSerialBehaviour()
 //exampleTaskWithPriority()
 //exampleTaskGroup()
+//exampleTaskGroupWithErrorAndCancellation()
 
 //: [Next](@next)
