@@ -279,6 +279,56 @@ func exampleTaskGroupWithErrorAndCancellation() {
 }
 
 // MARK: -----------------------------------------------------------------------
+// MARK: Example 10 : Task.detached (Unstructured Concurrency)
+
+// TODO: Fix this
+/*
+func exampleDetachedTask() {
+    print("🚀 Starting Detached Task Example...")
+
+    let parentTask = Task {
+        print("👨‍👧 Parent Task: Starting...")
+
+        let detachedTask = Task.detached {
+            print("🔗 Detached Task: Starting long operation...")
+            for i in 1...5 {
+                try? await Task.sleep(for: .seconds(1))
+                print("🔗 Detached Task: Working \(i)")
+
+                if Task.isCancelled {
+                    print("🔗 Detached Task: Detected cancellation.")
+                    try? Task.checkCancellation() // Optional: force throw on cancellation
+                }
+            }
+            print("🔗 Detached Task: Finished.")
+            return "Detached Result"
+        }
+
+        // ✅ Correct way to cancel: hold a reference to parentTask and cancel it externally
+        // Schedule cancellation after delay using another Task
+        Task {
+            try await Task.sleep(for: .seconds(2.5))
+            print("❌ Cancelling Parent Task...")
+            parentTask.cancel()  // ✅ Correct: cancel by calling `.cancel()` on the Task instance
+        }
+
+        do {
+            let result = await detachedTask.value
+            print("👨‍👧 Parent Task: Awaited detached task result: \(result)")
+        } catch {
+            print("👨‍👧 Parent Task: Error awaiting detached task: \(error.localizedDescription)")
+        }
+
+        print("👨‍👧 Parent Task: Finished.")
+    }
+
+    // Optional: you can also cancel from outside:
+    // parentTask.cancel()
+}
+*/
+
+
+// MARK: -----------------------------------------------------------------------
 // MARK: Examples
 
 //exampleSimpleTask()
