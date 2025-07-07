@@ -185,7 +185,7 @@ func exampleTaskWithPriority() {
 }
 
 // MARK: -----------------------------------------------------------------------
-// MARK: Example 8 :
+// MARK: Example 8 : Task Group (Structured Concurrency)
 func exampleTaskGroup() {
     Task {
         print("Starting Task Group Example...")
@@ -208,6 +208,8 @@ func exampleTaskGroup() {
                 return "Result from Task C"
             }
             
+            /// The for await loop collects results as they become available, not necessarily in the order tasks were added.
+            /// The await withTaskGroup ensures all tasks in the group complete before the block finishes.
             for await result in group {
                 collectedResults.append(result)
             }
@@ -228,6 +230,6 @@ func exampleTaskGroup() {
 //exampleMultipleTasksDefaultBehaviour()
 //exampleMultipleTasksSerialBehaviour()
 //exampleTaskWithPriority()
-exampleTaskGroup()
+//exampleTaskGroup()
 
 //: [Next](@next)
