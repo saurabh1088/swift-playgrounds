@@ -498,16 +498,30 @@ func dispatchQueueExample16() {
 // MARK: -----------------------------------------------------------------------
 // MARK: Example 17 : Using DispatchSemaphore for Resource Limiting
 /// Limit the number of concurrent tasks accessing a shared resource (e.g., a database connection pool):
+///
+/// This method aims to launch 10 asynchronous tasks (Task 1 to Task 10), but it wants to limit the number of
+/// these tasks that can run simultaneously to a maximum of 3. This is a common pattern for managing access
+/// to a limited resource, like a network connection pool, a database connection pool, or a specific hardware
+/// component that can only handle a few concurrent operations.
+///
+/// This example demonstrates how DispatchSemaphore acts as a concurrency throttle or a resource limiter.
+/// It allows a concurrent queue to submit many tasks, but effectively controls how many of those tasks can
+/// simultaneously execute a critical section of code, ensuring that a shared resource or a system's capacity
+/// is not overwhelmed.
 func dispatchQueueExample17() {
     let semaphore = DispatchSemaphore(value: 3)
     let queue = DispatchQueue.global(qos: .utility)
 
-    for i in 1...10 {
+    for index in 1...10 {
         queue.async {
+            // decrement the semaphore's internal counter
             semaphore.wait()
-            print("Task \(i) started")
+            
+            print("Task \(index) started")
             sleep(2)  // simulate resource usage
-            print("Task \(i) completed")
+            print("Task \(index) completed")
+            
+            // increments the semaphore's internal counter by 1
             semaphore.signal()
         }
     }
