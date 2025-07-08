@@ -125,6 +125,16 @@ func performAsyncOperationC() async throws -> String {
     return "C"
 }
 
+/// Default behavior is that these operations will get performed one by one in the order written.
+/// This means the execution is sequential, and each operation completes before the next one begins.
+///
+/// The expected output will be:
+/// ```
+/// Completed operation A
+/// Completed operation B
+/// Completed operation C
+/// ["A", "B", "C"]
+/// ```
 func exampleMultipleAsyncFunctionsCallsDefaultBehaviour() {
     Task {
         let resultA = try await performAsyncOperationA()
