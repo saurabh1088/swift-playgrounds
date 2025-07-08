@@ -528,6 +528,18 @@ func dispatchQueueExample17() {
 }
 
 // MARK: -----------------------------------------------------------------------
+// MARK: Example 17 : Measuring Execution Time with DispatchTime
+func dispatchQueueExample18() {
+    let start = DispatchTime.now()
+    DispatchQueue.global().sync {
+        // heavy computation
+        for _ in 0..<1_000_000 { _ = sqrt(2.71828) }
+    }
+    let end = DispatchTime.now()
+    print("Sync block took: \((end.uptimeNanoseconds - start.uptimeNanoseconds)/1_000_000) ms")
+}
+
+// MARK: -----------------------------------------------------------------------
 // MARK: Examples
 
 //dispatchQueueExample1()
@@ -547,5 +559,6 @@ func dispatchQueueExample17() {
 //dispatchQueueExample15()
 //dispatchQueueExample16()
 //dispatchQueueExample17()
+//dispatchQueueExample18()
 
 //: [Next](@next)
