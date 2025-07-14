@@ -21,9 +21,13 @@ struct CustomSequence: Sequence, IteratorProtocol {
         element = element * 10
         return element
     }
+    
+    func makeIterator() -> CustomSequence {
+        return self
+    }
 }
 
-func exampleSequence1() {
+func exampleSequence() {
     let sequence = CustomSequence()
     
     for element in sequence {
@@ -33,8 +37,12 @@ func exampleSequence1() {
 }
 
 // MARK: -----------------------------------------------------------------------
+// MARK: Example 2 : Repeated Access
+// TODO: Need to explore this
+
+// MARK: -----------------------------------------------------------------------
 // MARK: Examples
-exampleSequence1()
+//exampleSequence()
 
 
 //: [Next](@next)
